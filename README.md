@@ -38,7 +38,7 @@ Dependency installation
 
 The easiest way to get Zend Framework and Doctrine is from PEAR, but you can install it any number of ways as long as it is on PHP's `include_path`.
 
-<code>
+<pre>
 # Zend Framework
 pear channel-discover pear.zfcampus.org
 
@@ -49,16 +49,16 @@ pear channel-discover pear.symfony.com
 pear channel-discover pear.doctrine-project.org
 
 pear install pear.doctrine-project.org/DoctrineORM
-</code>
+</pre>
 
 Tillikum installation
 ---------------------
 
 Next, you’ll need to get the code from tillikum.org. There is no installer at the moment, so you'll need to check out a copy from Subversion.
 
-<code>
+<pre>
 svn checkout https://svn.tillikum.org tillikum
-</code>
+</pre>
 
 Configuration
 -------------
