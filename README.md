@@ -109,4 +109,4 @@ another webserver, please submit working snippets and I'll include them here.
 Further configuration
 ---------------------
 
-That was just the beginning. Now that you have a running Tillikum instance, you will want to start writing plugin code to create a fully-functional system. Refer to [the Tillikum wiki](http://tillikum.org/wiki) for more information!
+That was just the beginning. Now that you have a running Tillikum instance, you will want to start writing plugin code to create a fully-functional system. Refer to [the Tillikum wiki](http://github.com/tillikum/tillikum/wiki) for more information!
