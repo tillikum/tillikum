@@ -38,11 +38,11 @@ Dependency installation
 The easiest way to get the Zend Framework is via tarball or `svn export`, but
 you can install it any number of ways as long as it is on PHP's `include_path`.
 
-<code>
+<pre>
 # Zend Framework
 cd /usr/share/php # or another place on PHP's path
 svn export http://framework.zend.com/svn/framework/standard/tags/release-1.12.0/library/Zend
-</code>
+</pre>
 
 The above command will export the ZF 1.12.0 release library subtree to the
 current directory. **Careful!** Uninstall Zend Framework if you had it installed
@@ -51,23 +51,23 @@ another way before performing this step.
 The easiest way to get Doctrine is from PEAR, but you can install it any number
 of ways as long as it is on PHP's `include_path`.
 
-<code>
+<pre>
 # Doctrine
 pear channel-discover pear.symfony.com
 pear channel-discover pear.doctrine-project.org
 
 pear install pear.doctrine-project.org/DoctrineORM
-</code>
+</pre>
 
 The easiest way to get Phing is from PEAR, but you can install it however you’d
 like.
 
-<code>
+<pre>
 # Phing
 pear channel-discover pear.phing.info
 
 pear install pear.phing.info/phing
-</code>
+</pre>
 
 Tillikum installation
 ---------------------
@@ -75,9 +75,9 @@ Tillikum installation
 Next, you’ll need to get the code from tillikum.org. There is no installer at
 the moment, so you'll need to check out a copy from Subversion.
 
-<code>
+<pre>
 svn checkout https://svn.tillikum.org tillikum
-</code>
+</pre>
 
 From here on out, I will use `TILLIKUM_ROOT` to denote the root of the project.
 This may be `trunk` or one of the branches depending on what you want to
