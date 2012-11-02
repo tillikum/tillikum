@@ -8,9 +8,9 @@ The best way to do this, currently, is to pull down the latest code from
 [svn.tillikum.org](https://svn.tillikum.org). My apologies, but there is no
 installer at the moment.
 
-<code>
+<pre>
 svn checkout https://svn.tillikum.org/branches/relational-db-migration tillikum
-</code>
+</pre>
 
 This will check out a copy under `tillikum` in your current working directory.
 
@@ -21,12 +21,12 @@ Dependencies are managed by [Composer](http://getcomposer.org/download/). It
 doesn’t matter how you install it, but it is a very useful package in the modern
 PHP ecosystem, so you might want to put it somewhere you can reuse it.
 
-<code>
+<pre>
 # Install dependencies via Composer.
 # Depending on your approach, you might need to use `composer.phar' instead
 # of `composer'.
 $ composer install
-</code>
+</pre>
 
 Read the [Composer documentation](http://getcomposer.org/) for more information
 on updating, and what else you can do with Composer.
