@@ -1,122 +1,98 @@
 Installation
 ============
 
+Get Tillikum!
+-------------
+
+The best way to do this, currently, is to pull down the latest code from
+[svn.tillikum.org](https://svn.tillikum.org). My apologies, but there is no
+installer at the moment.
+
+<code>
+svn checkout https://svn.tillikum.org/branches/relational-db-migration tillikum
+</code>
+
+This will check out a copy under `tillikum` in your current working directory.
+
 Dependencies
 ------------
 
-* PHP 5.3.3+
-* Zend Framework 1.11.0+
-* Doctrine ORM 2.3.0+
-* Phing
-* Tillikum code
-* A web server
+Dependencies are managed by [Composer](http://getcomposer.org/download/). It
+doesn’t matter how you install it, but it is a very useful package in the modern
+PHP ecosystem, so you might want to put it somewhere you can reuse it.
 
-PHP requirements
---------------
+<code>
+# Install dependencies via Composer.
+# Depending on your approach, you might need to use `composer.phar' instead
+# of `composer'.
+$ composer install
+</code>
 
-We require the following PHP extensions:
+Read the [Composer documentation](http://getcomposer.org/) for more information
+on updating, and what else you can do with Composer.
 
-* bcmath (for accurate financial calculations)
-* ctype
-* fileinfo
-* iconv
-* intl (l10n and i18n)
-* json
-* mbstring
-* Reflection
-* session
-* SPL
+If you're interested in the details, read the `composer.json` file to see what
+is required and what will be installed - it is quite readable.
 
-The above extensions are checked by the Phing build system in the `check`
-target.
+Configure
+---------
 
-You will need to make sure PHP’s `magic_quotes_gpc` is off.
-
-Dependency installation
------------------------
-
-The easiest way to get the Zend Framework is via tarball or `svn export`, but
-you can install it any number of ways as long as it is on PHP's `include_path`.
-
-<pre>
-# Zend Framework
-cd /usr/share/php # or another place on PHP's path
-svn export http://framework.zend.com/svn/framework/standard/tags/release-1.12.0/library/Zend
-</pre>
-
-The above command will export the ZF 1.12.0 release library subtree to the
-current directory. **Careful!** Uninstall Zend Framework if you had it installed
-another way before performing this step.
-
-The easiest way to get Doctrine is from PEAR, but you can install it any number
-of ways as long as it is on PHP's `include_path`.
-
-<pre>
-# Doctrine
-pear channel-discover pear.symfony.com
-pear channel-discover pear.doctrine-project.org
-
-pear install pear.doctrine-project.org/DoctrineORM
-</pre>
-
-The easiest way to get Phing is from PEAR, but you can install it however you’d
-like.
-
-<pre>
-# Phing
-pear channel-discover pear.phing.info
-
-pear install pear.phing.info/phing
-</pre>
-
-Tillikum installation
----------------------
-
-Next, you’ll need to get the code from tillikum.org. There is no installer at
-the moment, so you'll need to check out a copy from Subversion.
-
-<pre>
-svn checkout https://svn.tillikum.org tillikum
-</pre>
-
-From here on out, I will use `TILLIKUM_ROOT` to denote the root of the project.
-This may be `trunk` or one of the branches depending on what you want to
-install.
+I will now use `TILLIKUM_ROOT` to denote the root of the project, which is the
+directory you checked out earlier.
 
 1. Change directory to `TILLIKUM_ROOT/config`.
 2. Copy `application.ini.dist` to `application.ini` if you have not already done so.
-3. Modify `application.ini` appropriately. If you "just want to get something working," you should only need to modify the database connection parameters. Change options under `resources.doctrine.dbal.connections.default` to modify the Tillikum database connection. See Doctrine documentation for supported database drivers.
+3. Modify `application.ini` appropriately. If you "just want to get something
+   working," you should only need to modify the database connection parameters.
+   Change options under `resources.doctrine.dbal.connections.default` to modify the
+   Tillikum database connection. See Doctrine documentation for supported database
+   drivers.
 
-**You should not use a live database until you are comfortable with the installation process.**
+**You should not configure a live database until you are comfortable with the
+installation process.**
 
-Next, you will build the project, which will perform environment checks and copy
-necessary files.
+Build
+-----
+
+Next, you will build the project. This process is mostly copying files to a
+target location, with some token replacement and asset optimization.
 
 1. Change your directory to `TILLIKUM_ROOT`.
-2. Run `phing`.
-3. If everything is successful, you should now have a `TILLIKUM_ROOT/build` directory.
-4. `cd TILLIKUM_ROOT/build` and from here on out we will use `BUILD_ROOT` to refer to this directory.
+2. Run `phing`. If you are following these instructions and do not already have
+   Phing installed, it is probably at
+   `TILLIKUM_ROOT/vendor/phing/phing/bin/phing.php` and you can run that with
+   `php TILLIKUM_ROOT/vendor/phing/phing/bin/phing.php`.
+3. If everything is successful, you should now have a `TILLIKUM_ROOT/build`
+   directory.
+4. `cd TILLIKUM_ROOT/build`
+
+From here on out, `TILLIKUM_ROOT/build` will be referred to as `BUILD_ROOT`.
 
 Database setup
 ---------------------
 
-If you installed Doctrine from PEAR, you should be able to change directory to
-`BUILD_ROOT/bin` and type `doctrine` and get help text for the command line
-interface to the Doctrine ORM. Do the following:
+**If this is your first time installing Tillikum**, you need to set up the
+database schema:
 
-1. `doctrine orm:generate-proxies` which will create proxy entities (this is a Doctrine implementation detail, if you don't understand it, don't worry).
-2. `doctrine orm:schema-tool:create` which will generate the schema for your relational database and add it to the database you configured above.
+1. `doctrine orm:schema-tool:create`
 
-If that was successful, you’ve got some functional software.
+**If you are upgrading Tillikum**, you may need to update the database schema:
 
-Frontend configuration
-----------------------
+1. `doctrine orm:schema-tool:update` to see if anything needs to be change, and
+2. `doctrine orm:schema-tool:update --force` to push the changes to your
+   configured database.
 
-Point a webserver at `BUILD_ROOT/www/document_root`.
+You should have functional software now, all that’s left is to point an
+application server at it.
 
-**Apache configuration**
+Application server setup
+------------------------
 
-Make sure you have `mod_rewrite` enabled.
+**Apache configuration:**
+
+1. Make sure you have `mod_rewrite` enabled.
+2. Set up a rule to write all requests to the entry point of Tillikum, which is
+   the `index.php` file in the `BUILD_ROOT/www/document_root` directory.
 
 Here is a sample snippet:
 
@@ -127,20 +103,34 @@ Alias /tillikum /path/to/tillikum/build/www/document_root
     RewriteEngine on
     RewriteBase /tillikum
     RewriteRule .* index.php
-    SetEnv APPLICATION_ENV development
+    SetEnv APPLICATION_ENV production
 &lt;/Directory&gt;
 </pre>
 
 Restart Apache and browse to `/tillikum` in your configured virtual host!
+Tillikum is completely flexible in terms of where it lives. You can tweak the
+above rules any way you like, as long as the core rewrite rules for `index.php`
+are kept intact.
 
-**Note:** Apache httpd is by no means required to run Tillikum. If you have
-another webserver, please submit working snippets and I'll include them here.
+**Other servers:**
+
+Not tested. Try it and find out! The software should run in a variety of
+environments with no major changes, and the project supports this goal. If you
+would like to contribute to this, please
+[contact us](https://github.com/tillikum/tillikum/wiki/Contact).
 
 Next Steps
 ----------
 
-That was just the beginning. Now that you have a running Tillikum instance, you
-will want to start writing plugin code to create a customized and
-fully-functional system.  Refer to
+Now that you have a running Tillikum instance, you will want to start writing
+plugin code to create a customized and fully-functional system. Refer to
 [the Tillikum wiki](https://github.com/tillikum/tillikum/wiki)
 for more information!
+
+Troubleshooting
+---------------
+
+We don’t get enough questions for a FAQ :)
+
+[Contact us](https://github.com/tillikum/tillikum/wiki/Contact) with your
+questions.
