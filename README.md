@@ -23,9 +23,10 @@ PHP ecosystem, so you might want to put it somewhere you can reuse it.
 
 <pre>
 # Install dependencies via Composer.
-# Depending on your approach, you might need to use `composer.phar' instead
-# of `composer'.
-$ composer install
+# If your composer binary is called something else, replace `composer' with
+# that name.
+# NOTE: You do not need --dev if you already have Phing installed.
+$ composer install --dev
 </pre>
 
 Read the [Composer documentation](http://getcomposer.org/) for more information
