@@ -4,9 +4,7 @@ Installation
 Get Tillikum!
 -------------
 
-The best way to do this, currently, is to pull down the latest code from
-[svn.tillikum.org](https://svn.tillikum.org). My apologies, but there is no
-installer at the moment.
+Get the latest code from [svn.tillikum.org](https://svn.tillikum.org):
 
 <pre>
 # You can check this out somewhere else
@@ -73,7 +71,7 @@ target location, with some token replacement and asset optimization.
 
 1. `$ cd ${TILLIKUM}`
 2. `$ sh ./vendor/phing/phing/bin/phing` *or* `$ phing` (use the latter if Phing
-   is already on your `PATH`.
+   is already on your `PATH`).
 
 You should now have a built Tillikum project.
 
@@ -102,8 +100,8 @@ Application server setup
 **Apache configuration:**
 
 1. Make sure you have `mod_rewrite` enabled.
-2. Set up a rule to write all requests to the entry point of Tillikum, which is
-   the `index.php` file in the `BUILD_ROOT/www/document_root` directory.
+2. Set up a rule to rewrite all requests to the entry point of Tillikum, which
+   is `${TILLIKUM}/build/www/document_root/index.php`.
 
 Here is a sample snippet:
 
@@ -127,8 +125,8 @@ are kept intact.
 
 Not tested. Try it and find out! The software should run in a variety of
 environments with no major changes, and the project supports this goal. If you
-would like to contribute to this, please
-[contact us](https://github.com/tillikum/tillikum/wiki/Contact).
+want to contribute, send a pull request to update documentation or write a wiki
+page about it.
 
 Next Steps
 ----------
@@ -141,7 +139,7 @@ for more information!
 Troubleshooting
 ---------------
 
-We don’t get enough questions for a FAQ :)
-
-[Contact us](https://github.com/tillikum/tillikum/wiki/Contact) with your
-questions.
+Feel free to
+[contact us](https://github.com/tillikum/tillikum/wiki/Contact) with your
+questions or
+[submit an issue](https://github.com/tillikum/tillikum/issues).
