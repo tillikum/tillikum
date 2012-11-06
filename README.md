@@ -9,45 +9,58 @@ The best way to do this, currently, is to pull down the latest code from
 installer at the moment.
 
 <pre>
-svn checkout https://svn.tillikum.org/branches/relational-db-migration tillikum
+# You can check this out somewhere else
+$ svn checkout https://svn.tillikum.org/branches/relational-db-migration tillikum
+# If you checked the previous copy of code out somewhere else, change this too
+$ cd tillikum
+$ export TILLIKUM=`pwd`
 </pre>
 
 This will check out a copy under `tillikum` in your current working directory.
+The `export TILLIKUM` command will set an environment variable so that the
+instructions that follow will be easier to understand, but it is not necessary.
 
 Dependencies
 ------------
 
-Dependencies are managed by [Composer](http://getcomposer.org/download/). It
-doesn’t matter how you install it, but it is a very useful package in the modern
-PHP ecosystem, so you might want to put it somewhere you can reuse it.
+Dependencies are managed by [Composer](http://getcomposer.org/).
+
+1. [Download Composer](http://getcomposer.org/download/).
+2. Resolve and install dependencies, as shown below. If you need
+   [Phing](http://www.phing.info), use the `--dev` flag.
 
 <pre>
 # Install dependencies via Composer.
 # If your composer binary is called something else, replace `composer' with
 # that name.
+#
 # NOTE: You do not need --dev if you already have Phing installed.
+#
+# Example: composer.phar with phing installed:
+# composer.phar install
+#
 $ composer install --dev
 </pre>
 
 Read the [Composer documentation](http://getcomposer.org/) for more information
-on updating, and what else you can do with Composer.
-
-If you're interested in the details, read the `composer.json` file to see what
-is required and what will be installed - it is quite readable.
+on upgrading Tillikum. The `composer.json` file that Tillikum uses is described
+in the Composer documentation.
 
 Configure
 ---------
 
-I will now use `TILLIKUM_ROOT` to denote the root of the project, which is the
-directory you checked out earlier.
-
-1. Change directory to `TILLIKUM_ROOT/config`.
-2. Copy `application.ini.dist` to `application.ini` if you have not already done so.
-3. Modify `application.ini` appropriately. If you "just want to get something
-   working," you should only need to modify the database connection parameters.
-   Change options under `resources.doctrine.dbal.connections.default` to modify the
+1. `$ cd ${TILLIKUM}/config`
+2. `$ cp -i application.ini.dist application.ini`
+3. Modify `application.ini` appropriately. If you just want to get something
+   working, you may only need to modify the database connection parameters. Change
+   options under `resources.doctrine.dbal.connections.default` to modify the
    Tillikum database connection. See Doctrine documentation for supported database
    drivers.
+4. If you run Tillikum in production, it is *highly recommended* that you change
+   the caching parameters from the defaults. By default, no caching is set up. See
+   the `[production : default]` header for examples and pointers. At some point in
+   the future, we may include more complete examples if it turns out to be
+   difficult to configure.
 
 **You should not configure a live database until you are comfortable with the
 installation process.**
@@ -58,16 +71,11 @@ Build
 Next, you will build the project. This process is mostly copying files to a
 target location, with some token replacement and asset optimization.
 
-1. Change your directory to `TILLIKUM_ROOT`.
-2. Run `phing`. If you are following these instructions and do not already have
-   Phing installed, it is probably at
-   `TILLIKUM_ROOT/vendor/phing/phing/bin/phing.php` and you can run that with
-   `php TILLIKUM_ROOT/vendor/phing/phing/bin/phing.php`.
-3. If everything is successful, you should now have a `TILLIKUM_ROOT/build`
-   directory.
-4. `cd TILLIKUM_ROOT/build`
+1. `$ cd ${TILLIKUM}`
+2. `$ sh ./vendor/phing/phing/bin/phing` *or* `$ phing` (use the latter if Phing
+   is already on your `PATH`.
 
-From here on out, `TILLIKUM_ROOT/build` will be referred to as `BUILD_ROOT`.
+You should now have a built Tillikum project.
 
 Database setup
 ---------------------
@@ -75,13 +83,15 @@ Database setup
 **If this is your first time installing Tillikum**, you need to set up the
 database schema:
 
-1. `doctrine orm:schema-tool:create`
+1. `$ cd ${TILLIKUM}/build`
+1. `$ ./vendor/bin/doctrine orm:schema-tool:create`
 
 **If you are upgrading Tillikum**, you may need to update the database schema:
 
-1. `doctrine orm:schema-tool:update` to see if anything needs to be change, and
-2. `doctrine orm:schema-tool:update --force` to push the changes to your
-   configured database.
+1. `$ ./vendor/bin/doctrine orm:schema-tool:update` and check if anything needs
+   to be changed.
+2. `$ ./vendor/bin/doctrine orm:schema-tool:update --force` once you are ready to
+   make the changes from the previous command.
 
 You should have functional software now, all that’s left is to point an
 application server at it.
