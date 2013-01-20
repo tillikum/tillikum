@@ -60,7 +60,9 @@
     </copy>
 
     <copy todir="${builddir}/site">
-      <fileset dir="site" />
+      <fileset dir="site">
+        <exclude name="**/.git" />
+      </fileset>
     </copy>
 
     <mkdir dir="${builddir}/data/proxies" />
