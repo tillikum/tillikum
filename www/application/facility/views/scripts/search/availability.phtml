@@ -1,0 +1,28 @@
+<section>
+  <h1><?php echo $this->translate('Facility Search'); ?></h1>
+
+  <?php echo $this->form; ?>
+</section>
+
+<script type="text/javascript">
+$(function() {
+  $('<?php echo $this->form->facilitygroup_name->getId()')
+  .bind('autocompleteselect', function(e, ui) {
+    e.preventDefault();
+
+    $('<?php echo $this->form->facilitygroup_id->getId()').val(ui.item.key);
+  })
+  .autocomplete({
+    source: function(req, resp) {
+      var term = req.term;
+
+      $.getJSON(
+        '<?php echo $this->url(array(
+          'controller' => 'facilitygroup', 'action' => 'autocomplete'
+        ), null, true); ?>?q=' + term,
+        resp
+      );
+    }
+  });
+});
+</script>

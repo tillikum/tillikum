@@ -1,0 +1,6 @@
+<section>
+  <h1><?php echo $this->translate(sprintf('Delete facility configuration from %s to %s?', $this->formatDate($this->facilityConfig->start), $this->formatDate($this->facilityConfig->end))) ?></h1>
+  <p><?php echo $this->translate('Are you sure you want to delete this facility configuration? This cannot be undone.') ?></p>
+
+  <?php echo $this->form ?>
+</section>

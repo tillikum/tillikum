@@ -1,0 +1,71 @@
+<?php
+$tagUri = $this->url(
+    array(
+        'module' => 'person',
+        'controller' => 'tag',
+        'action' => 'index'
+    ),
+    null,
+    true
+);
+
+$personCreateUri = $this->url(
+    array(
+        'module' => 'person',
+        'controller' => 'person',
+        'action' => 'create'
+    ),
+    null,
+    true
+);
+?>
+
+<section>
+    <h1><?php echo $this->translate('People'); ?></h1>
+    <nav>
+        <ul>
+            <li>
+                <a href="<?php echo $personCreateUri; ?>"><?php echo $this->translate('Create person'); ?></a>
+            </li>
+            <li>
+                <a href="<?php echo $tagUri; ?>"
+                   title="<?php echo $this->translate('Create, modify, and search for people by tag'); ?>"
+                   ui-jq="tooltip"><?php echo $this->translate('Tags'); ?></a>
+            </li>
+        </ul>
+    </nav>
+    <?php echo $this->searchForm; ?>
+    <?php if ($this->isSearch): ?>
+    <h2><?php echo $this->translate('Results'); ?></h2>
+        <?php if (count($this->people) > 0): ?>
+    <ul>
+        <?php foreach ($this->people as $person): ?>
+        <li><a href="<?php echo $this->url(array('action' => 'view', 'controller' => 'person', 'id' => $person->id)); ?>"><?php echo $this->escape($person->display_name); ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+        <?php else: ?>
+    <p><?php echo $this->translate('No people found for your search.'); ?></p>
+        <?php endif; ?>
+    <?php endif; ?>
+</section>
+
+<script type="text/javascript">
+$(function() {
+  $('#search')
+  .bind('autocompleteselect', function(ev, ui) {
+    ev.preventDefault();
+
+    window.location = ui.item.uri;
+  })
+  .autocomplete({
+    source: function(req, resp) {
+      $.getJSON(
+        '<?php echo $this->url(array(
+          'controller' => 'person', 'action' => 'autocomplete'
+        )); ?>?limit=15&q=' + req.term,
+        resp
+      );
+    }
+  });
+});
+</script>

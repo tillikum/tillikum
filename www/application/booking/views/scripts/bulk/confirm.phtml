@@ -1,0 +1,18 @@
+<h1><?php echo $this->translate('Confirmation'); ?></h1>
+
+<div class="yui-g">
+    <p>
+        <?php echo $this->translate(
+            'Will create a total of <strong>%s</strong> bookings.',
+            $this->bookingCount
+        ); ?>
+    </p>
+    <p>
+        <?php echo $this->translate(
+            'Will create a total of <strong>%s</strong> meal plans.',
+            $this->mealplanCount
+        ); ?>
+    </p>
+</div>
+
+<?php echo $this->form; ?>

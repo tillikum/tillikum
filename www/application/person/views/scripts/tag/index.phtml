@@ -1,0 +1,52 @@
+<section>
+  <h1><?php echo $this->translate('Tags'); ?></h2>
+
+<?php foreach ($this->warnings as $warning): ?>
+  <div data-is-warning="true" role="alert"><?php echo $this->escape($warning); ?></div>
+<?php endforeach; ?>
+
+  <nav>
+    <ul>
+      <li>
+        <a title="<?php echo $this->translate('Create a new tag'); ?>"
+           href="<?php echo $this->url(array('module' => 'person', 'controller' => 'tag', 'action' => 'create'), null, true); ?>"
+        ><?php echo $this->translate('Create tag'); ?></a>
+      </li>
+    </ul>
+  </nav>
+
+  <table id="tag" ui-jq="dataTable" ui-options="<?php echo $this->escape('{ sDom: \'<"H"f>t<"F"ip>\' }'); ?>">
+    <caption><?php echo $this->translate('All tags registered in Tillikum'); ?></caption>
+    <thead>
+      <th><?php echo $this->translate('Tag ID'); ?></th>
+      <th><?php echo $this->translate('Tag Name'); ?></th>
+      <th><?php echo $this->translate('Active?'); ?></th>
+      <th><?php echo $this->translate('Warning text'); ?></th>
+      <th><?php echo $this->translate('Actions'); ?></th>
+    </thead>
+    <tbody>
+<?php foreach ($this->tags as $tag): ?>
+      <tr data-id="<?php echo $this->escape($tag->id); ?>">
+        <td><a href="<?php echo $this->url(array('action' => 'search', 'ids' => $this->escape($tag->id))); ?>"><?php echo $this->escape($tag->id); ?></a></td>
+        <td><?php echo $this->escape($tag->name); ?></td>
+        <td><?php echo $this->escape($tag->is_active ? $this->translate('Yes') : $this->translate('No')); ?></td>
+        <td><?php echo $this->escape($tag->warning); ?></td>
+        <td class="nowrap">
+          <ul class="ui-widget">
+  <?php if ($this->canEdit): ?>
+            <li class="ui-state-default ui-corner-all">
+              <a href="<?php echo $this->url(array('action' => 'edit', 'id' => $tag->id)); ?>"><span class="ui-icon ui-icon-pencil" title="<?php echo $this->translate('Edit…'); ?>" ui-jq="tooltip"></span></a>
+            </li>
+  <?php endif; ?>
+  <?php if ($this->canDelete): ?>
+            <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $this->url(array('action' => 'delete', 'id' => $tag->id)); ?>"><span class="ui-icon ui-icon-trash" title="<?php echo $this->translate('Delete…'); ?>" ui-jq="tooltip"></span></a>
+            </li>
+  <?php endif; ?>
+          </ul>
+        </td>
+      </tr>
+<?php endforeach; ?>
+    </tbody>
+  </table>
+</section>

@@ -1,0 +1,23 @@
+<section>
+  <h1><?php echo $this->translate('Tag Search'); ?></h2>
+  <table id="tag-search" ui-jq="dataTable" ui-options="<?php echo $this->escape('{ sDom: \'<"H"l>t<"F"ip>\' }'); ?>">
+    <caption><?php echo $this->escape($this->translate('People who match the tags you searched for: "%1$s"', implode(', ', $this->tags))); ?></caption>
+    <thead>
+      <th><?php echo $this->translate('Name'); ?></th>
+      <th><?php echo $this->translate('Gender'); ?></th>
+    </thead>
+    <tbody>
+<?php foreach ($this->people as $person): ?>
+      <tr data-id="<?php echo $this->escape($person->id); ?>">
+        <td><a href="<?php echo $this->url(array(
+            'module' => 'person',
+            'controller' => 'person',
+            'action' => 'view',
+            'id' => $person->id
+            ), null, true); ?>"><?php echo $this->escape($person->display_name); ?></a></td>
+        <td><?php echo $this->escape($person->gender); ?></td>
+      </tr>
+<?php endforeach; ?>
+    </tbody>
+  </table>
+</section>

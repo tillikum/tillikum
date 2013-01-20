@@ -1,0 +1,47 @@
+<table id="contract-summary">
+  <caption><?php echo $this->translate('Contract signature summary'); ?></caption>
+  <thead>
+    <th><?php echo $this->translate('Contract'); ?></th>
+    <th><?php echo $this->translate('Signed at'); ?></th>
+    <th><?php echo $this->translate('Cosigned?'); ?></th>
+    <th><?php echo $this->translate('Cancelled?'); ?></th>
+    <th><?php echo $this->translate('Actions'); ?></th>
+  </thead>
+  <tbody>
+<?php foreach ($this->rows as $row): ?>
+  <?php $attr = ''; ?>
+  <?php if ($row['requires_cosigned'] && !$row['is_cosigned']): ?>
+    <?php $attr = 'title="' . $this->translate('This contract needs to be co-signed.') . '" data-is-error="true" ui-jq="tooltip"'; ?>
+  <?php elseif ($row['is_current']): ?>
+    <?php $attr = 'title="' . $this->translate('This signature is current.') . '" data-is-info="true" ui-jq="tooltip"'; ?>
+  <?php endif; ?>
+
+    <tr data-id="<?php echo $this->escape($row['id']); ?>" <?php echo $attr; ?>>
+      <td><?php echo $this->escape($row['contract']); ?></td>
+      <td><?php echo $this->markupDateTime($row['signed_at']); ?></td>
+      <td><?php echo $row['is_cosigned'] ? $this->translate('Yes') : $this->translate('No'); ?></td>
+      <td><?php echo $row['is_cancelled'] ? $this->translate('Yes') : $this->translate('No'); ?></td>
+      <td class="nowrap">
+        <ul class="ui-widget">
+  <?php if ($row['actions']['edit']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['edit_uri']; ?>"><span class="ui-icon ui-icon-pencil" title="<?php echo $this->translate('Edit…'); ?>" ui-jq="tooltip"></span></a>
+          </li>
+  <?php endif; ?>
+        </ul>
+      </td>
+    </tr>
+<?php endforeach; ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#contract-summary').dataTable({
+    aaSorting: [[1, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [1] }
+    ]
+  });
+});
+</script>

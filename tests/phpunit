@@ -1,0 +1,14 @@
+#!/usr/bin/php
+<?php
+
+define('PHPUnit_MAIN_METHOD', 'PHPUnit_TextUI_Command::main');
+
+/**
+ * @todo remove if newer PHPUnit releases have fixed require-before-autoload
+ *       issues in PHPUnit/Autoload.php
+ */
+set_include_path(__DIR__ . '/phpunit-3.5' . PATH_SEPARATOR . get_include_path());
+
+require __DIR__ . '/phpunit-3.5/PHPUnit/Autoload.php';
+
+PHPUnit_TextUI_Command::main();

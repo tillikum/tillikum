@@ -1,0 +1,37 @@
+<table id="invoice">
+  <caption><?php echo $this->translate('Invoices'); ?></caption>
+  <thead>
+    <th><?php echo $this->translate('Description'); ?></th>
+    <th><?php echo $this->translate('Created at'); ?></th>
+    <th><?php echo $this->translate('Actions'); ?></th>
+  </thead>
+  <tbody>
+  <?php foreach ($this->rows as $row): ?>
+    <tr data-id="<?php echo $this->escape($row['id']); ?>">
+      <td><?php echo $this->escape($row['description']); ?></td>
+      <td><span title="<?php echo $this->translate('Created by %s', $this->escape($row['created_by'])); ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['created_at']); ?></span></td>
+      <td class="nowrap">
+        <ul class="ui-widget">
+    <?php if ($row['actions']['details']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['details_uri'] ?>"><span class="ui-icon ui-icon-zoomin" title="<?php echo $this->translate('View details…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+    <?php endif ?>
+        </ul>
+      </td>
+    </tr>
+  <?php endforeach; ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#invoice').dataTable({
+    aaSorting: [[1, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [1] }
+    ],
+    sDom: '<"H">t<"F"ip>'
+  });
+});
+</script>

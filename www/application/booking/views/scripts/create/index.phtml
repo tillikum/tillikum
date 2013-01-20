@@ -1,0 +1,64 @@
+<?php
+$personUri = $this->url(
+    array(
+        'module' => 'person',
+        'controller' => 'person',
+        'action' => 'view',
+        'id' => $this->person->id
+    ),
+    null,
+    true
+);
+
+$personLink = sprintf(
+    '<a href="%s">%s</a>',
+    $personUri,
+    $this->escape($this->person->display_name)
+);
+?>
+
+<section>
+  <h1><?php echo $this->translate('Create facility booking for %1$s', $personLink); ?></h1>
+
+  <?php echo $this->form; ?>
+</section>
+
+<script type="text/javascript">
+$(function() {
+  $('#<?php echo $this->form->facility_booking->facility_id->getId(); ?>')
+  .data('label', $('#<?php echo $this->form->facility_booking->facility_name->getId(); ?>').val());
+});
+
+$(function() {
+  $('#<?php echo $this->form->facility_booking->facility_name->getId(); ?>')
+  .on('autocompleteselect', function(ev, ui) {
+    $('#<?php echo $this->form->facility_booking->facility_id->getId(); ?>')
+    .val(ui.item.key)
+    .data('label', ui.item.label);
+
+    this.setCustomValidity('');
+  })
+  .on('change', function(ev) {
+    var $facilityId = $('#<?php echo $this->form->facility_booking->facility_id->getId(); ?>');
+    var $facilityName = $(this);
+
+    if ($facilityId.data('label') !== $facilityName.val()) {
+      $facilityName.get(0).setCustomValidity(
+        '<?php echo $this->translate('You must select a facility from the list.') ?>'
+      );
+    }
+  })
+  .autocomplete({
+    source: function(req, resp) {
+      var term = req.term;
+
+      $.getJSON(
+        '<?php echo $this->url(array(
+          'module' => 'facility', 'controller' => 'facility', 'action' => 'autocomplete'
+        ), null, true); ?>?q=' + term,
+        resp
+      );
+    }
+  });
+});
+</script>

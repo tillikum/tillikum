@@ -1,0 +1,10 @@
+<section>
+  <h1><?php echo $this->translate('Confirmation'); ?></h1>
+
+  <?php echo $this->dataTableBookingConfirm($this->bookingData); ?>
+  <?php echo $this->dataTableBillingConfirm($this->billingData); ?>
+  <?php echo $this->dataTableRateConfirm($this->rateData); ?>
+  <?php echo $this->dataTableBillingEventConfirm($this->billingEventData); ?>
+
+  <?php echo $this->form; ?>
+</section>

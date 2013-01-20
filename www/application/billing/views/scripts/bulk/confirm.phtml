@@ -1,0 +1,13 @@
+<h1><?php echo $this->translate('Confirmation'); ?></h1>
+
+<div class="yui-g">
+    <p>
+        <?php echo $this->translate(
+            'Will create a total of <strong>%s</strong> charges for <strong>%s</strong> people.',
+            $this->chargeCount,
+            $this->personCount
+        ); ?>
+    </p>
+</div>
+
+<?php echo $this->form; ?>

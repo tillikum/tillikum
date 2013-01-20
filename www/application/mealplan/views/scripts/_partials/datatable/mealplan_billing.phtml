@@ -1,0 +1,30 @@
+<table id="booking-billing">
+  <caption><?php echo $this->translate('Booking billing details'); ?></caption>
+  <thead>
+    <tr>
+      <th><?php echo $this->translate('Billed through date'); ?></th>
+      <th><?php echo $this->translate('Created at'); ?></th>
+      <th><?php echo $this->translate('Updated at'); ?></th>
+    </tr>
+  </thead>
+  <tbody>
+<?php foreach ($this->rows as $row): ?>
+    <tr data-id="<?php echo $this->escape($row['id']); ?>">
+      <td><?php echo $this->markupDate($row['through']); ?></td>
+      <td><span title="<?php echo $this->translate('Created by %s', $this->escape($row['created_by'])); ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['created_at']); ?></span></td>
+      <td><span title="<?php echo $this->translate('Updated by %s', $this->escape($row['updated_by'])); ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['updated_at']); ?></span></td>
+    </tr>
+<?php endforeach; ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#booking-billing').dataTable({
+    aaSorting: [[0, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [0, 1, 2] }
+    ]
+  });
+});
+</script>

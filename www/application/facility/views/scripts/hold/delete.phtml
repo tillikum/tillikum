@@ -1,0 +1,6 @@
+<section>
+  <h1><?php printf($this->translate('Delete hold from %s to %s?'), $this->escape($this->formatDate($this->facilityHold->start)), $this->escape($this->formatDate($this->facilityHold->end))) ?></h1>
+  <p><?php echo $this->translate('Are you sure you want to delete this hold? This cannot be undone.') ?></p>
+
+  <?php echo $this->form; ?>
+</section>

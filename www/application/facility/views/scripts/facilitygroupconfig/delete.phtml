@@ -1,0 +1,5 @@
+<section>
+  <h1><?php printf($this->translate('Delete facility group configuration from %s to %s'), $this->formatDate($this->facilityGroupConfig->start), $this->formatDate($this->facilityGroupConfig->end)) ?></h1>
+  <p><?php echo $this->translate('Are you sure you want to delete this facility group configuration? This cannot be undone.'); ?></p>
+  <?php echo $this->form ?>
+</section>

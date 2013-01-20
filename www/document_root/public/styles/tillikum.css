@@ -1,0 +1,450 @@
+.nowrap {
+    white-space: nowrap;
+}
+
+a,
+a:visited {
+    color: #048;
+    text-decoration: none;
+}
+
+a:focus,
+a:hover {
+    text-decoration: underline;
+}
+
+body {
+    color: #333;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    min-width: 780px;
+}
+
+caption {
+    background: #eee;
+    border-left: 1px solid #d8dcdf;
+    border-right: 1px solid #d8dcdf;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+div[role="alert"],
+div[role="status"] {
+    border: 1px solid;
+    box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.3);
+    margin: 10px 0 10px 0;
+    padding: 5px;
+}
+
+div[role="alert"][data-is-warning="true"] {
+    border-color: #b3ba35;
+}
+
+div[role="alert"][data-is-error="true"] {
+    border-color: #d33;
+}
+
+div[role="status"][data-is-success="true"] {
+    border-color: #3a3;
+}
+
+div[role="status"][data-is-info="true"] {
+    border-color: #6b859e;
+}
+
+dl {
+    margin: 5px 0 0 0;
+}
+
+dt {
+    color: #600;
+    font-weight: bold;
+    margin: 5px 0 0 0;
+}
+
+dd {
+    margin: 0 0 0 10px;
+}
+html[dir="rtl"] dd {
+    margin: 0 10px 0 0;
+}
+
+fieldset {
+    margin: 10px 0 0 0;
+    padding: 0 0 0 10px;
+    border-left: 3px solid #ddd;
+}
+fieldset dl:first-child {
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 5px 0 0 0;
+    font-family: inherit;
+    font-weight: bold;
+    color: inherit;
+}
+
+h1 {
+    font-size: 18px;
+}
+
+h2 {
+    font-size: 14px;
+}
+
+h3, h4, h5, h6 {
+    font-size: 12px;
+}
+
+input, textarea {
+    border: 1px solid #ccc;
+    font-size: 14px;
+    padding: 5px;
+}
+
+input[type="image"] {
+    border: 0;
+    font-size: 100%;
+    padding: 0;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    margin-right: 3px;
+    margin-top: 3px;
+    padding: 0;
+}
+html[dir="rtl"] input[type="checkbox"],
+html[dir="rtl"] input[type="radio"] {
+    margin-right: 0;
+    margin-left: 3px;
+}
+
+input[type="color"],
+input[type="date"],
+input[type="month"],
+input[type="number"],
+input[type="time"],
+input[type="week"] {
+    width: 10em;
+}
+
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="url"],
+input[type="tel"] {
+    width: 15em;
+}
+
+input[type="search"],
+input[type="text"] {
+    width: 25em;
+}
+
+input[type="submit"] {
+    color: #600;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+label {
+    color: #600;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+label.required:before {
+    color: #f00;
+    content: "* ";
+}
+
+.dataTables_filter label,
+.dataTables_length label {
+    color: #fff;
+}
+
+legend {
+    font-weight: bold;
+    font-size: 123.1%;
+}
+
+h1 + nav,
+h2 + nav,
+h3 + nav,
+h4 + nav,
+h5 + nav,
+h6 + nav {
+    margin-top: 5px;
+}
+
+mark {
+    background: none;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    display: inline;
+}
+
+nav li + li:before {
+    content: " · ";
+}
+
+p {
+    margin: 5px 0 0 0;
+}
+p.description {
+    margin: 0;
+}
+
+section {
+    margin: 25px 0 0 0;
+    padding: 0 0 0 10px;
+}
+html[dir="rtl"] section {
+    padding: 0 10px 0 0;
+}
+
+section:first-child {
+    margin-top: 5px;
+}
+
+section.ui-tabs-panel {
+    margin: 0;
+    padding: 0;
+}
+
+textarea {
+    height: 200px;
+    min-height: 200px;
+}
+
+textarea.short {
+    height: 50px;
+    min-height: 50px;
+    width: 25em;
+}
+
+ul.separated {
+    margin: 0;
+    padding: 0;
+}
+
+ul.separated li {
+    display: inline;
+}
+
+ul.separated li + li:before {
+    content: ", ";
+}
+
+/* Sections */
+
+body>header {
+    background-color: #f6f6f6;
+    border-bottom: 1px solid #ccc;
+    margin: 0 0 5px 0;
+    padding: 5px;
+}
+
+body>footer {
+    background-color: #f6f6f6;
+    border-top: 1px solid #ccc;
+    margin: 5px 0 0 0;
+    padding: 5px;
+}
+
+#content-wrapper {
+    margin: 0 5px;
+}
+
+#sidenav-wrapper nav {
+    border-right: 1px solid #ccc;
+    padding-right: 5px;
+}
+
+#sidenav-wrapper nav a {
+    display: block;
+    padding: 5px;
+    margin-left: 5px;
+}
+
+#sidenav-wrapper nav a:hover {
+    background-color: #eee;
+}
+
+#sidenav-wrapper nav li {
+    display: block;
+    padding-left: 5px;
+}
+
+#sidenav-wrapper nav li + li:before {
+    content: none;
+}
+
+#sidenav-wrapper nav li + li {
+    margin-top: 5px;
+}
+
+#sidenav-wrapper nav li.active a {
+    color: #600;
+    border-left: 5px solid #600;
+    margin-left: 0px;
+}
+
+#site-logo, #tillikum-logo {
+    display: block;
+}
+
+html[dir="rtl"] #site-logo {
+    float: left;
+    margin: 0 0 0 10px;
+}
+#site-logo {
+    float: right;
+    margin: 0 10px 0 0;
+}
+
+html[dir="rtl"] #tillikum-logo {
+    float: right;
+    margin: 0 10px 0 0;
+}
+#tillikum-logo {
+    float: left;
+    margin: 0 0 0 10px;
+}
+
+/**
+ * Autocomplete styles
+ */
+
+.ui-menu .ui-menu-item {
+    text-align: left;
+}
+
+/**
+ * DataTable style overrides
+ */
+
+table.dataTable tbody tr {
+    border-bottom: 1px solid #ccc;
+}
+
+table.dataTable tbody tr:last-child {
+    border: none none none;
+}
+
+table.dataTable th {
+    font-weight: bold;
+}
+
+table.dataTable td {
+    background-color: white !important;
+}
+
+table.dataTable tr[data-is-warning="true"] td {
+    background-color: #ffffc9 !important;
+}
+
+table.dataTable tr[data-is-error="true"] td {
+    background-color: #ffc9c9 !important;
+}
+
+table.dataTable tr[data-is-success="true"] td {
+    background-color: #c9ffc9 !important;
+}
+
+table.dataTable tr[data-is-info="true"] td {
+    background-color: #c9f0ff !important;
+}
+
+table.dataTable tr:hover td {
+    background-color: #f0f0f0 !important;
+}
+
+table.dataTable ul.ui-widget {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+table.dataTable ul.ui-widget li {
+    cursor: pointer;
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0 2px;
+}
+
+table.dataTable ul.ui-widget li + li {
+    margin-left: 8px;
+}
+
+.dataTables_wrapper {
+    margin: 5px 0 0 0;
+}
+
+ul.errors {
+    color: #f00;
+    font-weight: bold;
+    list-style: none;
+    margin: 5px 0 0 0;
+    padding: 0;
+}
+
+/**
+ * TabView styles
+ */
+
+.ui-tabs {
+    margin-top: 5px;
+    padding: 0;
+}
+
+.ui-tabs .ui-tabs-nav li {
+    font-weight: bold;
+}
+
+.ui-tabs .ui-widget-content a {
+    color: #048;
+}
+
+.ui-tabs .ui-widget-content {
+    padding: 5px;
+}
+
+.ui-tabs-panel dl {
+    margin: 0;
+}
+
+@media print {
+    a[href]:after {
+        content: "";
+    }
+    ul.ui-widget {
+        display: none;
+    }
+    body>header {
+        display: none;
+    }
+    nav {
+        display: none;
+    }
+    body>footer {
+        display: none;
+    }
+    .ui-icon {
+        display: none;
+    }
+    .ui-tabs-nav {
+        display: none;
+    }
+}

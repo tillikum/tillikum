@@ -1,0 +1,51 @@
+<?php foreach ($this->dataErrors as $error): ?>
+<div class="tillikum error"><?php echo $this->escape($error); ?></div>
+<?php endforeach; ?>
+
+<h1><?php echo $this->translate('Verify Input'); ?></h1>
+
+<?php echo $this->form; ?>
+<div id="verify-container"></div>
+
+<script type="text/javascript">
+$(function() {
+(function() {
+    var tableHeaders = <?php echo $this->json_table_header; ?>;
+    var tableRows = <?php echo $this->json_table_body; ?>;
+    var schemaFields = [];
+    for (var i in tableHeaders) {
+        schemaFields.push(i);
+    }
+
+    var dtColumnDefinitions = [];
+    for (var i in tableHeaders) {
+        dtColumnDefinitions.push(
+            {
+                key: i,
+                label: tableHeaders[i]
+            }
+        );
+    }
+
+    var ds = new YAHOO.util.LocalDataSource(
+        tableRows,
+        {
+            responseType: YAHOO.util.LocalDataSource.TYPE_JSARRAY,
+            responseSchema: {
+                fields: schemaFields
+            }
+        }
+    );
+
+    var dt = new YAHOO.widget.DataTable(
+        "verify-container",
+        dtColumnDefinitions,
+        ds,
+        {
+            caption: "<?php echo $this->translate('Imported spreadsheet'); ?>",
+            MSG_EMPTY: "<?php echo $this->translate('No data.'); ?>"
+        }
+    );
+})();
+});
+</script>

@@ -1,0 +1,17 @@
+<section>
+  <h1><?php echo $this->translate('Bookings'); ?></h1>
+  <nav>
+    <ul>
+      <li>
+        <a href="<?php echo $this->url(array('controller' => 'pending', 'action' => 'index')) ?>"
+           title="<?php echo $this->translate('View lists of people that are ready to be booked') ?>" ui-jq="tooltip"><?php echo $this->translate('Pending bookings') ?></a>
+      </li>
+      <!--
+      <li>
+        <a href="<?php echo $this->url(array('controller' => 'bulk', 'action' => 'index')) ?>"
+           title="<?php echo $this->translate('Create several bookings at the same time') ?>" ui-jq="tooltip"><?php echo $this->translate('Bulk booking creation') ?></a>
+      </li>
+      -->
+    </ul>
+  </nav>
+</section>

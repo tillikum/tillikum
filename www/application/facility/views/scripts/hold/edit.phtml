@@ -1,0 +1,5 @@
+<section>
+  <h1><?php printf($this->translate('Edit hold from %s to %s'), $this->escape($this->formatDate($this->facilityHold->start)), $this->escape($this->formatDate($this->facilityHold->end))) ?></h1>
+
+  <?php echo $this->form; ?>
+</section>

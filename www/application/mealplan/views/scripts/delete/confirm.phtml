@@ -1,0 +1,10 @@
+<section>
+  <h1><?php echo $this->translate('Confirmation'); ?></h1>
+
+  <p><?php echo $this->translate('The following booking will be <strong>permanently deleted.</strong>'); ?></p>
+
+  <?php echo $this->dataTableMealplanConfirm($this->bookingData); ?>
+  <?php echo $this->dataTableBillingEventConfirm($this->billingEventData); ?>
+
+  <?php echo $this->form; ?>
+</section>

@@ -1,0 +1,43 @@
+<table id="job-history">
+  <caption><?php echo $this->translate('History of submitted jobs'); ?></caption>
+  <thead>
+    <th><?php echo $this->translate('Job name'); ?></th>
+    <th><?php echo $this->translate('Status'); ?></th>
+    <th><?php echo $this->translate('Dry run?'); ?></th>
+    <th><?php echo $this->translate('Started at'); ?></th>
+    <th><?php echo $this->translate('Updated at'); ?></th>
+    <th><?php echo $this->translate('Actions'); ?></th>
+  </thead>
+  <tbody>
+<?php foreach ($this->rows as $row): ?>
+  <?php $attr = ''; ?>
+    <tr data-id="<?php echo $this->escape($row['id']); ?>" <?php echo $attr; ?>>
+      <td><?php echo $this->escape($row['name']); ?></td>
+      <td><?php echo $this->escape($row['status']); ?></td>
+      <td><?php echo $this->escape($row['is_dry_run'] ? 'Yes' : 'No'); ?></td>
+      <td><?php echo $this->markupDateTime($row['created_at']); ?></td>
+      <td><?php echo $this->markupDateTime($row['updated_at']); ?></td>
+      <td class="nowrap">
+        <ul class="ui-widget">
+  <?php if ($row['actions']['view']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['view_uri']; ?>"><span class="ui-icon ui-icon-zoomin" title="<?php echo $this->translate('View…'); ?>" ui-jq="tooltip"></span></a>
+          </li>
+  <?php endif; ?>
+        </ul>
+      </td>
+    </tr>
+<?php endforeach; ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#job-history').dataTable({
+    aaSorting: [[3, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [3, 4] }
+    ]
+  });
+});
+</script>

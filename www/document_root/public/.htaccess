@@ -1,0 +1,7 @@
+RewriteEngine off
+
+<IfModule mod_expires.c>
+  ExpiresActive on
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+</IfModule>

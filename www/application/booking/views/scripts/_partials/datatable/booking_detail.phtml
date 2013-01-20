@@ -1,0 +1,65 @@
+<table id="booking-facility-detail">
+  <caption><?php echo $this->translate('Facility booking details') ?></caption>
+  <thead>
+    <tr>
+      <th><?php echo $this->translate('Facility') ?></th>
+      <th><?php echo $this->translate('Start date') ?></th>
+      <th><?php echo $this->translate('End date') ?></th>
+      <th><?php echo $this->translate('Notes') ?></th>
+      <th><?php echo $this->translate('Check-in date') ?></th>
+      <th><?php echo $this->translate('Check-out date') ?></th>
+      <th><?php echo $this->translate('Created at') ?></th>
+      <th><?php echo $this->translate('Updated at') ?></th>
+      <th><?php echo $this->translate('Actions') ?></th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php foreach ($this->rows as $row): ?>
+    <?php $attr = '' ?>
+    <?php if ($row['is_current']): ?>
+      <?php $attr = 'title="' . $this->translate('This booking is current.') . '" data-is-info="true" ui-jq="tooltip"' ?>
+    <?php endif ?>
+
+    <tr data-id="<?php echo $this->escape($row['id']) ?>" <?php echo $attr ?>>
+      <td><a href="<?php echo $this->escape($row['uri']) ?>"><?php echo $this->escape($row['name']) ?></a></td>
+      <td><?php echo $this->markupDate($row['start']) ?></td>
+      <td><?php echo $this->markupDate($row['end']) ?></td>
+      <td><?php echo nl2br($this->escape($row['note'])) ?></td>
+      <td><span title="<?php echo $this->escape($this->translate('Checked in by %s', $row['checkin_by'])) ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['checkin_at']) ?></span></td>
+      <td><span title="<?php echo $this->escape($this->translate('Checked out by %s', $row['checkout_by'])) ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['checkout_at']) ?></span></td>
+      <td><span title="<?php echo $this->escape($this->translate('Created by %s', $row['created_by'])) ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['created_at']) ?></span></td>
+      <td><span title="<?php echo $this->escape($this->translate('Updated by %s', $row['updated_by'])) ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['updated_at']) ?></span></td>
+      <td class="nowrap">
+        <ul class="ui-widget">
+    <?php if ($row['actions']['details']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['details_uri'] ?>"><span class="ui-icon ui-icon-zoomin" title="<?php echo $this->translate('View details…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+    <?php endif ?>
+    <?php if ($row['actions']['edit']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['edit_uri'] ?>"><span class="ui-icon ui-icon-pencil" title="<?php echo $this->translate('Edit…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+    <?php endif ?>
+    <?php if ($row['actions']['delete']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['delete_uri'] ?>"><span class="ui-icon ui-icon-trash" title="<?php echo $this->translate('Delete…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+    <?php endif ?>
+        </ul>
+      </td>
+    </tr>
+    <?php endforeach ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#booking-facility-detail').dataTable({
+    aaSorting: [[1, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [1, 2, 4, 5, 6, 7] }
+    ]
+  });
+});
+</script>

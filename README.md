@@ -4,19 +4,15 @@ Installation
 Get Tillikum!
 -------------
 
-Get the latest code from [svn.tillikum.org](https://svn.tillikum.org):
+Get the latest code from [Github](https://github.com/tillikum/tillikum):
 
 <pre>
-# You can check this out somewhere else
-$ svn checkout https://svn.tillikum.org/branches/relational-db-migration tillikum
-# If you checked the previous copy of code out somewhere else, change this too
+$ git clone git://github.com/tillikum/tillikum.git
 $ cd tillikum
+
+# Not necessary, but makes subsequent instructions easier to follow.
 $ export TILLIKUM=`pwd`
 </pre>
-
-This will check out a copy under `tillikum` in your current working directory.
-The `export TILLIKUM` command will set an environment variable so that the
-instructions that follow will be easier to understand, but it is not necessary.
 
 Dependencies
 ------------
@@ -47,18 +43,16 @@ in the Composer documentation.
 Configure
 ---------
 
+The local configuration file overrides settings in the configuration files that
+are under version control. The local configuration file is called
+`local.config.php`, and we ship a sample `local.config.php.dist` to get you
+started.
+
 1. `$ cd ${TILLIKUM}/config`
-2. `$ cp -i application.ini.dist application.ini`
-3. Modify `application.ini` appropriately. If you just want to get something
-   working, you may only need to modify the database connection parameters. Change
-   options under `resources.doctrine.dbal.connections.default` to modify the
-   Tillikum database connection. See Doctrine documentation for supported database
-   drivers.
-4. If you run Tillikum in production, it is *highly recommended* that you change
-   the caching parameters from the defaults. By default, no caching is set up. See
-   the `[production : default]` header for examples and pointers. At some point in
-   the future, we may include more complete examples if it turns out to be
-   difficult to configure.
+2. `$ cp -i local.config.php.dist local.config.php`
+3. Modify `local.config.php` appropriately. If you just want to get something
+   working, you may only need to modify the database connection parameters.
+   See Doctrine documentation for supported database drivers for more information.
 
 **You should not configure a live database until you are comfortable with the
 installation process.**
@@ -73,7 +67,7 @@ target location, with some token replacement and asset optimization.
 2. `$ sh ./vendor/phing/phing/bin/phing` *or* `$ phing` (use the latter if Phing
    is already on your `PATH`).
 
-You should now have a built Tillikum project.
+You should now have the project build artifacts in `${TILLIKUM}/build`.
 
 Database setup
 ---------------------
@@ -112,7 +106,6 @@ Alias /tillikum /path/to/tillikum/build/www/document_root
     RewriteEngine on
     RewriteBase /tillikum
     RewriteRule .* index.php
-    SetEnv APPLICATION_ENV production
 &lt;/Directory&gt;
 </pre>
 
@@ -121,12 +114,34 @@ Tillikum is completely flexible in terms of where it lives. You can tweak the
 above rules any way you like, as long as the core rewrite rules for `index.php`
 are kept intact.
 
-**Other servers:**
+**nginx and PHP-FPM**
 
-Not tested. Try it and find out! The software should run in a variety of
-environments with no major changes, and the project supports this goal. If you
-want to contribute, send a pull request to update documentation or write a wiki
-page about it.
+Just a snippet of the nginx part (this should probably be nested in a
+`server` block):
+
+<pre>
+root /path/to/tillikum/build/www/document_root;
+
+location /tillikum/ {
+    rewrite ^/tillikum(.+) $1 break;
+
+    try_files $uri @tillikum;
+}
+
+location @tillikum {
+    include fastcgi_params;
+
+    fastcgi_pass  127.0.0.1:9000;
+    fastcgi_param SCRIPT_NAME     /tillikum/index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+}
+</pre>
+
+**Other servers**
+
+If it runs under `mod_php` and PHP-FPM it should be reasonably straightforward
+to configure other servers as well. If you get something working and it isn't
+listed here, send a pull request to update the documentation!
 
 Next Steps
 ----------

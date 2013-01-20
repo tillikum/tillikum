@@ -1,0 +1,32 @@
+<table id="billing-event-confirm">
+  <caption><?php echo $this->translate('Billing event confirmation') ?></caption>
+  <thead>
+    <tr>
+      <th><?php echo $this->translate('Rule') ?></th>
+      <th><?php echo $this->translate('Credit?') ?></th>
+      <th><?php echo $this->translate('Start') ?></th>
+      <th><?php echo $this->translate('End') ?></th>
+    </tr>
+  </thead>
+  <tbody>
+<?php foreach ($this->rows as $row): ?>
+    <tr>
+      <td><?php echo $this->escape($row['rule']) ?></td>
+      <td><?php echo $this->escape($row['is_credit'] ? $this->translate('Yes') : $this->translate('No')) ?></td>
+      <td><?php echo $this->markupDate($row['start']) ?></td>
+      <td><?php echo $this->markupDate($row['end']) ?></td>
+    </tr>
+<?php endforeach ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#billing-event-confirm').dataTable({
+    aaSorting: [[2, 'desc']],
+    aoColumnDefs: [
+      { sType: 'data-money', aTargets: [0] }
+    ]
+  });
+});
+</script>

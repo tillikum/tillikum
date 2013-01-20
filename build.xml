@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Tillikum" basedir="." default="build">
+  <property name="builddir" value="${project.basedir}/build" />
+
+  <target name="generate-proxies">
+    <exec dir="${builddir}/bin" executable="${project.basedir}/vendor/bin/doctrine">
+      <arg line="orm:generate-proxies" />
+    </exec>
+  </target>
+
+  <target name="remove-old-css">
+    <delete file="${builddir}/www/document_root/public/styles/tillikum.css" quiet="true" />
+  </target>
+
+  <target name="concatenate-css" depends="remove-old-css">
+    <append destFile="${builddir}/www/document_root/public/styles/tillikum.css">
+      <filelist
+        dir="www/document_root/public/styles"
+        files="normalize.css html5-boilerplate.css grids.css
+               jquery-ui.tillikum.css jquery.dataTables.css
+               angular-ui.css tillikum.css" />
+    </append>
+  </target>
+
+  <target name="compress-css" depends="concatenate-css">
+    <if>
+      <available file="yui-compressor" filepath="${env.PATH}" />
+      <then>
+        <echo msg="Compressing CSS with yui-compressor..." />
+        <exec dir="${builddir}/www/document_root/public/styles" executable="yui-compressor">
+          <arg line="tillikum.css -o tillikum.css" />
+        </exec>
+      </then>
+    </if>
+  </target>
+
+  <target name="remove-old-js">
+    <delete file="${builddir}/www/document_root/public/scripts/tillikum.js" quiet="true" />
+  </target>
+
+  <target name="concatenate-js" depends="remove-old-js">
+    <append destfile="${builddir}/www/document_root/public/scripts/tillikum.js">
+      <filelist
+        dir="www/document_root/public/scripts"
+        files="modernizr-min.js json3-min.js jquery-min.js jquery-ui-min.js
+               jquery.dataTables-min.js angular-min.js angular-ui-min.js
+               angular-ui-ieshiv-min.js tillikum.js" />
+    </append>
+  </target>
+
+  <target name="build">
+    <mkdir dir="${builddir}" />
+
+    <copy todir="${builddir}/bin">
+      <fileset dir="bin" />
+    </copy>
+
+    <copy todir="${builddir}/config">
+      <fileset dir="config" />
+    </copy>
+
+    <copy todir="${builddir}/site">
+      <fileset dir="site" />
+    </copy>
+
+    <mkdir dir="${builddir}/data/proxies" />
+
+    <copy todir="${builddir}/languages">
+      <fileset dir="languages" />
+    </copy>
+
+    <copy todir="${builddir}/www">
+      <fileset dir="www">
+        <exclude name="**/*.css" />
+        <exclude name="**/*.js" />
+      </fileset>
+    </copy>
+
+    <delete file="${builddir}/www/application/default/views/layouts/generic.phtml" quiet="true" />
+
+    <phingcall target="compress-css" />
+    <phingcall target="concatenate-js" />
+
+    <filehash
+      file="${builddir}/www/document_root/public/styles/tillikum.css"
+      propertyname="tillikumCssHash" />
+
+    <filehash
+      file="${builddir}/www/document_root/public/scripts/tillikum.js"
+      propertyname="tillikumJsHash" />
+
+    <copy todir="${builddir}/www/application/default/views/layouts">
+      <filterchain>
+        <replacetokens begintoken="@@" endtoken="@@">
+          <token key="tillikumCssHash" value="${tillikumCssHash}" />
+          <token key="tillikumJsHash" value="${tillikumJsHash}" />
+        </replacetokens>
+      </filterchain>
+
+      <fileset dir="www/application/default/views/layouts" />
+    </copy>
+
+    <copy todir="${builddir}/library">
+      <fileset dir="library" />
+    </copy>
+
+    <exec dir="${builddir}" executable="ln">
+      <arg line="-fds ../vendor ${builddir}/" />
+    </exec>
+
+    <phingcall target="generate-proxies" />
+  </target>
+
+  <target name="test" depends="build">
+    <exec dir="${project.basedir}/tests" executable="./phpunit">
+      <arg line="--log-junit ${project.basedir}/tests/phpunit-junit-log.xml" />
+    </exec>
+  </target>
+</project>

@@ -1,0 +1,56 @@
+<table id="facility-hold">
+  <caption><?php echo $this->translate('Holds on this facility'); ?></caption>
+  <thead>
+    <th><?php echo $this->translate('Start date'); ?></th>
+    <th><?php echo $this->translate('End date'); ?></th>
+    <th><?php echo $this->translate('Description'); ?></th>
+    <th><?php echo $this->translate('Spaces held'); ?></th>
+    <th><?php echo $this->translate('Gender'); ?></th>
+    <th><?php echo $this->translate('Actions'); ?></th>
+  </thead>
+  <tbody>
+  <?php foreach ($this->rows as $row): ?>
+    <?php $attr = ''; ?>
+    <?php if ($row['is_current']): ?>
+      <?php $attr = 'title="' . $this->translate('This hold is current.') . '" data-is-info="true" ui-jq="tooltip"'; ?>
+    <?php endif; ?>
+
+    <tr data-id="<?php echo $this->escape($row['id']); ?>" <?php echo $attr; ?>>
+      <td><?php echo $this->markupDate($row['start']); ?></td>
+      <td><?php echo $this->markupDate($row['end']); ?></td>
+      <td><?php echo $this->escape($row['description']); ?></td>
+      <td><?php echo $this->escape($row['space']); ?></td>
+      <td><?php echo $this->escape($row['gender']); ?></td>
+      <td class="nowrap">
+        <ul class="ui-widget">
+    <?php if ($row['actions']['edit']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['edit_uri']; ?>"
+            ><span class="ui-icon ui-icon-pencil" title="<?php echo $this->translate('Edit…'); ?>" ui-jq="tooltip"></span></a>
+          </li>
+    <?php endif; ?>
+    <?php if ($row['actions']['delete']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['delete_uri']; ?>"
+            ><span class="ui-icon ui-icon-trash" title="<?php echo $this->translate('Delete…'); ?>" ui-jq="tooltip"></span></a>
+          </li>
+    <?php endif; ?>
+        </ul>
+      </td>
+    </tr>
+  <?php endforeach; ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  var table = $('#facility-hold').dataTable({
+    aaSorting: [[0, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [0, 1] }
+    ],
+    bJQueryUI: true,
+    sDom: '<"H">t<"F"ip>'
+  });
+});
+</script>

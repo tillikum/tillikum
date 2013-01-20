@@ -1,0 +1,37 @@
+<section>
+  <h1><?php echo $this->translate('View report') ?></h1>
+
+  <h2><?php echo $this->escape($this->reportName) ?></h2>
+
+  <p><?php echo $this->escape($this->reportDescription) ?></p>
+
+  <?php echo $this->form; ?>
+
+<?php if ($this->reportData): ?>
+  <table id="report-html">
+    <thead>
+      <tr>
+  <?php foreach ($this->reportData['header'] as $colName): ?>
+        <th><?php echo $this->escape($colName) ?></th>
+  <?php endforeach; ?>
+      </tr>
+    </thead>
+    <tbody>
+  <?php foreach ($this->reportData['body'] as $row): ?>
+      <tr>
+    <?php foreach ($row as $col): ?>
+        <td><?php echo $this->escape($col) ?></td>
+    <?php endforeach; ?>
+      </tr>
+  <?php endforeach; ?>
+  </table>
+<?php endif; ?>
+</section>
+
+<script type="text/javascript">
+$(function() {
+  $('#report-html').dataTable({
+    sDom: '<"H"fl>t<"F"ip>',
+  });
+});
+</script>

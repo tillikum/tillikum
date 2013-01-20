@@ -1,0 +1,29 @@
+<section>
+  <h1><?php printf(
+    $this->translate('Facility <a href="%1$s">%2$s</a> %3$s'),
+    $this->url(array(
+      'module' => 'facility', 'controller' => 'facilitygroup', 'action' => 'view', 'id' => $this->facility->facility_group->id
+    ), null, true),
+    $this->escape($this->facility->facility_group->configs->last()->name),
+    $this->escape($this->facility->configs->last() ? $this->facility->configs->last()->name : '?')
+  ); ?></h1>
+
+  <nav>
+    <ul>
+      <li>
+        <a title="<?php echo $this->translate('Create a new facility configuration'); ?>"
+           href="<?php echo $this->url(array('module' => 'facility', 'controller' => 'facilityconfig', 'action' => 'create', 'facility_id' => $this->facility->id), null, true); ?>"
+        ><?php echo $this->translate('Create configuration'); ?></a>
+      </li>
+      <li>
+        <a title="<?php echo $this->translate('Create a new hold'); ?>"
+           href="<?php echo $this->url(array('module' => 'facility', 'controller' => 'hold', 'action' => 'create', 'facility_id' => $this->facility->id), null, true); ?>"
+        ><?php echo $this->translate('Create hold'); ?></a>
+      </li>
+    </ul>
+  </nav>
+
+  <?php echo $this->dataTableFacilityConfiguration($this->configRows); ?>
+  <?php echo $this->dataTableFacilityHold($this->holdRows); ?>
+  <?php echo $this->dataTableFacilityBooking($this->bookingRows); ?>
+</section>

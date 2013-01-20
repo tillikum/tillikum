@@ -1,0 +1,9 @@
+<section>
+    <h1><?php printf(
+            $this->translate('Invoice %s for <a href="%s">%s</a>'),
+            $this->invoice->description,
+            $this->url(array('module' => 'person', 'controller' => 'person', 'action' => 'view', 'id' => $this->invoice->person->id)),
+            $this->escape($this->invoice->person->display_name)
+        ) ?></h1>
+  <?php echo $this->dataTableBillingEntry($this->entryData) ?>
+</section>

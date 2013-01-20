@@ -1,0 +1,30 @@
+<table id="billing-entry">
+  <caption><?php echo $this->translate('Billing entries'); ?></caption>
+  <thead>
+    <th><?php echo $this->translate('Amount'); ?></th>
+    <th><?php echo $this->translate('Description'); ?></th>
+    <th><?php echo $this->translate('Created at'); ?></th>
+  </thead>
+  <tbody>
+  <?php foreach ($this->rows as $row): ?>
+    <tr data-id="<?php echo $this->escape($row['id']); ?>">
+      <td><?php echo $this->markupCurrency($row['amount'], $row['currency']); ?></td>
+      <td><?php echo $this->escape($row['description']); ?></td>
+      <td><span title="<?php echo $this->translate('Created by %s', $this->escape($row['created_by'])); ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['created_at']); ?></span></td>
+    </tr>
+  <?php endforeach; ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#billing-entry').dataTable({
+    aaSorting: [[2, 'desc']],
+    aoColumnDefs: [
+      { sType: 'data-money', aTargets: [0] },
+      { sType: 'time-html', aTargets: [2] }
+    ],
+    sDom: '<"H">t<"F"ip>'
+  });
+});
+</script>

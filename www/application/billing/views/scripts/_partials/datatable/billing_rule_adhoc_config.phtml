@@ -1,0 +1,42 @@
+<table id="billing-rule-adhoc-config">
+  <caption><?php echo $this->translate('Ad hoc billing rule configuration') ?></caption>
+  <thead>
+    <th><?php echo $this->translate('Rule description') ?></th>
+    <th><?php echo $this->translate('Configuration description') ?></th>
+    <th><?php echo $this->translate('Code') ?></th>
+    <th><?php echo $this->translate('Strategy') ?></th>
+    <th><?php echo $this->translate('Start date') ?></th>
+    <th><?php echo $this->translate('End date') ?></th>
+    <th><?php echo $this->translate('Created at') ?></th>
+    <th><?php echo $this->translate('Updated at') ?></th>
+    <th><?php echo $this->translate('Actions') ?></th>
+  </thead>
+  <tbody>
+  <?php foreach ($this->rows as $row): ?>
+    <tr data-id="<?php echo $this->escape($row['id']) ?>">
+      <td><?php echo $this->escape($row['rule']->description) ?></td>
+      <td><?php echo $this->escape($row['description']) ?></td>
+      <td><?php echo $this->escape($row['code']) ?></td>
+      <td><span title="<?php echo $this->escape($row['strategy_description']) ?>" ui-jq="tooltip"><?php echo $this->escape($row['strategy_name']) ?></span></td>
+      <td><?php echo $this->markupDate($row['start']) ?></td>
+      <td><?php echo $this->markupDate($row['end']) ?></td>
+      <td><span title="<?php echo $this->translate('Created by %s', $this->escape($row['created_by'])) ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['created_at']) ?></span></td>
+      <td><span title="<?php echo $this->translate('Updated by %s', $this->escape($row['updated_by'])) ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['updated_at']) ?></span></td>
+      <td class="nowrap"><!-- @todo --></td>
+    </tr>
+  <?php endforeach ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#billing-rule-adhoc-config').dataTable({
+    aaSorting: [[4, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [4, 5, 6, 7] }
+    ],
+    iDisplayLength: 25,
+    sDom: '<"H"f>t<"F"ip>'
+  });
+});
+</script>

@@ -1,0 +1,26 @@
+<table id="booking-facility-billing-confirm">
+  <caption><?php echo $this->translate('Facility billing confirmation'); ?></caption>
+  <thead>
+    <tr>
+      <th><?php echo $this->translate('Billed through date'); ?></th>
+    </tr>
+  </thead>
+  <tbody>
+<?php foreach ($this->rows as $row): ?>
+    <tr>
+      <td><?php echo $this->markupDate($row['through']); ?></td>
+    </tr>
+<?php endforeach; ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#booking-facility-billing-confirm').dataTable({
+    aaSorting: [[0, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [0] }
+    ]
+  });
+});
+</script>

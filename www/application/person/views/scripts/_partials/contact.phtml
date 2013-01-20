@@ -1,0 +1,137 @@
+<table id="person-contact-email">
+    <caption><?php echo $this->translate('Email addresses') ?></caption>
+  <thead>
+    <tr>
+      <th><?php echo $this->translate('Email') ?></th>
+      <th><?php echo $this->translate('Type') ?></th>
+    </tr>
+  </thead>
+  <tbody>
+<?php foreach ($this->person->emails as $address): ?>
+    <?php $attrs = '' ?>
+    <?php if ($address->is_primary): ?>
+        <?php $attrs = "title=\"{$this->translate('This is the primary email address.')}\" data-is-info=\"true\" ui-jq=\"tooltip\"" ?>
+    <?php endif ?>
+    <tr <?php echo $attrs ?>>
+      <td><a href="mailto:<?php echo $this->escape($address->value) ?>"><?php echo $this->escape($address->value) ?></a></td>
+      <td><?php echo $this->escape($address->type->name) ?></td>
+    </tr>
+<?php endforeach ?>
+  </tbody>
+</table>
+<script type="text/javascript">
+$(function() {
+  $('#person-contact-email').dataTable({
+    bJQueryUI: true,
+    sDom: '<"H">t<"F">'
+  });
+});
+</script>
+
+<table id="person-contact-phone-number">
+  <caption><?php echo $this->translate('Phone numbers') ?></caption>
+  <thead>
+    <tr>
+      <th><?php echo $this->translate('Phone') ?></th>
+      <th><?php echo $this->translate('Type') ?></th>
+    </tr>
+  </thead>
+  <tbody>
+<?php foreach ($this->person->phone_numbers as $address): ?>
+    <?php $attrs = '' ?>
+    <?php if ($address->is_primary): ?>
+        <?php $attrs = "title=\"{$this->translate('This is the primary phone number.')}\" data-is-info=\"true\" ui-jq=\"tooltip\"" ?>
+    <?php endif ?>
+    <tr <?php echo $attrs ?>>
+      <td><?php echo $this->escape($address->value) ?></td>
+      <td><?php echo $this->escape($address->type->name) ?></td>
+    </tr>
+<?php endforeach ?>
+  </tbody>
+</table>
+<script type="text/javascript">
+$(function() {
+  $('#person-contact-phone-number').dataTable({
+    bJQueryUI: true,
+    sDom: '<"H">t<"F">'
+  });
+});
+</script>
+
+<table id="person-contact-street-address">
+  <caption><?php echo $this->translate('Street addresses') ?></caption>
+  <thead>
+    <tr>
+      <th><?php echo $this->translate('Address') ?></th>
+      <th><?php echo $this->translate('Type') ?></th>
+    </tr>
+  </thead>
+  <tbody>
+<?php foreach ($this->person->addresses as $address): ?>
+    <?php $attrs = '' ?>
+    <?php if ($address->is_primary): ?>
+        <?php $attrs = "title=\"{$this->translate('This is the primary street address.')}\" data-is-info=\"true\" ui-jq=\"tooltip\"" ?>
+    <?php endif ?>
+    <tr <?php echo $attrs ?>>
+      <td>
+        <?php echo nl2br($this->escape($address->street)) ?><br>
+        <?php echo $this->escape($address->locality) ?>,
+        <?php echo $this->escape($address->region) ?>
+        <?php echo $this->escape($address->postal_code) ?><br>
+        <?php echo $this->escape($address->country) ?>
+      </td>
+      <td><?php echo $this->escape($address->type->name) ?></td>
+    </tr>
+<?php endforeach ?>
+  </tbody>
+</table>
+<script type="text/javascript">
+$(function() {
+  $('#person-contact-street-address').dataTable({
+    bJQueryUI: true,
+    sDom: '<"H">t<"F">'
+  });
+});
+</script>
+
+<div class="yui3-g">
+<?php foreach ($this->person->emergency_contacts as $ec): ?>
+  <div class="yui3-u-1-2">
+    <?php if ($ec->type->id == 'ec1'): ?>
+    <h2><?php echo $this->translate('Primary Emergency Contact') ?></h2>
+    <?php else: ?>
+    <h2><?php echo $this->translate('Secondary Emergency Contact') ?></h2>
+    <?php endif ?>
+    <dl>
+      <dt><?php echo $this->translate('Given name') ?></dt>
+      <dd><?php echo $this->escape($ec->given_name) ?></dd>
+      <dt><?php echo $this->translate('Family name') ?></dt>
+      <dd><?php echo $this->escape($ec->family_name) ?></dd>
+      <dt><?php echo $this->translate('Relationship') ?></dt>
+      <dd><?php echo $this->escape($ec->relationship) ?></dd>
+      <dt><?php echo $this->translate('Phone number (primary)') ?></dt>
+      <dd><?php echo $this->escape($ec->primary_phone_number) ?></dd>
+      <dt><?php echo $this->translate('Phone number (secondary)') ?></dt>
+      <dd><?php echo $this->escape($ec->secondary_phone_number) ?></dd>
+      <dt><?php echo $this->translate('Email address (primary)') ?></dt>
+      <dd><?php echo $this->escape($ec->primary_email) ?></dd>
+      <dt><?php echo $this->translate('Email address (secondary)') ?></dt>
+      <dd><?php echo $this->escape($ec->secondary_email) ?></dd>
+      <dt><?php echo $this->translate('Street address') ?></dt>
+      <dd>
+        <span class="adr">
+          <span class="street-address"><?php echo nl2br($this->escape($ec->street)) ?></span><br>
+          <span class="locality"><?php echo $this->escape($ec->locality) ?></span>,
+          <span class="region"><?php echo $this->escape($ec->region) ?></span>
+          <span class="postal-code"><?php echo $this->escape($ec->postal_code) ?></span><br>
+          <span class="country"><?php echo $this->escape($ec->country) ?></span>
+        </span>
+      </dd>
+      <dt><?php echo $this->translate('Created at') ?></dt>
+      <dd><?php echo $this->escape($this->formatDateTime($ec->created_at)) ?></dd>
+      <dt><?php echo $this->translate('Updated at') ?></dt>
+      <dd><?php echo $this->escape($this->formatDateTime($ec->updated_at)) ?></dd>
+    </dl>
+  </div>
+<?php endforeach ?>
+</div>

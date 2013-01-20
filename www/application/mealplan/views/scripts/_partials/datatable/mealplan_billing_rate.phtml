@@ -1,0 +1,34 @@
+<table id="booking-mealplan-billing-rate">
+  <caption><?php echo $this->translate('Rate details'); ?></caption>
+  <thead>
+    <tr>
+      <th><?php echo $this->translate('Rule'); ?></th>
+      <th><?php echo $this->translate('Start date'); ?></th>
+      <th><?php echo $this->translate('End date'); ?></th>
+      <th><?php echo $this->translate('Created at'); ?></th>
+      <th><?php echo $this->translate('Updated at'); ?></th>
+    </tr>
+  </thead>
+  <tbody>
+<?php foreach ($this->rows as $row): ?>
+    <tr data-id="<?php echo $this->escape($row['id']); ?>">
+      <td><?php echo $this->escape($row['rule']); ?></td>
+      <td><?php echo $this->markupDate($row['start']); ?></td>
+      <td><?php echo $this->markupDate($row['end']); ?></td>
+      <td><span title="<?php echo $this->escape(sprintf($this->translate('Created by %s'), $row['created_by'])); ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['created_at']); ?></span></td>
+      <td><span title="<?php echo $this->escape(sprintf($this->translate('Updated by %s'), $row['updated_by'])); ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['updated_at']); ?></span></td>
+    </tr>
+<?php endforeach; ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#booking-mealplan-billing-rate').dataTable({
+    aaSorting: [[0, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [1, 2, 3, 4] }
+    ]
+  });
+});
+</script>

@@ -1,0 +1,440 @@
+#!/usr/bin/env php
+<?php
+
+use Doctrine\ORM\Events;
+use Tillikum\Entity\Job\Job;
+use Tillikum\Entity\Job\Message\Message;
+use Tillikum\Listener\Audit as AuditListener;
+use Zend\Console;
+
+require dirname(__DIR__) . '/library/autoload.php';
+
+$application = new \Zend_Application(
+    '',
+    APPLICATION_PATH . '/config/application.config.php'
+);
+$application->bootstrap();
+
+$NAME = basename(__FILE__);
+$IS_DEBUG = false;
+$PIDFILE = "/var/run/{$NAME}.pid";
+$USER = 'nobody';
+$GROUP = 'nogroup';
+$TAG = $NAME;
+
+$getopt = new Console\Getopt(
+    array(
+        'd' => 'debug mode -- do not daemonize',
+        'g=s' => "group to run as (default: {$GROUP})",
+        'p=s' => "location of the pid file (default: {$PIDFILE})",
+        'u=s' => "user to run as (default: {$USER})",
+        't=s' => "syslog tag to use (default: {$TAG})",
+    )
+);
+
+try {
+    $IS_DEBUG = (bool) $getopt->d;
+    $PIDFILE = strlen($getopt->p) > 0 ? $getopt->p : $PIDFILE;
+    $USER = strlen($getopt->u) > 0 ? $getopt->u : $USER;
+    $GROUP = strlen($getopt->g) > 0 ? $getopt->g : $GROUP;
+    $TAG = strlen($getopt->t) > 0 ? $getopt->t : $TAG;
+} catch (Console\Exception\RuntimeException $e) {
+    printf($e->getUsageMessage());
+
+    exit(1);
+}
+
+openlog(
+    $TAG,
+    $IS_DEBUG ? (LOG_NDELAY | LOG_PERROR) : LOG_NDELAY,
+    LOG_LOCAL0
+);
+
+pcntl_signal(SIGINT, 'exitHandler');
+pcntl_signal(SIGTERM, 'exitHandler');
+
+if ($IS_DEBUG) {
+    syslog(
+        LOG_INFO,
+        'started (pid ' . posix_getpid() . ")\n"
+    );
+} else {
+    if (posix_geteuid() !== 0) {
+        fprintf(
+            STDERR,
+            'This daemon must be run as root. For security, it will drop' .
+            ' privileges if passed the user and group to change to.' .
+            " Exiting now.\n"
+        );
+
+        exit(1);
+    }
+
+    daemonize();
+}
+
+dropPrivileges();
+
+$serviceManager = $application->getBootstrap()
+    ->getResource('ServiceManager');
+
+$em = $serviceManager->get('EntityManager');
+
+$auditListener = new AuditListener('_system');
+$em->getEventManager()->addEventSubscriber($auditListener);
+
+$em->getConnection()->close();
+
+while (true) {
+    try {
+        $rows = $em->createQuery(
+            'SELECT j.id'
+          . ' FROM Tillikum\Entity\Job\Job j'
+          . ' WHERE j.run_state = :runState'
+        )
+            ->setParameter('runState', Job::RUN_STATE_SUBMITTED)
+            ->getResult();
+    } catch (\Exception $e) {
+        syslog(
+            LOG_ERR,
+            "Exception caught listing runnable jobs: {$e->getMessage()}"
+        );
+
+        $em->getConnection()->close();
+        $rows = array();
+    }
+
+    foreach ($rows as $row) {
+        $em->clear();
+
+        syslog(
+            LOG_INFO,
+            "spawning job {$row['id']}"
+        );
+
+        try {
+            spawnJob($row['id']);
+        } catch (\Exception $e) {
+            syslog(
+                LOG_ERR,
+                "Exception caught spawning job {$row['id']}: {$e->getMessage()}"
+            );
+        }
+    }
+
+    do {
+        $childPid = pcntl_wait($status, WNOHANG);
+    } while ($childPid > 0);
+
+    pcntl_signal_dispatch();
+
+    sleep(5);
+}
+
+function spawnJob($jobId)
+{
+    global $auditListener;
+    global $em;
+    global $serviceManager;
+
+    // avoid sharing this resource with the child
+    $em->getConnection()->close();
+
+    $pid = pcntl_fork();
+    switch ($pid) {
+        case -1:
+            syslog(
+                LOG_ERR,
+                "fork() failed creating child for job {$jobId}; skipping."
+            );
+
+            setInternalError($job);
+
+            break;
+        case 0:
+            if (posix_setpgid(0, 0) === false) {
+                syslog(
+                    LOG_WARNING,
+                    "setpgid() failed in child for job {$jobId}."
+                );
+            }
+
+            pcntl_signal(SIGINT, SIG_DFL);
+            pcntl_signal(SIGTERM, SIG_DFL);
+
+            $em->getConnection()->connect();
+
+            $job = $em->getRepository('Tillikum\Entity\Job\Job')
+                ->dequeueJob($jobId);
+
+            if ($job === null) {
+                syslog(
+                    LOG_ERR,
+                    "job {$jobId} could not be dequeued; quitting."
+                );
+
+                exit(1);
+            }
+
+            $jobClass = $job->class_name;
+            $jobId = $job->id;
+
+            $jobTemplate = $serviceManager->get($jobClass);
+
+            $parameters = array();
+            foreach ($job->parameters as $parameter) {
+                $parameters[$parameter->key] = $parameter->value;
+            }
+            $jobTemplate->setParameters($parameters);
+            $jobTemplate->setJobEntity($job);
+
+            $em->getEventManager()->removeEventSubscriber($auditListener);
+            $em->getEventManager()->addEventSubscriber(
+                new AuditListener(@$parameters['identity'] ?: '_system')
+            );
+
+            try {
+                $jobTemplate->run();
+            } catch (\Exception $e) {
+                syslog(
+                    LOG_ERR,
+                    "Exception caught running job {$jobId}: {$e->getMessage()}"
+                );
+
+                exit(1);
+            }
+
+            exit(0);
+            break;
+        default:
+            if (posix_setpgid($pid, $pid) === false) {
+                syslog(
+                    LOG_WARNING,
+                    "setpgid() failed in parent for job {$jobId}."
+                );
+            }
+
+            $em->getConnection()->connect();
+
+            break;
+    }
+}
+
+function setInternalError(Job $job)
+{
+    global $em;
+
+    $message = new Message();
+    $message->job = $job;
+    $message->level = LOG_ERR;
+    $message->message = 'An internal error occurred while running this job.'
+                      . ' Please contact support, as in most cases more'
+                      . ' information has been logged that will help them'
+                      . ' fix the problem.';
+    $em->persist($message);
+
+    $job->run_state = Job::RUN_STATE_STOPPED;
+    $job->job_state = Job::JOB_STATE_ERROR;
+
+    $em->flush();
+    $em->clear();
+}
+
+function daemonize()
+{
+    global $NAME, $GROUP, $PIDFILE, $USER;
+
+    if (!file_exists($PIDFILE)) {
+        $oldUmask = umask(0133);
+        fopen($PIDFILE, 'x');
+        chown($PIDFILE, $USER);
+        chgrp($PIDFILE, $GROUP);
+        umask($oldUmask);
+    }
+
+    if (!is_writable($PIDFILE) && !is_writable(dirname($PIDFILE))) {
+        syslog(
+            LOG_ERR,
+            "Cannot write to {$PIDFILE}. Exiting now."
+        );
+
+        exit(1);
+    }
+
+    if (filesize($PIDFILE) > 0) {
+        syslog(
+            LOG_ERR,
+            "{$PIDFILE} has something in it. Is {$NAME} already running?"
+        );
+
+        exit(1);
+    }
+
+    $pid = pcntl_fork();
+    switch ($pid) {
+        case -1:
+            syslog(
+                LOG_ERR,
+                'fork failed trying to daemonize (1). Exiting now.'
+            );
+
+            exit(1);
+            break;
+        case 0:
+            break;
+        default:
+
+            exit(0);
+            break;
+    }
+
+    if (posix_setsid() === -1) {
+        syslog(
+            LOG_ERR,
+            'Could not make process a session leader while trying to'
+          . ' daemonize. Exiting now.'
+        );
+
+        exit(1);
+    }
+
+    $pid = pcntl_fork();
+    switch ($pid) {
+        case -1:
+            syslog(
+                LOG_ERR,
+                'fork failed trying to daemonize (2). Exiting now.'
+            );
+
+            exit(1);
+            break;
+        case 0:
+            break;
+        default:
+            $pidfileHandle = fopen($PIDFILE, 'w');
+            if ($pidfileHandle === false) {
+                syslog(
+                    LOG_ERR,
+                    "Could not open {$PIDFILE} for writing. Exiting now."
+                );
+
+                exit(1);
+            }
+            fwrite($pidfileHandle, "{$pid}\n");
+            fclose($pidfileHandle);
+
+            syslog(
+                LOG_INFO,
+                "started (pid {$pid})\n"
+            );
+
+            exit(0);
+            break;
+    }
+
+    chdir('/');
+    umask(0);
+
+    fclose(STDIN);
+    fclose(STDOUT);
+    fclose(STDERR);
+}
+
+function dropPrivileges()
+{
+    global $GROUP, $USER;
+
+    if (is_numeric($GROUP)) {
+        $groupInfo = posix_getgrgid((int) $GROUP);
+    } else {
+        $groupInfo = posix_getgrnam($GROUP);
+    }
+
+    if ($groupInfo === false) {
+        syslog(
+            LOG_ERR,
+            "Cannot find group {$GROUP}. Exiting now."
+        );
+
+        exit(1);
+    }
+
+    if (posix_setgid($groupInfo['gid']) === false) {
+        syslog(
+            LOG_ERR,
+            "Cannot change gid to {$groupInfo['gid']}. Exiting now."
+        );
+
+        exit(1);
+    }
+
+    if (is_numeric($USER)) {
+        $userInfo = posix_getpwuid((int) $USER);
+    } else {
+        $userInfo = posix_getpwnam($USER);
+    }
+
+    if ($userInfo === false) {
+        syslog(
+            LOG_ERR,
+            "Cannot find user {$USER}. Exiting now."
+        );
+
+        exit(1);
+    }
+
+    if (posix_setuid($userInfo['uid']) === false) {
+        syslog(
+            LOG_ERR,
+            "Cannot change uid to {$userInfo['uid']}. Exiting now."
+        );
+
+        exit(1);
+    }
+
+    if (posix_setuid(0) === true) {
+        syslog(
+            LOG_ERR,
+            'Restored root uid (uid 0) after privilege drop. This is a'
+          . ' security risk. Exiting now.'
+        );
+
+        exit(1);
+    }
+
+    if (posix_setgid(0) === true) {
+        syslog(
+            LOG_ERR,
+            'Restored root gid (gid 0) after privilege drop. This is a'
+          . ' security risk. Exiting now.'
+        );
+
+        exit(1);
+    }
+}
+
+function exitHandler($signo)
+{
+    global $PIDFILE;
+
+    syslog(
+        LOG_INFO,
+        "Caught signal {$signo}. Cleaning up..."
+    );
+
+    if (is_writable($PIDFILE)) {
+        $pidfileHandle = fopen($PIDFILE, 'w');
+        fclose($pidfileHandle);
+        syslog(
+            LOG_INFO,
+            "Removed pid from {$PIDFILE}..."
+        );
+    }
+
+    syslog(
+        LOG_INFO,
+        'Exiting now.'
+    );
+
+    exit(0);
+}

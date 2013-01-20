@@ -1,0 +1,140 @@
+<?php
+$editPersonUri = $this->url(
+    array(
+        'module' => 'person',
+        'controller' => 'person',
+        'action' => 'edit',
+        'id' => $this->person->id
+    ),
+    null,
+    true
+);
+$tagSearchUri = $this->url(
+    array(
+        'module' => 'person',
+        'controller' => 'tag',
+        'action' => 'search',
+        'ids' => ''
+    ),
+    null,
+    true
+);
+?>
+
+<div class="yui3-g">
+  <div class="yui3-u-1-2">
+    <section>
+<?php foreach ($this->person->tags as $tag): ?>
+    <?php if (!empty($tag->warning)): ?>
+      <div role="alert" data-is-warning="true"><?php echo $this->escape($tag->warning); ?></div>
+    <?php endif; ?>
+<?php endforeach; ?>
+
+      <h1><?php echo $this->escape($this->person->display_name); ?></h1>
+
+      <nav>
+        <ul>
+          <li>
+            <a href="<?php echo $editPersonUri; ?>"><?php echo $this->translate('Edit'); ?></a>
+          </li>
+        </ul>
+      </nav>
+
+      <dl>
+<?php if ($this->person->image): ?>
+        <dt><?php echo $this->translate('Image'); ?></dt>
+        <dd>
+          <img src="<?php echo $this->url(array('controller' => 'person', 'action' => 'image', 'id' => $this->person->id)); ?>"
+               alt="<?php echo $this->translate('%s’s image', $this->escape($this->person->display_name)); ?>">
+        </dd>
+<?php endif; ?>
+<?php if ($this->person->tags->count() > 0): ?>
+        <dt><?php echo $this->translate('Tags'); ?></dt>
+        <dd>
+          <ul class="separated"><!--
+  <?php foreach ($this->person->tags as $tag): ?>
+            --><li><a href="<?php echo sprintf('%s%s', $tagSearchUri, $this->escape($tag->id)); ?>"><?php echo $this->escape($tag->name); ?></a></li><!--
+  <?php endforeach; ?>
+          --></ul>
+        </dd>
+<?php endif; ?>
+
+<?php if (!empty($this->person->note)): ?>
+        <dt><?php echo $this->translate('Notes'); ?></dt>
+        <dd><?php echo nl2br($this->escape($this->person->note)); ?></dd>
+<?php endif; ?>
+      </dl>
+
+      <div id="person-tabs">
+        <ul>
+<?php foreach ($this->tabNav as $tab): ?>
+    <?php if (!is_callable(array($this, $tab->content_helper))): continue; endif; ?>
+    <?php if ($this->{$tab->content_helper}()->canShowTab($this->person)): ?>
+          <li class="<?php echo $tab->class; ?>"><a href="<?php echo $tab->uri; ?>"><?php echo $tab->label; ?></a></li>
+    <?php endif; ?>
+<?php endforeach; ?>
+        </ul>
+<?php foreach ($this->tabNav as $tab): ?>
+    <?php if (!is_callable(array($this, $tab->content_helper))): continue; endif; ?>
+    <?php if ($this->{$tab->content_helper}()->canShowTab($this->person)): ?>
+        <section id="<?php echo $tab->content_id; ?>">
+        <?php echo $this->{$tab->content_helper}()->render($this->person); ?>
+        </section>
+    <?php endif; ?>
+<?php endforeach; ?>
+      </div>
+      <script type="text/javascript">
+      $(function() {
+        $('#person-tabs').tabs(<?php echo json_encode($this->tabNav->getOptions()); ?>);
+      });
+      </script>
+    </section>
+  </div>
+
+  <div class="yui3-u-1-2">
+    <section>
+      <h1><?php echo $this->translate('Facility Bookings'); ?></h2>
+      <nav>
+        <ul>
+          <li>
+            <a href="<?php echo $this->url(array('module' => 'booking', 'controller' => 'create', 'pid' => $this->person->id), null, true) ?>"><?php echo $this->translate('Create'); ?></a>
+          </li>
+        </ul>
+      </nav>
+            <?php echo $this->dataTableBookingSummary($this->bookingSummaryData); ?>
+    </section>
+    <section>
+      <h1><?php echo $this->translate('Meal Plan Bookings'); ?></h1>
+      <nav>
+        <ul>
+          <li>
+            <a href="<?php echo $this->url(array('module' => 'mealplan', 'controller' => 'create', 'pid' => $this->person->id), null, true) ?>"><?php echo $this->translate('Create'); ?></a>
+          </li>
+        </ul>
+      </nav>
+            <?php echo $this->dataTableMealplanSummary($this->mealplanSummaryData); ?>
+    </section>
+    <section>
+        <h1><?php echo $this->translate('Contracts'); ?></h1>
+        <nav>
+          <ul>
+            <li>
+              <a href="<?php echo $this->url(array('module' => 'contract', 'controller' => 'signature', 'action' => 'create', 'pid' => $this->person->id), null, true) ?>"><?php echo $this->translate('Sign'); ?></a>
+            </li>
+          </ul>
+        </nav>
+        <?php echo $this->dataTableContractSummary($this->contractSummaryData); ?>
+    </section>
+    <section>
+      <h1><?php echo $this->translate('Billing'); ?></h1>
+      <nav>
+        <ul>
+          <li>
+              <a href="<?php echo $this->url(array('module' => 'billing', 'controller' => 'adhoc', 'action' => 'create', 'pid' => $this->person->id), null, true) ?>"><?php echo $this->translate('Create ad hoc billing event'); ?></a>
+          </li>
+        </ul>
+      </nav>
+      <?php echo $this->dataTableInvoice($this->invoiceData); ?>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<table id="booking-facility-confirm">
+  <caption><?php echo $this->translate('Facility booking confirmation') ?></caption>
+  <thead>
+    <tr>
+      <th><?php echo $this->translate('Facility') ?></th>
+      <th><?php echo $this->translate('Start date') ?></th>
+      <th><?php echo $this->translate('End date') ?></th>
+      <th><?php echo $this->translate('Check-in date') ?></th>
+      <th><?php echo $this->translate('Check-out date') ?></th>
+      <th><?php echo $this->translate('Notes') ?></th>
+    </tr>
+  </thead>
+  <tbody>
+<?php foreach ($this->rows as $row): ?>
+    <tr>
+      <td><a href="<?php echo $this->escape($row['uri']) ?>"><?php echo $this->escape($row['name']) ?></a></td>
+      <td><?php echo $this->markupDate($row['start']) ?></td>
+      <td><?php echo $this->markupDate($row['end']) ?></td>
+      <td><?php echo $this->markupDateTime($row['checkin_at']) ?></td>
+      <td><?php echo $this->markupDateTime($row['checkout_at']) ?></td>
+      <td><?php echo nl2br($this->escape($row['note'])) ?></td>
+    </tr>
+<?php endforeach ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#booking-facility-confirm').dataTable({
+    aaSorting: [[1, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [1, 2, 3, 4] }
+    ]
+  });
+});
+</script>

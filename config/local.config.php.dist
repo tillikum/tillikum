@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * Local configuration file
+ *
+ * This file is merged with the global application configuration settings
+ * using http://php.net/manual/en/function.array-replace-recursive.php
+ *
+ * See the existing application configuration fragments for ideas on merging
+ * your own configuration in here.
+ *
+ * @todo add a guide to the wiki
+ */
+
+return array(
+    'resources' => array(
+        'doctrine' => array(
+            'dbal' => array(
+                'connections' => array(
+                    'default' => array(
+                        'parameters' => array(
+                            'user' => 'YOUR USERNAME HERE',
+                            'password' => 'YOUR PASSWORD HERE',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
+);

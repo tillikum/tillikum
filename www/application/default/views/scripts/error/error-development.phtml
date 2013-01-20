@@ -1,0 +1,24 @@
+<section>
+    <h1><?php echo $this->translate('Error'); ?></h1>
+
+    <h2><?php echo $this->translate('Exception Details'); ?></h2>
+
+    <dl>
+        <dt><?php echo $this->translate('Class'); ?></dt>
+        <dd><?php echo $this->escape($this->exc_class); ?></dd>
+
+        <dt><?php echo $this->translate('Code'); ?></dt>
+        <dd><?php echo $this->escape($this->exc_code); ?></dd>
+
+        <dt><?php echo $this->translate('Message'); ?></dt>
+        <dd><?php echo $this->escape($this->exc_message); ?></dd>
+
+        <dt><?php echo $this->translate('Location'); ?></dt>
+        <dd><?php echo $this->translate('In %s on line %d', $this->escape($this->exc_file), $this->exc_line); ?></dd>
+
+        <dt><?php echo $this->translate('Trace'); ?></dt>
+        <dd>
+            <pre><?php echo $this->escape($this->exc_trace); ?></pre>
+        </dd>
+    </dl>
+</section>

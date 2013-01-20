@@ -1,0 +1,45 @@
+<table id="billing-rule-mealplan-booking">
+  <caption><?php echo $this->translate('Meal plan booking billing rules') ?></caption>
+  <thead>
+    <th><?php echo $this->translate('Description') ?></th>
+    <th><?php echo $this->translate('Created at') ?></th>
+    <th><?php echo $this->translate('Updated at') ?></th>
+    <th><?php echo $this->translate('Actions') ?></th>
+  </thead>
+  <tbody>
+  <?php foreach ($this->rows as $row): ?>
+    <tr data-id="<?php echo $this->escape($row['id']) ?>">
+      <td><?php echo $this->escape($row['description']) ?></td>
+      <td><span title="<?php echo $this->translate('Created by %s', $this->escape($row['created_by'])) ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['created_at']) ?></span></td>
+      <td><span title="<?php echo $this->translate('Updated by %s', $this->escape($row['updated_by'])) ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['updated_at']) ?></span></td>
+      <td class="nowrap">
+        <ul class="ui-widget">
+    <?php if ($row['actions']['view']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['view_uri'] ?>"><span class="ui-icon ui-icon-zoomin" title="<?php echo $this->translate('View…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+    <?php endif ?>
+    <?php if ($row['actions']['edit']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['edit_uri'] ?>"><span class="ui-icon ui-icon-pencil" title="<?php echo $this->translate('Edit…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+    <?php endif ?>
+        </ul>
+      </td>
+    </tr>
+  <?php endforeach ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#billing-rule-mealplan-booking').dataTable({
+    aaSorting: [[0, 'asc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [1, 2] }
+    ],
+    iDisplayLength: 25,
+    sDom: '<"H"f>t<"F"ip>'
+  });
+});
+</script>

@@ -1,0 +1,16 @@
+<dl>
+    <dt><?php echo $this->translate('Display name'); ?></dt>
+    <dd><?php echo $this->escape($this->person->display_name); ?></dd>
+
+    <dt><?php echo $this->translate('Given name'); ?></dt>
+    <dd><?php echo $this->escape($this->person->given_name); ?></dd>
+
+    <dt><?php echo $this->translate('Middle name'); ?></dt>
+    <dd><?php echo $this->escape($this->person->middle_name); ?></dd>
+
+    <dt><?php echo $this->translate('Family name'); ?></dt>
+    <dd><?php echo $this->escape($this->person->family_name); ?></dd>
+
+    <dt><?php echo $this->translate('Gender'); ?></dt>
+    <dd><?php echo $this->escape($this->person->gender); ?></dd>
+</dl>

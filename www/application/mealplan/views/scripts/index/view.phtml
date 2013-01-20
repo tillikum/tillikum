@@ -1,0 +1,26 @@
+<?php
+$personUri = $this->url(
+    array(
+        'module' => 'person',
+        'controller' => 'person',
+        'action' => 'view',
+        'id' => $this->booking->person->id
+    ),
+    null,
+    true
+);
+
+$personLink = sprintf(
+    '<a href="%s">%s</a>',
+    $personUri,
+    $this->escape($this->booking->person->display_name)
+);
+?>
+
+<section>
+    <h1><?php echo $this->translate('Viewing meal plan booking for %s', $personLink); ?></h1>
+
+    <?php echo $this->dataTableMealplanDetail($this->bookingData); ?>
+    <?php echo $this->dataTableMealplanBilling($this->billingData); ?>
+    <?php echo $this->dataTableMealplanBillingRate($this->rateData); ?>
+</section>

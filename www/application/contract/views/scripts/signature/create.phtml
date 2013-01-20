@@ -1,0 +1,24 @@
+<?php
+$personUri = $this->url(
+    array(
+        'module' => 'person',
+        'controller' => 'person',
+        'action' => 'view',
+        'id' => $this->person->id
+    ),
+    null,
+    true
+);
+
+$personLink = sprintf(
+    '<a href="%s">%s</a>',
+    $personUri,
+    $this->escape($this->person->display_name)
+);
+?>
+
+<section>
+    <h1><?php echo $this->translate('Sign contract for %1$s', $personLink); ?></h1>
+
+    <?php echo $this->form; ?>
+</section>

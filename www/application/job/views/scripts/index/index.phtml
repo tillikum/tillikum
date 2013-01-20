@@ -1,0 +1,44 @@
+<section>
+  <h1><?php echo $this->translate('Jobs'); ?></h1>
+  <nav>
+    <ul>
+      <li>
+        <a href="<?php echo $this->url(array('controller' => 'job', 'action' => 'history')); ?>"><?php echo $this->translate('Job History'); ?></a>
+      </li>
+    </ul>
+  </nav>
+
+  <table id="job-summary">
+    <caption><?php echo $this->translate('Job listing'); ?></caption>
+    <thead>
+      <tr>
+        <th><?php echo $this->translate('Name'); ?></th>
+        <th><?php echo $this->translate('Description'); ?></th>
+        <th><?php echo $this->translate('Actions'); ?></th>
+      </tr>
+    </thead>
+    <tbody>
+<?php foreach ($this->jobSummary as $row): ?>
+      <tr>
+        <td><?php echo $this->escape($row['name']); ?></td>
+        <td><?php echo $this->escape($row['description']); ?></td>
+        <td class="nowrap">
+          <ul class="ui-widget">
+            <li class="ui-state-default ui-corner-all">
+              <a href="<?php echo $this->url(array('action' => 'create', 'controller' => 'job', 'name' => $row['serviceName'])); ?>"><span class="ui-icon ui-icon-arrowthick-1-e" title="<?php echo $this->translate('Run…'); ?>" ui-jq="tooltip"></span></a>
+            </li>
+          </ul>
+        </td>
+      </tr>
+<?php endforeach; ?>
+    </tbody>
+  </table>
+</section>
+
+<script type="text/javascript">
+$(function() {
+  $('#job-summary').dataTable({
+    iDisplayLength: 25
+  });
+});
+</script>

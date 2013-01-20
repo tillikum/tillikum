@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit bootstrap="./Bootstrap.php"
+         colors="true">
+    <groups>
+        <exclude>
+            <group>disable</group>
+        </exclude>
+    </groups>
+
+    <!-- Optional extension test suite, set <SITE> appropriately
+    <php>
+        <const name="TILLIKUMX_PATH" value="../contrib/<SITE>/library" />
+        <const name="TILLIKUMX_TEST_PATH" value="../contrib/<SITE>/tests" />
+    </php>
+    --> 
+</phpunit>

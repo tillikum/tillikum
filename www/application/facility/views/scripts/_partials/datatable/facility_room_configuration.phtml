@@ -1,0 +1,85 @@
+<table id="facility-room-configuration">
+  <caption><?php echo $this->translate('Room configuration') ?></caption>
+  <thead>
+    <th><?php echo $this->translate('Start date') ?></th>
+    <th><?php echo $this->translate('End date') ?></th>
+    <th><?php echo $this->translate('Name') ?></th>
+    <th><?php echo $this->translate('Type') ?></th>
+    <th><?php echo $this->translate('Gender') ?></th>
+    <th><?php echo $this->translate('Capacity') ?></th>
+    <th><?php echo $this->translate('Floor') ?></th>
+    <th><?php echo $this->translate('Section') ?></th>
+    <th><?php echo $this->translate('Suite') ?></th>
+    <th><?php echo $this->translate('Default billing rule') ?></th>
+    <th><?php echo $this->translate('Notes') ?></th>
+    <th><?php echo $this->translate('Tags') ?></th>
+    <th><?php echo $this->translate('Actions') ?></th>
+  </thead>
+  <tbody>
+<?php foreach ($this->rows as $row): ?>
+  <?php $attr = '' ?>
+  <?php if ($row['is_current']): ?>
+    <?php $attr = 'title="' . $this->translate('This configuration is current.') . '" data-is-info="true" ui-jq="tooltip"' ?>
+  <?php endif ?>
+
+    <tr data-id="<?php echo $this->escape($row['id']) ?>" <?php echo $attr ?>>
+      <td><?php echo $this->markupDate($row['start']) ?></td>
+      <td><?php echo $this->markupDate($row['end']) ?></td>
+      <td><?php echo $this->escape($row['name']) ?></td>
+      <td><?php echo $this->escape($row['type']) ?></td>
+      <td><?php echo $this->escape($row['gender']) ?></td>
+      <td><?php echo $this->escape($row['capacity']) ?></td>
+      <td><?php echo $this->escape($row['floor']) ?></td>
+      <td><?php echo $this->escape($row['section']) ?></td>
+      <td>
+  <?php if ($row['suite']): ?>
+    <?php echo $this->escape($row['suite']->name) ?>
+  <?php endif ?>
+      </td>
+      <td>
+  <?php if ($row['default_billing_rule']): ?>
+    <?php echo $this->escape($row['default_billing_rule']) ?>
+  <?php endif ?>
+      </td>
+      <td><?php echo nl2br($this->escape($row['note'])) ?></td>
+      <td>
+  <?php if (count($row['tags']) > 0): ?>
+        <ul class="separated"><!--
+    <?php foreach ($row['tags'] as $tag): ?>
+          --><li><?php echo $this->escape($tag->name) ?></li><!--
+    <?php endforeach ?>
+        --></ul>
+  <?php endif ?>
+      </td>
+      <td class="nowrap">
+        <ul class="ui-widget">
+  <?php if ($row['actions']['edit']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['edit_uri'] ?>"
+            ><span class="ui-icon ui-icon-pencil" title="<?php echo $this->translate('Edit…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+  <?php endif ?>
+  <?php if ($row['actions']['delete']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['delete_uri'] ?>"
+            ><span class="ui-icon ui-icon-trash" title="<?php echo $this->translate('Delete…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+  <?php endif ?>
+        </ul>
+      </td>
+    </tr>
+<?php endforeach ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#facility-room-configuration').dataTable({
+    aaSorting: [[0, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [0, 1] }
+    ],
+    sDom: '<"H">t<"F"ip>'
+  });
+});
+</script>
