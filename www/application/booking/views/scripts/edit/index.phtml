@@ -20,6 +20,10 @@ $personLink = sprintf(
 <section>
   <h1><?php echo $this->translate('Edit facility booking for %1$s', $personLink); ?></h1>
 
+  <?php if ($this->clearSessionUri): ?>
+  <div role="alert" data-is-info="true"><?php echo sprintf($this->translate('You are seeing unsaved changes here, and they may not reflect what is currently in the database. You may <a href="%s">clear</a> them to start over.', $this->clearSessionUri)) ?></div>
+  <?php endif ?>
+
   <?php echo $this->form; ?>
 </section>
 

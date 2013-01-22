@@ -17,6 +17,25 @@ class Booking_CreateController extends Tillikum_Controller_Booking
     protected $sessionContainer;
     protected $containerKey;
 
+    public function clearAction()
+    {
+        $this->sessionContainer = $this->getSessionContainer(__CLASS__);
+
+        $personId = $this->_request->getParam('pid');
+        $this->containerKey = 'pid' . $personId;
+
+        unset($this->sessionContainer[$this->containerKey]);
+
+        $this->_helper->redirector(
+            'index',
+            'create',
+            'booking',
+            array(
+                'pid' => $personId,
+            )
+        );
+    }
+
     public function indexAction()
     {
         $this->sessionContainer = $this->getSessionContainer(__CLASS__);
@@ -182,6 +201,17 @@ class Booking_CreateController extends Tillikum_Controller_Booking
 
         $this->view->form = $form;
         $this->view->person = $facilityBooking->person;
+
+        if (isset($sessionData)) {
+            $this->view->clearSessionUri = $this->_helper->url(
+                'clear',
+                'create',
+                'booking',
+                array(
+                    'pid' => $personId,
+                )
+            );
+        }
     }
 
     protected function processIndex($form, $input)

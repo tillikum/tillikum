@@ -17,6 +17,25 @@ class Mealplan_CreateController extends Tillikum_Controller_Mealplan
     protected $sessionContainer;
     protected $containerKey;
 
+    public function clearAction()
+    {
+        $this->sessionContainer = $this->getSessionContainer(__CLASS__);
+
+        $personId = $this->_request->getParam('pid');
+        $this->containerKey = 'pid' . $personId;
+
+        unset($this->sessionContainer[$this->containerKey]);
+
+        $this->_helper->redirector(
+            'index',
+            'create',
+            'mealplan',
+            array(
+                'pid' => $personId,
+            )
+        );
+    }
+
     public function indexAction()
     {
         $this->sessionContainer = $this->getSessionContainer(__CLASS__);
@@ -169,6 +188,17 @@ class Mealplan_CreateController extends Tillikum_Controller_Mealplan
 
         $this->view->form = $form;
         $this->view->person = $mealplanBooking->person;
+
+        if (isset($sessionData)) {
+            $this->view->clearSessionUri = $this->_helper->url(
+                'clear',
+                'create',
+                'mealplan',
+                array(
+                    'pid' => $personId,
+                )
+            );
+        }
     }
 
     protected function processIndex($form, $input)
