@@ -3,7 +3,7 @@
   <property name="builddir" value="${project.basedir}/build" />
 
   <target name="generate-proxies">
-    <exec dir="${builddir}/bin" executable="${project.basedir}/vendor/bin/doctrine">
+    <exec dir="${builddir}/bin" executable="${project.basedir}/vendor/bin/doctrine" logoutput="true">
       <arg line="orm:generate-proxies" />
     </exec>
   </target>
