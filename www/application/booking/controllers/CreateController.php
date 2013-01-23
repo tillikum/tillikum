@@ -226,6 +226,10 @@ class Booking_CreateController extends Tillikum_Controller_Booking
 
         $formRequiresResubmit = false;
 
+        if (empty($values['facility_booking']['billing']['rates'])) {
+            $values['facility_booking']['billing']['rates'] = array();
+        }
+
         $rateValues = $values['facility_booking']['billing']['rates'];
         foreach ($rateValues as $idx => $rate) {
             if ((bool) $rate['delete_me']) {

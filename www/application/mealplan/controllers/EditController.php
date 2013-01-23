@@ -208,6 +208,10 @@ class Mealplan_EditController extends Tillikum_Controller_Mealplan
 
         $formRequiresResubmit = false;
 
+        if (empty($values['mealplan_booking']['billing']['rates'])) {
+            $values['mealplan_booking']['billing']['rates'] = array();
+        }
+
         $rateValues = $values['mealplan_booking']['billing']['rates'];
         foreach ($rateValues as $idx => $rate) {
             if ((bool) $rate['delete_me']) {
