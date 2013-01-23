@@ -295,7 +295,14 @@ class Booking_EditController extends Tillikum_Controller_Booking
         $form = $this->getDi()
             ->newInstance('Tillikum\Form\Booking\Billing');
 
-        $facilityBilling = $facilityBooking->billing ?: new Entity\Booking\Facility\Billing\Billing();
+        if ($facilityBooking->billing) {
+            $facilityBilling = $facilityBooking->billing;
+            $oldThrough = $facilityBooking->billing->through ? clone($facilityBooking->billing->through) : null;
+        } else {
+            $facilityBilling = new Entity\Booking\Facility\Billing\Billing();
+            $oldThrough = null;
+        }
+
         $facilityBooking->billing = $facilityBilling;
         $facilityBilling->booking = $facilityBooking;
 
@@ -306,8 +313,8 @@ class Booking_EditController extends Tillikum_Controller_Booking
         $billingEvents = new ArrayCollection();
 
         foreach ($facilityBilling->rates as $existingRate) {
-            if ($facilityBilling->through && $facilityBilling->through >= $existingRate->start) {
-                $eventEnd = min($existingRate->end, $facilityBilling->through);
+            if ($oldThrough && $oldThrough >= $existingRate->start) {
+                $eventEnd = min($existingRate->end, $oldThrough);
 
                 $billingEventEntity = new Entity\Billing\Event\FacilityBooking();
                 $billingEventEntity->person = $facilityBooking->person;

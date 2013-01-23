@@ -287,7 +287,14 @@ class Mealplan_EditController extends Tillikum_Controller_Mealplan
         $form = $this->getDi()
             ->newInstance('Tillikum\Form\Booking\Billing');
 
-        $mealplanBilling = $mealplanBooking->billing ?: new Entity\Booking\Mealplan\Billing\Billing();
+        if ($mealplanBooking->billing) {
+            $mealplanBilling = $mealplanBooking->billing;
+            $oldThrough = $mealplanBooking->billing->through ? clone($mealplanBooking->billing->through) : null;
+        } else {
+            $mealplanBilling = new Entity\Booking\Mealplan\Billing\Billing();
+            $oldThrough = null;
+        }
+
         $mealplanBooking->billing = $mealplanBilling;
         $mealplanBilling->booking = $mealplanBooking;
 
@@ -298,8 +305,8 @@ class Mealplan_EditController extends Tillikum_Controller_Mealplan
         $billingEvents = new ArrayCollection();
 
         foreach ($mealplanBilling->rates as $existingRate) {
-            if ($mealplanBilling->through && $mealplanBilling->through >= $existingRate->start) {
-                $eventEnd = min($existingRate->end, $mealplanBilling->through);
+            if ($oldThrough && $oldThrough >= $existingRate->start) {
+                $eventEnd = min($existingRate->end, $oldThrough);
 
                 $billingEventEntity = new Entity\Billing\Event\MealplanBooking();
                 $billingEventEntity->person = $mealplanBooking->person;
