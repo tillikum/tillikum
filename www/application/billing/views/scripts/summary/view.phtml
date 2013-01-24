@@ -1,0 +1,14 @@
+<section>
+  <nav>
+    <ul>
+      <li>
+          <a href="<?php echo $this->url(array('module' => 'billing', 'controller' => 'adhoc', 'action' => 'create', 'pid' => $this->person->id), null, true) ?>"><?php echo $this->translate('Create ad hoc billing event'); ?></a>
+      </li>
+    </ul>
+  </nav>
+
+  <?php echo $this->dataTableInvoice($this->invoiceData) ?>
+  <?php echo $this->dataTableBillingEventAdHoc($this->adHocEventData) ?>
+  <?php echo $this->dataTableBillingEventFacilityBooking($this->facilityBookingEventData) ?>
+  <?php echo $this->dataTableBillingEventMealplanBooking($this->mealplanBookingEventData) ?>
+</section>

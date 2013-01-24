@@ -1,0 +1,40 @@
+<table id="billing-event-mealplan-booking">
+  <caption><?php echo $this->translate('Meal plan booking billing events') ?></caption>
+  <thead>
+    <th><?php echo $this->translate('Rule') ?></th>
+    <th><?php echo $this->translate('Person') ?></th>
+    <th><?php echo $this->translate('Mealplan') ?></th>
+    <th><?php echo $this->translate('Start') ?></th>
+    <th><?php echo $this->translate('End') ?></th>
+    <th><?php echo $this->translate('Credit?') ?></th>
+    <th><?php echo $this->translate('Processed?') ?></th>
+    <th><?php echo $this->translate('Created at') ?></th>
+  </thead>
+  <tbody>
+  <?php foreach ($this->rows as $row): ?>
+    <tr data-id="<?php echo $this->escape($row['id']) ?>">
+      <td><?php echo $this->escape($row['rule']) ?></td>
+      <td><?php echo $row['person_html'] ?></td>
+      <td><?php echo $this->escape($row['mealplan']) ?></td>
+      <td><?php echo $this->markupDate($row['start']) ?></td>
+      <td><?php echo $this->markupDate($row['end']) ?></td>
+      <td><?php echo $row['is_credit'] ? $this->translate('Yes') : $this->translate('No') ?></td>
+      <td><?php echo $row['is_processed'] ? $this->translate('Yes') : $this->translate('No') ?></td>
+      <td><span title="<?php echo $this->translate('Created by %s', $this->escape($row['created_by'])) ?>"><?php echo $this->markupDateTime($row['created_at']) ?></span></td>
+    </tr>
+  <?php endforeach ?>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(function() {
+  $('#billing-event-mealplan-booking').dataTable({
+    aaSorting: [[7, 'desc']],
+    aoColumnDefs: [
+      { sType: 'time-html', aTargets: [3, 4, 7] }
+    ],
+    iDisplayLength: 10
+  });
+  $('#billing-event-mealplan-booking [title]').tooltip();
+});
+</script>

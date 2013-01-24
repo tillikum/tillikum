@@ -70,16 +70,21 @@ $tagSearchUri = $this->url(
 <?php foreach ($this->tabNav as $tab): ?>
     <?php if (!is_callable(array($this, $tab->content_helper))): continue; endif; ?>
     <?php if ($this->{$tab->content_helper}()->canShowTab($this->person)): ?>
-          <li class="<?php echo $tab->class; ?>"><a href="<?php echo $tab->uri; ?>"><?php echo $tab->label; ?></a></li>
+        <?php if (substr($tab->uri, 0, 1) === '#'): ?>
+          <li class="<?php echo $tab->class; ?>"><a href="<?php echo $tab->uri ?>"><?php echo $tab->label; ?></a></li>
+        <?php else: ?>
+          <li class="<?php echo $tab->class; ?>"><a href="<?php echo $this->baseUrl(sprintf($tab->uri, $this->person->id)) ?>"><?php echo $tab->label; ?></a></li>
+        <?php endif; ?>
     <?php endif; ?>
 <?php endforeach; ?>
         </ul>
 <?php foreach ($this->tabNav as $tab): ?>
-    <?php if (!is_callable(array($this, $tab->content_helper))): continue; endif; ?>
-    <?php if ($this->{$tab->content_helper}()->canShowTab($this->person)): ?>
+    <?php if (is_callable(array($this, $tab->content_helper)) && substr($tab->uri, 0, 1) === '#'): ?>
+        <?php if ($this->{$tab->content_helper}()->canShowTab($this->person)): ?>
         <section id="<?php echo $tab->content_id; ?>">
         <?php echo $this->{$tab->content_helper}()->render($this->person); ?>
         </section>
+        <?php endif; ?>
     <?php endif; ?>
 <?php endforeach; ?>
       </div>
@@ -124,17 +129,6 @@ $tagSearchUri = $this->url(
           </ul>
         </nav>
         <?php echo $this->dataTableContractSummary($this->contractSummaryData); ?>
-    </section>
-    <section>
-      <h1><?php echo $this->translate('Billing'); ?></h1>
-      <nav>
-        <ul>
-          <li>
-              <a href="<?php echo $this->url(array('module' => 'billing', 'controller' => 'adhoc', 'action' => 'create', 'pid' => $this->person->id), null, true) ?>"><?php echo $this->translate('Create ad hoc billing event'); ?></a>
-          </li>
-        </ul>
-      </nav>
-      <?php echo $this->dataTableInvoice($this->invoiceData); ?>
     </section>
   </div>
 </div>

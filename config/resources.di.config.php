@@ -144,23 +144,30 @@ return array(
         'PersonTabNavigation' => array(
             'parameters' => array(
                 'pages' => array(
+                    'billing' => array(
+                        'content_id' => 'person-billing',
+                        'content_helper' => 'tabViewPersonBilling',
+                        'label' => 'Billing',
+                        'uri' => 'billing/summary/view/pid/%s',
+                        'order' => 100,
+                    ),
                     'contact' => array(
                         'content_id' => 'person-contact',
                         'content_helper' => 'tabViewPersonContact',
                         'label' => 'Contact',
                         'uri' => '#person-contact',
-                        'order' => 100,
+                        'order' => 200,
                     ),
                     'details' => array(
                         'content_id' => 'person-details',
                         'content_helper' => 'tabViewPersonDetails',
                         'label' => 'Details',
                         'uri' => '#person-details',
-                        'order' => 200,
+                        'order' => 300,
                     ),
                 ),
                 'options' => array(
-                    'active' => 1,
+                    'active' => 2,
                 ),
             ),
         ),

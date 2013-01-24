@@ -89,9 +89,6 @@ class Person_PersonController extends Tillikum_Controller_Person
         $this->view->bookingSummaryData = $this->_helper
             ->dataTableBookingSummary($person->bookings);
 
-        $this->view->invoiceData = $this->_helper
-            ->dataTableInvoice($person->invoices);
-
         $this->view->mealplanSummaryData = $this->_helper
             ->dataTableMealplanSummary($person->mealplans);
 

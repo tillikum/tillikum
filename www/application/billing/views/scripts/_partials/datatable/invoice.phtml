@@ -9,12 +9,12 @@
   <?php foreach ($this->rows as $row): ?>
     <tr data-id="<?php echo $this->escape($row['id']); ?>">
       <td><?php echo $this->escape($row['description']); ?></td>
-      <td><span title="<?php echo $this->translate('Created by %s', $this->escape($row['created_by'])); ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['created_at']); ?></span></td>
+      <td><span title="<?php echo $this->translate('Created by %s', $this->escape($row['created_by'])); ?>"><?php echo $this->markupDateTime($row['created_at']); ?></span></td>
       <td class="nowrap">
         <ul class="ui-widget">
     <?php if ($row['actions']['details']): ?>
           <li class="ui-state-default ui-corner-all">
-            <a href="<?php echo $row['details_uri'] ?>"><span class="ui-icon ui-icon-zoomin" title="<?php echo $this->translate('View details…') ?>" ui-jq="tooltip"></span></a>
+            <a href="<?php echo $row['details_uri'] ?>"><span class="ui-icon ui-icon-zoomin" title="<?php echo $this->translate('View details…') ?>"></span></a>
           </li>
     <?php endif ?>
         </ul>
@@ -33,5 +33,6 @@ $(function() {
     ],
     sDom: '<"H">t<"F"ip>'
   });
+  $('#invoice [title]').tooltip();
 });
 </script>
