@@ -17,7 +17,7 @@
       <filelist
         dir="www/document_root/public/styles"
         files="normalize.css html5-boilerplate.css grids.css
-               jquery-ui.tillikum.css jquery.dataTables.css
+               jquery-ui.smoothness.css jquery.dataTables.css
                angular-ui.css tillikum.css" />
     </append>
   </target>

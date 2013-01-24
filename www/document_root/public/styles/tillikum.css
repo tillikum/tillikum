@@ -162,11 +162,6 @@ label.required:before {
     content: "* ";
 }
 
-.dataTables_filter label,
-.dataTables_length label {
-    color: #fff;
-}
-
 legend {
     font-weight: bold;
     font-size: 123.1%;
@@ -231,6 +226,14 @@ textarea.short {
     height: 50px;
     min-height: 50px;
     width: 25em;
+}
+
+ul.errors {
+    color: #f00;
+    font-weight: bold;
+    list-style: none;
+    margin: 5px 0 0 0;
+    padding: 0;
 }
 
 ul.separated {
@@ -323,11 +326,31 @@ html[dir="rtl"] #tillikum-logo {
 }
 
 /**
- * Autocomplete styles
+ * jQuery UI style overrides
  */
 
-.ui-menu .ui-menu-item {
-    text-align: left;
+.ui-widget {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+
+.ui-widget .ui-widget {
+    font-size: 12px;
+}
+
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.ui-widget-content {
+    border: 1px solid #ccc;
+}
+
+.ui-widget-header {
+    border: 1px solid #ccc;
 }
 
 /**
@@ -392,16 +415,8 @@ table.dataTable ul.ui-widget li + li {
     margin: 5px 0 0 0;
 }
 
-ul.errors {
-    color: #f00;
-    font-weight: bold;
-    list-style: none;
-    margin: 5px 0 0 0;
-    padding: 0;
-}
-
 /**
- * TabView styles
+ * TabView overrides
  */
 
 .ui-tabs {
@@ -418,11 +433,7 @@ ul.errors {
 }
 
 .ui-tabs .ui-widget-content {
-    padding: 5px;
-}
-
-.ui-tabs-panel dl {
-    margin: 0;
+    padding: 10px;
 }
 
 @media print {
