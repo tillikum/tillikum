@@ -29,26 +29,6 @@
 })(jQuery);
 
 /**
- * jQuery UI dialog defaults
- */
-(function($) {
-  $.extend($.ui.dialog.prototype.options, {
-    // In most of our cases it's useful to remove the dialog from the DOM when
-    // it's closed.
-    close: function() {
-      $(this).remove();
-    },
-    // This can be removed in jQuery UI 1.9 and replaced with whatever the
-    // autofocus option ends up being called. This is here only to prevent the
-    // calendar from annoyingly popping up when the first input gets focus.
-    open: function() {
-      $('input[type="date"]', this).blur().datepicker('hide');
-    },
-    width: '400'
-  });
-})(jQuery);
-
-/**
  * jQuery UI tooltip defaults
  */
 (function($) {
@@ -125,18 +105,17 @@ angular.module('tillikum', ['ui'])
 .directive('tillikumDefaultFacilityRule', ['$compile', function($compile) {
   return {
     link: function(scope, element, attrs, controller) {
-      var $element = $(element);
-
       // Create and compile a button element
       var $button = $('<button ui-jq="button" style="margin-left: 5px;">Select default rule</button>');
       $compile($button)(scope);
+
       // Place it after the dropdown
-      $element.after($button);
+      element.after($button);
 
       $button.on('click', function(ev) {
         ev.preventDefault();
 
-        var facilityId = $('#' + $element.data('facilityId')).val();
+        var facilityId = $('#' + element.data('facilityId')).val();
 
         if (!facilityId) {
           alert('You have not selected a facility yet.');
@@ -146,8 +125,8 @@ angular.module('tillikum', ['ui'])
 
         var url = BASE + '/facility/facility/defaultrule/id/' + facilityId + '?'
 
-        var start = $('#' + $element.data('facilityStart')).val();
-        var end = $('#' + $element.data('facilityEnd')).val();
+        var start = $('#' + element.data('facilityStart')).val();
+        var end = $('#' + element.data('facilityEnd')).val();
 
         var params = [];
         if (start) {
@@ -159,8 +138,7 @@ angular.module('tillikum', ['ui'])
         }
 
         $.getJSON(url + params.join('&'), function(templateId) {
-          $element.children('option[value="' + templateId + '"]')
-            .attr('selected', 'selected');
+          element.val(templateId);
         });
       });
     }
@@ -169,18 +147,17 @@ angular.module('tillikum', ['ui'])
 .directive('tillikumDefaultMealplanRule', ['$compile', function($compile) {
   return {
     link: function(scope, element, attrs, controller) {
-      var $element = $(element);
-
       // Create and compile a button element
       var $button = $('<button ui-jq="button" style="margin-left: 5px;">Select default rule</button>');
       $compile($button)(scope);
+
       // Place it after the dropdown
-      $element.after($button);
+      element.after($button);
 
       $button.on('click', function(ev) {
         ev.preventDefault();
 
-        var mealplanId = $('#' + $element.data('mealplanId')).val();
+        var mealplanId = $('#' + element.data('mealplanId')).val();
 
         if (!mealplanId) {
           alert('You have not selected a meal plan yet.');
@@ -190,8 +167,8 @@ angular.module('tillikum', ['ui'])
 
         var url = BASE + '/mealplan/mealplan/defaultrule/id/' + mealplanId + '?'
 
-        var start = $('#' + $element.data('mealplanStart')).val();
-        var end = $('#' + $element.data('mealplanEnd')).val();
+        var start = $('#' + element.data('mealplanStart')).val();
+        var end = $('#' + element.data('mealplanEnd')).val();
 
         var params = [];
         if (start) {
@@ -203,8 +180,7 @@ angular.module('tillikum', ['ui'])
         }
 
         $.getJSON(url + params.join('&'), function(templateId) {
-          $element.children('option[value="' + templateId + '"]')
-            .attr('selected', 'selected');
+          element.val(templateId);
         });
       });
     }
