@@ -1,40 +1,43 @@
-<?php $this->headMeta()->setCharset($this->getEncoding()) ?>
-<?php $this->headMeta()->setHttpEquiv('X-UA-Compatible', 'IE=edge env=best-standards-support') ?>
-<?php $this->headMeta()->setName('viewport', 'width=device-width, initial-scale=1.0') ?>
+<?php
+$this->headMeta()->setCharset($this->getEncoding());
+$this->headMeta()->setHttpEquiv('X-UA-Compatible', 'IE=edge env=best-standards-support');
+$this->headMeta()->setName('viewport', 'width=device-width, initial-scale=1.0');
 
-<?php $this->headTitle()->setSeparator(' · ') ?>
-<?php $this->headTitle()->enableTranslation() ?>
-<?php $this->headTitle('Tillikum') ?>
+$this->headTitle()->setSeparator(' · ');
+$this->headTitle()->enableTranslation();
+$this->headTitle('Tillikum');
 
-<?php $this->headLink()->appendStylesheet("{$this->baseUrl()}/public/styles/tillikum.css?@@tillikumCssHash@@", 'all') ?>
+$this->headLink()->appendStylesheet("{$this->baseUrl()}/public/styles/tillikum.css?@@tillikumCssHash@@", 'all');
+$this->headScript()->appendScript('var BASE = \'' . $this->baseUrl() . '\';');
+$this->headScript()->appendScript('var LOCALE = \'' . Locale::getDefault() . '\';');
+$this->headScript()->appendFile("{$this->baseUrl()}/public/scripts/tillikum.js?@@tillikumJsHash@@");
 
-<?php $this->headScript()->appendScript('var BASE = \'' . $this->baseUrl() . '\';') ?>
-<?php $this->headScript()->appendScript('var LOCALE = \'' . Locale::getDefault() . '\';') ?>
-<?php $this->headScript()->appendFile("{$this->baseUrl()}/public/scripts/tillikum.js?@@tillikumJsHash@@") ?>
-
-<?php echo $this->doctype() ?>
+echo $this->doctype();
+?>
 <html ng-app="tillikum" lang="en" dir="ltr">
   <head>
-    <?php echo $this->headMeta() ?>
-    <?php echo $this->headTitle() ?>
-    <?php echo $this->headLink() ?>
-    <?php echo $this->headScript() ?>
+    <?php
+    echo $this->headMeta();
+    echo $this->headTitle();
+    echo $this->headLink();
+    echo $this->headScript();
+    ?>
   </head>
   <body>
     <header class="clearfix">
       <nav>
         <a id="tillikum-logo"
-           href="<?php echo $this->url(array(), null, true); ?>"
-           title="<?php echo $this->translate('Tillikum Home'); ?>"
-        ><img src="<?php echo "{$this->url(array(), null, true)}public/images/tillikum-logo.png"; ?>"
-              alt="<?php echo $this->translate('Tillikum fish logo'); ?>" /></a>
+           href="<?php echo $this->url(array(), null, true) ?>"
+           title="<?php echo $this->translate('Tillikum Home') ?>"
+        ><img src="<?php echo "{$this->url(array(), null, true)}public/images/tillikum-logo.png" ?>"
+              alt="<?php echo $this->translate('Tillikum fish logo') ?>" /></a>
 <?php if ($this->layout()->siteLogoNavigation): ?>
         <a id="site-logo"
-           href="<?php echo $this->layout()->siteLogoNavigation->href; ?>"
-           title="<?php echo $this->layout()->siteLogoNavigation->title; ?>"
-        ><img src="<?php echo "{$this->url(array(), null, true)}public/images/site-logo.png"; ?>"
-              alt="<?php echo $this->layout()->siteLogoNavigation->alt; ?>" /></a>
-<?php endif; ?>
+           href="<?php echo $this->layout()->siteLogoNavigation->href ?>"
+           title="<?php echo $this->layout()->siteLogoNavigation->title ?>"
+        ><img src="<?php echo "{$this->url(array(), null, true)}public/images/site-logo.png" ?>"
+              alt="<?php echo $this->layout()->siteLogoNavigation->alt ?>" /></a>
+<?php endif ?>
       </nav>
     </header>
     <div id="content-wrapper">
@@ -54,7 +57,7 @@
         <div class="yui3-u-1-2" style="text-align: left;">
           <nav>
             <ul>
-              <li><?php echo $this->translate('Learn more about the <a href="http://tillikum.org" target="_blank">Tillikum project</a>.'); ?>
+              <li><?php echo $this->translate('Learn more about the <a href="http://tillikum.org" target="_blank">Tillikum project</a>.') ?>
             </ul>
           </nav>
         </div>
@@ -64,14 +67,14 @@
             <ul>
   <?php foreach ($this->layout()->translations as $translation): ?>
     <?php if ($translation['selected']): ?>
-              <li><mark><?php echo $this->escape($translation['text']); ?></mark></li>
+              <li><mark><?php echo $this->escape($translation['text']) ?></mark></li>
     <?php else: ?>
-              <li><?php echo $this->escape($translation['text']); ?></li>
-    <?php endif; ?>
-  <?php endforeach; ?>
+              <li><?php echo $this->escape($translation['text']) ?></li>
+    <?php endif ?>
+  <?php endforeach ?>
             </ul>
           </nav>
-<?php endif; ?>
+<?php endif ?>
         </div>
       </div>
     </footer>
