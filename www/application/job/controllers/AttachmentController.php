@@ -29,10 +29,25 @@ class Job_AttachmentController extends Tillikum_Controller_Job
         }
 
         $attachmentData = stream_get_contents($attachment->attachment);
-        $suffix = pathinfo($attachment->name, PATHINFO_EXTENSION);
 
-        $this->_response->setHeader('Content-Type', $attachment->media_type . ';attachment=true');
-        $this->_response->setHeader('Content-Disposition', 'attachment; filename=' . $attachment->id . '.' . $suffix);
+        $legacyFilename = str_replace(
+            '"',
+            '',
+            iconv('UTF-8', 'ASCII//TRANSLIT', $attachment->name)
+        );
+
+        $filename = urlencode($attachment->name);
+
+        $this->_response->setHeader(
+            'Content-Type',
+            $attachment->media_type
+        );
+
+        $this->_response->setHeader(
+            'Content-Disposition',
+            "attachment; filename=\"{$legacyFilename}\"; filename*=UTF-8''" . $filename
+        );
+
         $this->_response->setBody($attachmentData);
     }
 }
