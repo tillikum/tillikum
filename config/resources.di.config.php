@@ -47,11 +47,11 @@ return array(
             'Doctrine\ORM\EntityManager' => 'EntityManager',
             'Zend\Authentication\Adapter\AdapterInterface' => 'Tillikum\Authentication\Adapter\Dummy',
             'Zend\Authentication\Storage\StorageInterface' => 'Zend\Authentication\Storage\Session',
+            'Zend\Db\Adapter\AdapterInterface' => 'Zend\Db\Adapter\Adapter',
+            'Zend\Db\Adapter\Profiler\ProfilerInterface' => 'Zend\Db\Adapter\Profiler\Profiler',
             'Zend\Db\Adapter\Driver\DriverInterface' => 'Zend\Db\Adapter\Driver\Pdo\Pdo',
             'Zend\Di\Di' => 'Di',
-            'Zend\Session\ManagerInterface' => 'Zend\Session\SessionManager',
-            // @todo commented out by default because of a problem on PHP 5.3.3
-            //'Zend\Session\SaveHandler\SaveHandlerInterface' => 'Zend\Session\SaveHandler\DbTableGateway',
+            'Zend\Session\SaveHandler\SaveHandlerInterface' => 'Zend\Session\SaveHandler\DbTableGateway',
         ),
         'BillingStrategies' => array(
             'parameters' => array(
