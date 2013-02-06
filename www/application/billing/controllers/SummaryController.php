@@ -52,8 +52,19 @@ class Billing_SummaryController extends Tillikum_Controller_Billing
             }
         }
 
-        $this->view->invoiceData = $this->_helper
-            ->dataTableInvoice($person->invoices);
+        $entries = $this->getEntityManager()->createQuery(
+            "
+            SELECT e
+            FROM Tillikum\Entity\Billing\Entry\Entry e
+            JOIN e.invoice i
+            WHERE i.person = :person
+            "
+        )
+            ->setParameter('person', $person)
+            ->getResult();
+
+        $this->view->entryData = $this->_helper
+            ->dataTableBillingEntry($entries);
 
         $this->view->adHocEventData = $this->_helper
             ->dataTableBillingEventAdHoc($adHocEvents);
