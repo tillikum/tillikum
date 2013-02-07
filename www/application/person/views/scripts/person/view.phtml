@@ -48,13 +48,23 @@ $tagSearchUri = $this->url(
                alt="<?php echo $this->translate('%s’s image', $this->escape($this->person->display_name)); ?>">
         </dd>
 <?php endif; ?>
-<?php if ($this->person->tags->count() > 0): ?>
+<?php if (count($this->person->tags)): ?>
         <dt><?php echo $this->translate('Tags'); ?></dt>
         <dd>
           <ul class="separated"><!--
   <?php foreach ($this->person->tags as $tag): ?>
             --><li><a href="<?php echo sprintf('%s%s', $tagSearchUri, $this->escape($tag->id)); ?>"><?php echo $this->escape($tag->name); ?></a></li><!--
   <?php endforeach; ?>
+          --></ul>
+        </dd>
+<?php endif; ?>
+<?php if (count($this->person->relations)): ?>
+        <dt><?php echo $this->translate('Relationships') ?></dt>
+        <dd>
+          <ul class="separated"><!--
+  <?php foreach ($this->person->relations as $relation): ?>
+            --><li><a href="<?php echo $this->url(array('id' => $relation->tail->id)) ?>"><?php echo $this->escape(sprintf('%s (%s)', $relation->tail->display_name, $relation->type->name)) ?></a></li><!--
+  <?php endforeach ?>
           --></ul>
         </dd>
 <?php endif; ?>
