@@ -7,57 +7,82 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0-standalone.html GPLv2
  */
 
-use Tillikum\Loader\PluginLoader;
-
 class Facility_SearchController extends Tillikum_Controller_Facility
 {
-    public function availabilityAction()
+    public function facilityAction()
     {
-        $loader = new PluginLoader();
-
-        $form = newv($loader->load('Tillikum\Form\Facility\Availability'), array(
-            array(
-                'em' => $this->getEntityManager()
-            )
-        ));
+        $form = $this->getDi()
+            ->newInstance('Tillikum\Form\Facility\Search')
+            ->setAction($this->_helper->url->url())
+            ->setMethod('GET');
 
         $form->setMethod('GET');
-        $form->date->setValue(date('Y-m-d'));
 
         if ($this->_request->getQuery('tillikum_submit')) {
-            $this->processAvailability($form, $this->_request->getQuery());
+            $this->processFacility($form, $this->_request->getQuery());
+        } else {
+            $form->date->setValue(date('Y-m-d'));
         }
 
         $this->view->form = $form;
     }
 
-    protected function processAvailability($form, $input)
+    protected function processFacility($form, $input)
     {
         if (!$form->isValid($input)) {
             return;
         }
 
-        $values = $form->getValues(true);
+        $values = $form->getValues();
 
-        $date = new DateTime($values['date']);
-        unset($values['date']);
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder();
 
-        if (empty($values['limit'])) {
-            $limit = null;
-        } else {
-            $limit = $values['limit'];
+        $qb->select(
+            array(
+                'c',
+                'COUNT(b) AS bookingCount',
+                'c.capacity - COUNT(b) AS availableSpace',
+            )
+        )
+            ->from('Tillikum\Entity\Facility\Config\Config', 'c')
+            ->innerJoin('c.facility', 'f')
+            ->leftJoin('f.bookings', 'b', 'WITH', $qb->expr()->between(':date', 'b.start', 'b.end'))
+            ->where($qb->expr()->between(':date', 'c.start', 'c.end'))
+            ->groupBy('f')
+            ->setParameter('date', new DateTime($values['date']));
+
+        if (count($values['facilitygroup_ids'])) {
+            $qb->innerJoin('f.facility_group', 'fg')
+                ->andWhere($qb->expr()->in('fg.id', ':fgIds'))
+                ->setParameter('fgIds', $values['facilitygroup_ids']);
         }
 
-        unset($values['limit']);
+        if (strlen($values['gender'])) {
+            $qb->andWhere($qb->expr()->eq('c.gender', ':gender'))
+                ->setParameter('gender', $values['gender']);
+        }
 
-        foreach ($values as $key => $value) {
-            if (empty($value)) {
-                unset($values[$key]);
+        if (strlen($values['capacity'])) {
+            $qb->andWhere($qb->expr()->eq('c.capacity', ':capacity'))
+                ->setParameter('capacity', $values['capacity']);
+        }
+
+        if (count($values['tags'])) {
+            foreach ($values['tags'] as $tag) {
+                $qb->innerJoin('c.tags', "tag_{$tag}", 'WITH', $qb->expr()->eq("tag_{$tag}.id", "'$tag'"));
             }
         }
 
-        $this->view->bookingSearchDataTable = $this->view->dataTableBookingSearch(
-            $this->_helper->dataTableBookingSearch($values, $date, $limit)
+        if (strlen($values['available_space'])) {
+            $qb->having($qb->expr()->gte('availableSpace', ':availableSpace'))
+                ->setParameter('availableSpace', $values['available_space']);
+        }
+
+        // available space
+
+        $this->view->searchData = $this->_helper->dataTableFacilitySearch(
+            $qb->getQuery()->getResult()
         );
     }
 }

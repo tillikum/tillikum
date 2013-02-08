@@ -1,16 +1,14 @@
 <section>
-  <h1><?php echo $this->translate('Facilities'); ?></h1>
+  <h1><?php echo $this->translate('Facilities') ?></h1>
 
   <nav>
     <ul>
       <li>
-        <a href="<?php echo $this->url(array('module' => 'facility', 'controller' => 'facility', 'action' => 'create1'), null, true); ?>"
-        ><?php echo $this->translate('Create facility'); ?></a>
+        <a href="<?php echo $this->url(array('controller' => 'facility', 'action' => 'create1')) ?>"><?php echo $this->translate('Create facility') ?></a>
       </li>
-      <!--<li>
-        <a title="<?php echo $this->translate('Find available facilities'); ?>"
-           href="<?php echo $this->url(array('controller' => 'search', 'action' => 'index')); ?>"><?php echo $this->translate('Find available facilities'); ?></a>
-      </li>-->
+      <li>
+        <a href="<?php echo $this->url(array('controller' => 'search', 'action' => 'facility')) ?>"><?php echo $this->translate('Search facilities') ?></a>
+      </li>
     </ul>
   </nav>
 </section>
@@ -18,17 +16,17 @@
 <div class="yui3-g">
   <div class="yui3-u-1-2">
     <section>
-      <h2><?php echo $this->translate('Find facility group'); ?></h2>
+      <h2><?php echo $this->translate('Find facility group') ?></h2>
 
-      <?php echo $this->facilityGroupForm; ?>
+      <?php echo $this->facilityGroupForm ?>
     </section>
   </div>
 
   <div class="yui3-u-1-2">
     <section>
-      <h2><?php echo $this->translate('Find facility'); ?></h2>
+      <h2><?php echo $this->translate('Find facility') ?></h2>
 
-      <?php echo $this->facilityForm; ?>
+      <?php echo $this->facilityForm ?>
     </section>
   </div>
 </div>
@@ -46,7 +44,7 @@ $(function() {
       var term = req.term;
 
       $.getJSON(
-        '<?php echo $this->url(array('controller' => 'facilitygroup', 'action' => 'autocomplete')); ?>?q=' + term,
+        '<?php echo $this->url(array('controller' => 'facilitygroup', 'action' => 'autocomplete')) ?>?q=' + term,
         resp
       );
     }
@@ -63,7 +61,7 @@ $(function() {
       var term = req.term;
 
       $.getJSON(
-        '<?php echo $this->url(array('controller' => 'facility', 'action' => 'autocomplete')); ?>?q=' + term,
+        '<?php echo $this->url(array('controller' => 'facility', 'action' => 'autocomplete')) ?>?q=' + term,
         resp
       );
     }

@@ -7,23 +7,8 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0-standalone.html GPLv2
  */
 
-use Tillikum\Entity,
-    Tillikum\Form,
-    Zend_Session as Session,
-    Zend_Session_Namespace as SessionNamespace;
-
 class Facility_FacilityController extends Tillikum_Controller_Facility
 {
-    protected $sessionContainer;
-
-    public function advancedAction()
-    {
-        $this->getDi()
-            ->newInstance('Tillikum\Form\Facility\Advanced');
-
-        $this->view->form = $form;
-    }
-
     public function autocompleteAction()
     {
         $date = new DateTime($this->_request->getQuery('date') ?: date('Y-m-d'));

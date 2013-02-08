@@ -1,0 +1,9 @@
+<section>
+  <h1><?php echo $this->translate('Facility Search'); ?></h1>
+
+  <?php echo $this->form; ?>
+
+<?php if (isset($this->searchData)): ?>
+    <?php echo $this->dataTableFacilitySearch($this->searchData) ?>
+<?php endif ?>
+</section>
