@@ -79,8 +79,6 @@ class Facility_SearchController extends Tillikum_Controller_Facility
                 ->setParameter('availableSpace', $values['available_space']);
         }
 
-        // available space
-
         $this->view->searchData = $this->_helper->dataTableFacilitySearch(
             $qb->getQuery()->getResult()
         );
