@@ -41,13 +41,13 @@ class Facility_SearchController extends Tillikum_Controller_Facility
         $qb->select(
             array(
                 'c',
-                'COUNT(b) AS bookingCount',
-                'c.capacity - COUNT(b) AS availableSpace',
+                'c.capacity - COUNT(b) - COALESCE(SUM(h.space), 0) AS availableSpace',
             )
         )
             ->from('Tillikum\Entity\Facility\Config\Config', 'c')
             ->innerJoin('c.facility', 'f')
             ->leftJoin('f.bookings', 'b', 'WITH', $qb->expr()->between(':date', 'b.start', 'b.end'))
+            ->leftJoin('f.holds', 'h', 'WITH', $qb->expr()->between(':date', 'h.start', 'h.end'))
             ->where($qb->expr()->between(':date', 'c.start', 'c.end'))
             ->groupBy('f')
             ->setParameter('date', new DateTime($values['date']));
