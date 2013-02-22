@@ -14,6 +14,58 @@ use Tillikum\Entity,
 
 class Facility_FacilityconfigController extends Tillikum_Controller_Facility
 {
+    public function copyAction()
+    {
+        $id = $this->_request->getParam('id');
+
+        $facilityConfig = $this->getEntityManager()->find(
+            'Tillikum\Entity\Facility\Config\Config',
+            $id
+        );
+
+        if ($facilityConfig === null) {
+            throw new \Zend_Controller_Exception($this->getTranslator()->translate(
+                'The facility configuration you selected could not be found.'
+            ), 404);
+        }
+
+        $facilityConfig = clone $facilityConfig;
+        $facilityConfig->id = null;
+
+        $form = $this->getDi()
+            ->newInstance($facilityConfig::FORM_CLASS)
+            ->setAction($this->_helper->url->url())
+            ->bind($facilityConfig);
+
+        if ($this->_request->isPost()) {
+            $this->processCopy($form, $this->_request->getPost(), $facilityConfig);
+        }
+
+        $this->view->facilityConfig = $facilityConfig;
+        $this->view->form = $form;
+    }
+
+    protected function processCopy($form, $input, $facilityConfig)
+    {
+        if (!$form->isValid($input)) {
+            return;
+        }
+
+        $form->bindValues();
+
+        $this->getEntityManager()->persist($form->entity);
+        $this->getEntityManager()->flush();
+
+        return $this->_helper->redirector(
+            'view',
+            'facility',
+            'facility',
+            array(
+                'id' => $form->entity->facility->id,
+            )
+        );
+    }
+
     public function create1Action()
     {
         $facilityId = $this->_request->getParam('facility_id');

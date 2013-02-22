@@ -59,6 +59,12 @@
             ><span class="ui-icon ui-icon-pencil" title="<?php echo $this->translate('Edit…') ?>" ui-jq="tooltip"></span></a>
           </li>
   <?php endif ?>
+  <?php if ($row['actions']['copy']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['copy_uri'] ?>"
+            ><span class="ui-icon ui-icon-copy" title="<?php echo $this->translate('Copy…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+  <?php endif ?>
   <?php if ($row['actions']['delete']): ?>
           <li class="ui-state-default ui-corner-all">
             <a href="<?php echo $row['delete_uri'] ?>"
