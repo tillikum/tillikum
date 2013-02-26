@@ -14,13 +14,13 @@ class Person_PersonController extends Tillikum_Controller_Person
         $limit = $this->_request->getQuery('limit') ?: 15;
         $query = $this->_request->getQuery('q');
 
+        $personEntity = $this->getDi()
+            ->newInstance('PersonEntity');
+
         $people = $this->getEntityManager()
-            ->getRepository('Tillikum\Entity\Person\Person')
-            ->createSearchQueryBuilder($query)
-            ->select(array('partial p.{id, display_name, given_name, middle_name, family_name}'))
-            ->from('Tillikum\Entity\Person\Person', 'p')
+            ->getRepository(get_class($personEntity))
+            ->getAutocompleteQuery($query)
             ->setMaxResults($limit)
-            ->getQuery()
             ->getResult();
 
         $ret = array();
