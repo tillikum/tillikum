@@ -19,7 +19,7 @@
     ],
     "require": {
         "beberlei/DoctrineExtensions": "dev-master",
-        "doctrine/orm": "~2.3",
+        "doctrine/orm": "~2.3.0",
         "ext-bcmath": "*",
         "ext-ctype": "*",
         "ext-fileinfo": "*",
@@ -34,8 +34,8 @@
         "gwis/php-valueobjects": "dev-master",
         "php": ">=5.3.3",
         "tillikum/zf2-cas-authentication-adapter": "dev-master",
-        "zendframework/zendframework1": "~1.12",
-        "zendframework/zendframework": "~2.0"
+        "zendframework/zendframework1": "~1.12.0",
+        "zendframework/zendframework": "~2.1.0"
     },
     "require-dev": {
         "doctrine/data-fixtures": "dev-master",
