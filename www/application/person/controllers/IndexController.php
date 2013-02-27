@@ -39,13 +39,10 @@ class Person_IndexController extends Tillikum_Controller_Person
                 ->newInstance('PersonEntity')
         );
 
-        $qb = $this->getEntityManager()->getRepository($personClass)
-            ->createSearchQueryBuilder($values['search']);
+        $query = $this->getEntityManager()->getRepository($personClass)
+            ->getAutocompleteQuery($values['search']);
 
-        $people = $qb->select(array('partial p.{id, display_name, given_name, middle_name, family_name}'))
-            ->from($personClass, 'p')
-            ->setMaxResults(10)
-            ->getQuery()
+        $people = $query->setMaxResults(10)
             ->getResult();
 
         $this->view->people = array();
@@ -59,7 +56,7 @@ class Person_IndexController extends Tillikum_Controller_Person
                 'person',
                 'person',
                 array(
-                    'id' => $this->view->people[0]->id
+                    'id' => $this->view->people[0]->id,
                 )
             );
         }
