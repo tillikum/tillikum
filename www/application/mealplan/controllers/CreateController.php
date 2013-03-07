@@ -176,13 +176,10 @@ class Mealplan_CreateController extends Tillikum_Controller_Mealplan
             $mealplanBillingSubForm->addSubForm($rateSubForm, "rate_$newRateIndex");
 
             foreach ($mealplanBillingSubForm->getSubForms() as $rateSubForm) {
-                /*
-                 * @todo Enable once API endpoint is up
-                 */
-                //$rateSubForm->rule_id->setAttrib('tillikum-default-mealplan-rule', '');
-                //$rateSubForm->rule_id->setAttrib('data-mealplan-id', $mealplanBookingSubForm->mealplan_id->getId());
-                //$rateSubForm->rule_id->setAttrib('data-mealplan-start', $mealplanBookingSubForm->start->getId());
-                //$rateSubForm->rule_id->setAttrib('data-mealplan-end', $mealplanBookingSubForm->end->getId());
+                $rateSubForm->rule_id->setAttrib('tillikum-default-mealplan-rule', '');
+                $rateSubForm->rule_id->setAttrib('data-mealplan-id', $mealplanBookingSubForm->mealplan_id->getId());
+                $rateSubForm->rule_id->setAttrib('data-mealplan-start', $mealplanBookingSubForm->start->getId());
+                $rateSubForm->rule_id->setAttrib('data-mealplan-end', $mealplanBookingSubForm->end->getId());
             }
         }
 
