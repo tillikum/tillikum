@@ -351,7 +351,7 @@ class Mealplan_CreateController extends Tillikum_Controller_Mealplan
 
         $this->getEntityManager()->persist($mealplanBooking);
 
-        foreach ($billingEvent as $billingEvent) {
+        foreach ($billingEvents as $billingEvent) {
             $this->getEntityManager()->persist($billingEvent);
         }
 
