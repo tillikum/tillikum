@@ -39,7 +39,7 @@
     },
     "require-dev": {
         "doctrine/data-fixtures": "dev-master",
-        "phing/phing": "~2.4",
+        "phing/phing": "~2.5.0",
         "squizlabs/php_codesniffer": "~1.4"
     },
     "suggest": {
