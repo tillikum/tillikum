@@ -116,7 +116,7 @@ class Mealplan_CreateController extends Tillikum_Controller_Mealplan
 
         if ($rates) {
             foreach ($rates as $idx => $rate) {
-                if (is_array($rate) && !isset($rate['delete_me']) && empty($rate['rule'])) {
+                if (is_array($rate) && !isset($rate['delete_me']) && empty($rate['rule']) && empty($rate['start']) && empty($rate['end'])) {
                     continue;
                 }
 
