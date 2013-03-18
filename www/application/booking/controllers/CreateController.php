@@ -121,7 +121,7 @@ class Booking_CreateController extends Tillikum_Controller_Booking
 
         if ($rates) {
             foreach ($rates as $idx => $rate) {
-                if (is_array($rate) && !isset($rate['delete_me'])) {
+                if (is_array($rate) && !isset($rate['delete_me']) && empty($rate['rule'])) {
                     continue;
                 }
 
