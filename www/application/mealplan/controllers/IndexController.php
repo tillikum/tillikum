@@ -37,6 +37,6 @@ class Mealplan_IndexController extends Tillikum_Controller_Mealplan
         $this->view->booking = $booking;
         $this->view->bookingData = $this->_helper->dataTableMealplanDetail(array($booking));
         $this->view->billingData = $this->_helper->dataTableMealplanBilling($booking->billing);
-        $this->view->rateData = $this->_helper->dataTableMealplanBillingRate($booking->billing->rates);
+        $this->view->rateData = $this->_helper->dataTableMealplanBillingRate($booking->billing ? $booking->billing->rates : array());
     }
 }

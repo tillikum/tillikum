@@ -37,6 +37,6 @@ class Booking_IndexController extends Tillikum_Controller_Booking
         $this->view->booking = $booking;
         $this->view->bookingData = $this->_helper->dataTableBookingDetail(array($booking));
         $this->view->billingData = $this->_helper->dataTableBookingBilling($booking->billing);
-        $this->view->rateData = $this->_helper->dataTableBookingBillingRate($booking->billing->rates);
+        $this->view->rateData = $this->_helper->dataTableBookingBillingRate($booking->billing ? $booking->billing->rates : array());
     }
 }
