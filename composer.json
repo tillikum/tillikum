@@ -39,8 +39,7 @@
     },
     "require-dev": {
         "doctrine/data-fixtures": "dev-master",
-        "phing/phing": "~2.5.0",
-        "squizlabs/php_codesniffer": "~1.4"
+        "phing/phing": "~2.5.0"
     },
     "suggest": {
         "ext-apc": "A free and open opcode cache for PHP. Very important for performance, and useful for caching.",
