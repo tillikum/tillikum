@@ -22,7 +22,25 @@
       <td><?php echo $this->markupDate($row['end']) ?></td>
       <td><span title="<?php echo $this->translate('Created by %s', $this->escape($row['created_by'])) ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['created_at']) ?></span></td>
       <td><span title="<?php echo $this->translate('Updated by %s', $this->escape($row['updated_by'])) ?>" ui-jq="tooltip"><?php echo $this->markupDateTime($row['updated_at']) ?></span></td>
-      <td class="nowrap"><!-- @todo --></td>
+      <td class="nowrap">
+        <ul class="ui-widget">
+    <?php if ($row['actions']['edit']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['edit_uri'] ?>"><span class="ui-icon ui-icon-pencil" title="<?php echo $this->translate('Edit…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+    <?php endif ?>
+    <?php if ($row['actions']['copy']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['copy_uri'] ?>"><span class="ui-icon ui-icon-copy" title="<?php echo $this->translate('Copy…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+    <?php endif ?>
+    <?php if ($row['actions']['delete']): ?>
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $row['delete_uri'] ?>"><span class="ui-icon ui-icon-trash" title="<?php echo $this->translate('Delete…') ?>" ui-jq="tooltip"></span></a>
+          </li>
+    <?php endif ?>
+        </ul>
+      </td>
     </tr>
   <?php endforeach ?>
   </tbody>

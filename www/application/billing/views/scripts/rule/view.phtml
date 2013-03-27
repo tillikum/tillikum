@@ -1,4 +1,4 @@
 <section>
-    <h1><?php echo $this->translate('View billing rule'); ?></h1>
+    <h1><?php echo sprintf($this->translate('View billing rule %s'), $this->rule->description) ?></h1>
     <?php echo $this->{$this->viewHelper}($this->configData) ?>
 </section>

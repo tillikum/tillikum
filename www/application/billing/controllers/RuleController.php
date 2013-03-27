@@ -207,6 +207,8 @@ class Billing_RuleController extends Tillikum_Controller_Billing
             $rule->configs
         );
 
+        $this->view->rule = $rule;
+
         $this->view->viewHelper = $helper;
     }
 }
