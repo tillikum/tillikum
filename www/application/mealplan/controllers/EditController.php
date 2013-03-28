@@ -278,6 +278,8 @@ class Mealplan_EditController extends Tillikum_Controller_Mealplan
 
         $sessionData = $this->sessionContainer[$this->containerKey];
 
+        $existingMealplan = clone($mealplanBooking->mealplan);
+
         $form = $this->getDi()
             ->newInstance('Tillikum\Form\Booking\Mealplan');
         $form->bind($mealplanBooking);
@@ -312,7 +314,7 @@ class Mealplan_EditController extends Tillikum_Controller_Mealplan
                 $billingEventEntity->person = $mealplanBooking->person;
                 $billingEventEntity->rule = $existingRate->rule;
                 $billingEventEntity->is_processed = false;
-                $billingEventEntity->mealplan = $mealplanBooking->mealplan;
+                $billingEventEntity->mealplan = $existingMealplan;
                 $billingEventEntity->is_credit = true;
                 $billingEventEntity->start = $existingRate->start;
                 $billingEventEntity->end = $eventEnd;
