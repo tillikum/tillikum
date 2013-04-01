@@ -278,7 +278,7 @@ class Mealplan_EditController extends Tillikum_Controller_Mealplan
 
         $sessionData = $this->sessionContainer[$this->containerKey];
 
-        $existingMealplan = clone($mealplanBooking->mealplan);
+        $existingMealplan = $mealplanBooking->mealplan;
 
         $form = $this->getDi()
             ->newInstance('Tillikum\Form\Booking\Mealplan');
