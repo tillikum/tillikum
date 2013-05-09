@@ -124,12 +124,19 @@ class Billing_RuleconfigController extends Tillikum_Controller_Billing
             );
         }
 
+        $this->ruleConfig = new $configClass();
+        $this->ruleConfig->rule = $rule;
+
         $formClass = $configClass::FORM_CLASS;
 
         $form = $this
             ->getDi()
-            ->newInstance($formClass)
-            ->setAction($this->_helper->url->url());
+            ->newInstance($formClass);
+
+        $form
+            ->setAction($this->_helper->url->url())
+            ->addElement($form->createSubmitElement(array('label' => 'Create')))
+            ->bind($this->ruleConfig);
 
         $form
             ->getElement('strategy')
@@ -151,16 +158,17 @@ class Billing_RuleconfigController extends Tillikum_Controller_Billing
             return;
         }
 
-        $facilityId = $this->_request->getParam('facility_id');
+        $form->bindValues();
 
-        $values = $form->getValues();
+        $this->getEntityManager()->persist($this->ruleConfig);
+        $this->getEntityManager()->flush();
 
-        $this->_helper->redirector(
+        return $this->_helper->redirector(
             'view',
             'rule',
             'billing',
             array(
-                'id' => $entity->rule->id,
+                'id' => $this->ruleConfig->rule->id,
             )
         );
     }
