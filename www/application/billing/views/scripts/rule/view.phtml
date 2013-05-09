@@ -1,4 +1,9 @@
 <section>
-    <h1><?php echo sprintf($this->translate('View billing rule %s'), $this->rule->description) ?></h1>
-    <?php echo $this->{$this->viewHelper}($this->configData) ?>
+  <h1><?php echo sprintf($this->translate('View billing rule %s'), $this->rule->description) ?></h1>
+  <nav>
+    <ul>
+      <li><a href="<?php echo $this->url(array('controller' => 'ruleconfig', 'action' => 'create', 'id' => null, 'rule_id' => $this->rule->id)) ?>" title="<?php echo $this->translate('Create a new billing rule configuration') ?>" ui-jq="tooltip"><?php echo $this->translate('Create rule configuration') ?></a></li>
+    </ul>
+  </nav>
+  <?php echo $this->{$this->viewHelper}($this->configData) ?>
 </section>

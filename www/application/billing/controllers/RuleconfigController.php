@@ -100,11 +100,29 @@ class Billing_RuleconfigController extends Tillikum_Controller_Billing
             );
         }
 
-        $ruleMetadata = $this
-            ->getEntityManager()
-            ->getClassMetadata(get_class($rule));
+        $ruleClass = get_class($rule);
 
-        $configClass = $ruleMetadata->getAssociationTargetClass('configs');
+        /**
+         * @todo This needs to be cleaned up to use entity metadata somehow
+         */
+        if ($ruleClass === 'Tillikum\Entity\Billing\Rule\AdHoc') {
+            $configClass = 'Tillikum\Entity\Billing\Rule\Config\AdHoc';
+        } elseif ($ruleClass === 'Tillikum\Entity\Billing\Rule\FacilityBooking') {
+            $configClass = 'Tillikum\Entity\Billing\Rule\Config\FacilityBooking';
+        } elseif ($ruleClass === 'Tillikum\Entity\Billing\Rule\MealplanBooking') {
+            $configClass = 'Tillikum\Entity\Billing\Rule\Config\MealplanBooking';
+        } else {
+            $configClass = null;
+        }
+
+        if ($configClass === null) {
+            throw new \Zend_Controller_Exception(
+                $this->getTranslator()->translate(
+                    'Creating a new rule configuration for that rule is unsupported at this time.'
+                ),
+                404
+            );
+        }
 
         $formClass = $configClass::FORM_CLASS;
 
