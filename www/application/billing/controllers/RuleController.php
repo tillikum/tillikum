@@ -74,11 +74,6 @@ class Billing_RuleController extends Tillikum_Controller_Billing
 
         $form->bindValues();
 
-        /**
-         * @deprecated remove old_id when migration is complete
-         */
-        $form->entity->old_id = 'DELETEME';
-
         $this->getEntityManager()->persist($form->entity);
         $this->getEntityManager()->flush();
 
