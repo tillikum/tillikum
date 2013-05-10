@@ -1,20 +1,35 @@
+<nav>
+  <ul>
+    <li>
+      <a href="<?php echo $this->url(array('action' => 'create', 'controller' => 'email', 'id' => null, 'person_id' => $this->person->id)) ?>"><?php echo $this->translate('Add email address') ?></a>
+    </li>
+  </ul>
+</nav>
+
 <table id="person-contact-email">
-    <caption><?php echo $this->translate('Email addresses') ?></caption>
+  <caption><?php echo $this->translate('Email addresses') ?></caption>
   <thead>
     <tr>
       <th><?php echo $this->translate('Email') ?></th>
       <th><?php echo $this->translate('Type') ?></th>
+      <th><?php echo $this->translate('Actions') ?></th>
     </tr>
   </thead>
   <tbody>
 <?php foreach ($this->person->emails as $address): ?>
     <?php $attrs = '' ?>
-    <?php if ($address->is_primary): ?>
-        <?php $attrs = "title=\"{$this->translate('This is the primary email address.')}\" data-is-info=\"true\" ui-jq=\"tooltip\"" ?>
-    <?php endif ?>
-    <tr <?php echo $attrs ?>>
+    <tr <?php if ($address->is_primary): ?> title="<?php echo $this->translate('This is the primary email address') ?>" data-is-info="true" ui-jq="tooltip" <?php endif ?>>
       <td><a href="mailto:<?php echo $this->escape($address->value) ?>"><?php echo $this->escape($address->value) ?></a></td>
       <td><?php echo $this->escape($address->type->name) ?></td>
+      <td class="nowrap">
+        <ul class="ui-widget">
+          <li class="ui-state-default ui-corner-all">
+            <a href="<?php echo $this->url(array('action' => 'edit', 'controller' => 'email', 'id' => $address->id)) ?>">
+              <span class="ui-icon ui-icon-pencil" ui-jq="tooltip" title="Edit…"></span>
+            </a>
+          </li>
+        </ul>
+      </td>
     </tr>
 <?php endforeach ?>
   </tbody>
