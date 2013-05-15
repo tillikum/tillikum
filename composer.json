@@ -3,6 +3,12 @@
     "description": "The Tillikum Project",
     "homepage": "http://tillikum.org/",
     "license": "GPL-2.0",
+    "autoload": {
+        "psr-0": {
+            "Tillikum\\": "library/",
+            "Tillikum_": "library/"
+        }
+    },
     "repositories": [
         {
             "type": "vcs",
