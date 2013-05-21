@@ -41,7 +41,7 @@
         "php": ">=5.3.3",
         "tillikum/zf2-cas-authentication-adapter": "dev-master",
         "zendframework/zendframework1": "~1.12.0",
-        "zendframework/zendframework": "~2.1.0"
+        "zendframework/zendframework": "~2.2.0"
     },
     "require-dev": {
         "doctrine/data-fixtures": "dev-master",
