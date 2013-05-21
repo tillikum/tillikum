@@ -1,7 +1,5 @@
 <?php
 
-use Doctrine\ORM\EntityManager;
-use Tillikum\Listener\ExtensionMetadata as ExtensionMetadataListener;
 use Zend\Permissions;
 use Zend\ServiceManager;
 
@@ -35,15 +33,6 @@ return array(
                     );
 
                 $roleProvider->configureAcl($instance);
-            }
-        },
-        'EntityManager' => function ($instance, $serviceManager) {
-            if ($instance instanceof EntityManager) {
-                $metadataListener = new ExtensionMetadataListener();
-
-                $eventManager = $instance->getEventManager();
-
-                $eventManager->addEventSubscriber($metadataListener);
             }
         },
     ),
