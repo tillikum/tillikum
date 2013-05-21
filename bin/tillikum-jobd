@@ -78,7 +78,7 @@ dropPrivileges();
 $serviceManager = $application->getBootstrap()
     ->getResource('ServiceManager');
 
-$em = $serviceManager->get('EntityManager');
+$em = $serviceManager->get('doctrine.entitymanager.orm_default');
 
 $auditListener = new AuditListener('_system');
 $em->getEventManager()->addEventSubscriber($auditListener);
