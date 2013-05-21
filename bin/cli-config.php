@@ -20,7 +20,7 @@ $serviceManager = $application->getBootstrap()
 $helperSet = new HelperSet(
     array(
         'em' => new EntityManagerHelper(
-            $serviceManager->get('EntityManager')
+            $serviceManager->get('doctrine.entitymanager.orm_default')
         )
     )
 );

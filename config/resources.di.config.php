@@ -28,7 +28,6 @@ return array(
             'Acl' => 'Tillikum\Permissions\Acl\Acl',
             'BillingStrategies' => 'Tillikum\Billing\Event\Strategy\Strategies',
             'Di' => 'Zend\Di\Di',
-            'EntityManager' => 'Doctrine\ORM\EntityManager',
             'Jobs' => 'Tillikum\Job\Jobs',
             'LoggedInMainNavigation' => 'Zend_Navigation',
             'LoggedOutMainNavigation' => 'Zend_Navigation',
