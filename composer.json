@@ -3,6 +3,13 @@
     "description": "The Tillikum Project",
     "homepage": "http://tillikum.org/",
     "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Gordon Stratton",
+            "email": "gordon.stratton@gmail.com",
+            "role": "Lead developer"
+        }
+    ],
     "autoload": {
         "psr-0": {
             "Tillikum\\": "library/",
@@ -50,5 +57,10 @@
     "suggest": {
         "ext-apc": "A free and open opcode cache for PHP. Very important for performance, and useful for caching.",
         "ext-memcached": "PHP extension for interfacing with memcached via libmemcached library."
+    },
+    "support": {
+        "irc": "irc://chat.freenode.net/tillikum",
+        "issues": "https://github.com/tillikum/tillikum/issues",
+        "source": "https://github.com/tillikum/tillikum"
     }
 }
