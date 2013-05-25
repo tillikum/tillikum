@@ -42,8 +42,7 @@
     <append destfile="${builddir}/www/document_root/public/scripts/tillikum.js">
       <filelist
         dir="www/document_root/public/scripts"
-        files="modernizr-min.js json3-min.js jquery-min.js jquery-ui-min.js
-               jquery.dataTables-min.js angular-min.js angular-ui-min.js
+        files="modernizr-min.js angular-ui-min.js
                angular-ui-ieshiv-min.js tillikum.js" />
     </append>
   </target>
