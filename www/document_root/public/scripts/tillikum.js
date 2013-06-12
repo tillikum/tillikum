@@ -125,17 +125,24 @@ angular.module('tillikum', ['ui'])
 
         var url = BASE + '/facility/facility/defaultrule/id/' + facilityId + '?'
 
-        var start = $('#' + element.data('facilityStart')).val();
-        var end = $('#' + element.data('facilityEnd')).val();
+        var start = $('#' + element.data('rateStart')).val();
+        var end = $('#' + element.data('rateEnd')).val();
+
+        if (!start) {
+          alert('You have not selected a rate start date yet.');
+
+          return;
+        }
+
+        if (!end) {
+          alert('You have not selected a rate end date yet.');
+
+          return;
+        }
 
         var params = [];
-        if (start) {
-          params.push('start=' + start);
-        }
-
-        if (end) {
-          params.push('end=' + end);
-        }
+        params.push('start=' + start);
+        params.push('end=' + end);
 
         $.getJSON(url + params.join('&'), function(templateId) {
           element.val(templateId);
@@ -167,17 +174,24 @@ angular.module('tillikum', ['ui'])
 
         var url = BASE + '/mealplan/mealplan/defaultrule/id/' + mealplanId + '?'
 
-        var start = $('#' + element.data('mealplanStart')).val();
-        var end = $('#' + element.data('mealplanEnd')).val();
+        var start = $('#' + element.data('rateStart')).val();
+        var end = $('#' + element.data('rateEnd')).val();
+
+        if (!start) {
+          alert('You have not selected a rate start date yet.');
+
+          return;
+        }
+
+        if (!end) {
+          alert('You have not selected a rate end date yet.');
+
+          return;
+        }
 
         var params = [];
-        if (start) {
-          params.push('start=' + start);
-        }
-
-        if (end) {
-          params.push('end=' + end);
-        }
+        params.push('start=' + start);
+        params.push('end=' + end);
 
         $.getJSON(url + params.join('&'), function(templateId) {
           element.val(templateId);

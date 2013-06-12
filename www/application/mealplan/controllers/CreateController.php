@@ -178,8 +178,8 @@ class Mealplan_CreateController extends Tillikum_Controller_Mealplan
             foreach ($mealplanBillingSubForm->getSubForms() as $rateSubForm) {
                 $rateSubForm->rule_id->setAttrib('tillikum-default-mealplan-rule', '');
                 $rateSubForm->rule_id->setAttrib('data-mealplan-id', $mealplanBookingSubForm->mealplan_id->getId());
-                $rateSubForm->rule_id->setAttrib('data-mealplan-start', $mealplanBookingSubForm->start->getId());
-                $rateSubForm->rule_id->setAttrib('data-mealplan-end', $mealplanBookingSubForm->end->getId());
+                $rateSubForm->rule_id->setAttrib('data-rate-start', 'mealplan_booking-billing-' . $rateSubForm->start->getId());
+                $rateSubForm->rule_id->setAttrib('data-rate-end', 'mealplan_booking-billing-' . $rateSubForm->end->getId());
             }
         }
 

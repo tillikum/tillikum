@@ -194,8 +194,8 @@ class Booking_CreateController extends Tillikum_Controller_Booking
             foreach ($facilityBillingSubForm->getSubForms() as $rateSubForm) {
                 $rateSubForm->rule_id->setAttrib('tillikum-default-facility-rule', '');
                 $rateSubForm->rule_id->setAttrib('data-facility-id', $facilityBookingSubForm->facility_id->getId());
-                $rateSubForm->rule_id->setAttrib('data-facility-start', $facilityBookingSubForm->start->getId());
-                $rateSubForm->rule_id->setAttrib('data-facility-end', $facilityBookingSubForm->end->getId());
+                $rateSubForm->rule_id->setAttrib('data-rate-start', 'facility_booking-billing-' . $rateSubForm->start->getId());
+                $rateSubForm->rule_id->setAttrib('data-rate-end', 'facility_booking-billing-' .  $rateSubForm->end->getId());
             }
         }
 
