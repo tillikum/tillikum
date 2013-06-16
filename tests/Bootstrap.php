@@ -4,7 +4,7 @@ use Zend\Loader\StandardAutoloader;
 
 error_reporting(E_ALL | E_STRICT);
 
-require dirname(__DIR__) . '/build/library/autoload.php';
+require dirname(__DIR__) . '/library/autoload.php';
 
 $autoloaderConfig = array(
     'namespaces' => array(

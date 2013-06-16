@@ -1,129 +1,90 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project name="Tillikum" basedir="." default="build">
-  <property name="builddir" value="${project.basedir}/build" />
+<project name="Tillikum" default="build">
+  <target name="clean-proxies">
+    <delete>
+      <fileset dir="${project.basedir}/data/proxies">
+        <include name="*" />
+      </fileset>
+    </delete>
+  </target>
 
-  <target name="generate-proxies">
-    <exec dir="${builddir}/bin" executable="${builddir}/vendor/bin/doctrine" logoutput="true">
+  <target depends="clean-proxies" name="generate-proxies">
+    <exec dir="${project.basedir}/bin" executable="${project.basedir}/vendor/bin/doctrine" passthru="true">
       <arg line="orm:generate-proxies" />
     </exec>
   </target>
 
-  <target name="remove-old-css">
-    <delete file="${builddir}/www/document_root/public/styles/tillikum.css" quiet="true" />
+  <target name="clean">
+    <delete dir="${project.basedir}/www/document_root/public/build" includeemptydirs="true" />
   </target>
 
-  <target name="concatenate-css" depends="remove-old-css">
-    <append destFile="${builddir}/www/document_root/public/styles/tillikum.css">
+  <target depends="clean" name="prepare">
+    <mkdir dir="${project.basedir}/www/document_root/public/build" />
+  </target>
+
+  <target name="build-css" depends="prepare">
+    <append destFile="${project.basedir}/www/document_root/public/build/tillikum.css">
       <filelist
-        dir="www/document_root/public/styles"
+        dir="${project.basedir}/www/document_root/public/styles"
         files="normalize.css html5-boilerplate.css grids.css
                jquery-ui.smoothness.css jquery.dataTables.css
-               angular-ui.css tillikum.css" />
+               tillikum.css" />
     </append>
-  </target>
 
-  <target name="compress-css" depends="concatenate-css">
     <if>
       <available file="yui-compressor" filepath="${env.PATH}" />
       <then>
         <echo msg="Compressing CSS with yui-compressor..." />
-        <exec dir="${builddir}/www/document_root/public/styles" executable="yui-compressor">
+        <exec dir="${project.basedir}/www/document_root/public/build" executable="yui-compressor">
           <arg line="tillikum.css -o tillikum.css" />
+        </exec>
+      </then>
+    </if>
+
+    <copy todir="${project.basedir}/www/document_root/public/build">
+      <filelist dir="${project.basedir}/www/document_root/public/styles" files="images" />
+    </copy>
+  </target>
+
+  <target name="build-js" depends="prepare">
+    <append destfile="${project.basedir}/www/document_root/public/build/tillikum.js">
+      <filelist
+        dir="${project.basedir}/www/document_root/public/scripts"
+        files="tillikum.angular.js tillikum.jquery.dataTables.js
+               tillikum.jquery.ui.js tillikum.polyfill.js" />
+    </append>
+
+    <if>
+      <available file="yui-compressor" filepath="${env.PATH}" />
+      <then>
+        <echo msg="Compressing JS with yui-compressor..." />
+        <exec dir="${project.basedir}/www/document_root/public/build" executable="yui-compressor">
+          <arg line="tillikum.js -o tillikum.js" />
         </exec>
       </then>
     </if>
   </target>
 
-  <target name="remove-old-js">
-    <delete file="${builddir}/www/document_root/public/scripts/tillikum.js" quiet="true" />
-  </target>
-
-  <target name="concatenate-js" depends="remove-old-js">
-    <append destfile="${builddir}/www/document_root/public/scripts/tillikum.js">
-      <filelist
-        dir="www/document_root/public/scripts"
-        files="modernizr-min.js angular-ui-min.js
-               angular-ui-ieshiv-min.js tillikum.js" />
-    </append>
-  </target>
-
-  <target name="build">
-    <mkdir dir="${builddir}" />
-
-    <uptodate property="vendor-copy-not-required" srcfile="composer.lock" targetfile="${builddir}/composer.lock" />
-
-    <if>
-      <isset property="vendor-copy-not-required" />
-      <then>
-        <echo message="composer.lock up to date - skipping vendor copy" />
-      </then>
-      <else>
-        <copy todir="${builddir}/vendor">
-          <fileset dir="vendor" />
-        </copy>
-      </else>
-    </if>
-
-    <copy todir="${builddir}">
-      <filelist dir="." files="composer.json composer.lock LICENSE" />
-    </copy>
-
-    <copy todir="${builddir}/bin">
-      <fileset dir="bin" />
-    </copy>
-
-    <copy todir="${builddir}/config">
-      <fileset dir="config" />
-    </copy>
-
-    <copy todir="${builddir}/site">
-      <fileset dir="site">
-        <exclude name="**/.git" />
-      </fileset>
-    </copy>
-
-    <mkdir dir="${builddir}/data/proxies" />
-
-    <copy todir="${builddir}/languages">
-      <fileset dir="languages" />
-    </copy>
-
-    <copy todir="${builddir}/www">
-      <fileset dir="www">
-        <exclude name="**/*.css" />
-        <exclude name="**/*.js" />
-      </fileset>
-    </copy>
-
-    <delete file="${builddir}/www/application/default/views/layouts/generic.phtml" quiet="true" />
-
-    <phingcall target="compress-css" />
-    <phingcall target="concatenate-js" />
-
+  <target depends="generate-proxies,build-css,build-js" name="build">
     <filehash
-      file="${builddir}/www/document_root/public/styles/tillikum.css"
+      file="${project.basedir}/www/document_root/public/build/tillikum.css"
       propertyname="tillikumCssHash" />
 
     <filehash
-      file="${builddir}/www/document_root/public/scripts/tillikum.js"
+      file="${project.basedir}/www/document_root/public/build/tillikum.js"
       propertyname="tillikumJsHash" />
 
-    <copy todir="${builddir}/www/application/default/views/layouts">
+    <reflexive>
+      <fileset dir="${project.basedir}/www/application/default/views/layouts">
+        <include pattern="*.phtml" />
+      </fileset>
       <filterchain>
-        <replacetokens begintoken="@@" endtoken="@@">
-          <token key="tillikumCssHash" value="${tillikumCssHash}" />
-          <token key="tillikumJsHash" value="${tillikumJsHash}" />
-        </replacetokens>
+        <replaceregexp>
+          <regexp pattern="tillikum\.js\?[A-Za-z0-9]*" replace="tillikum.js?${tillikumJsHash}" />
+          <regexp pattern="tillikum\.css\?[A-Za-z0-9]*" replace="tillikum.css?${tillikumCssHash}" />
+        </replaceregexp>
       </filterchain>
-
-      <fileset dir="www/application/default/views/layouts" />
-    </copy>
-
-    <copy todir="${builddir}/library">
-      <fileset dir="library" />
-    </copy>
-
-    <phingcall target="generate-proxies" />
+    </reflexive>
   </target>
 
   <target name="test" depends="build">

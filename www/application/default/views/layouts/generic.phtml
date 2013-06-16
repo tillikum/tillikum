@@ -1,4 +1,5 @@
 <?php
+
 $this->headMeta()->setCharset($this->getEncoding());
 $this->headMeta()->setHttpEquiv('X-UA-Compatible', 'IE=edge env=best-standards-support');
 $this->headMeta()->setName('viewport', 'width=device-width, initial-scale=1.0');
@@ -7,26 +8,30 @@ $this->headTitle()->setSeparator(' · ');
 $this->headTitle()->enableTranslation();
 $this->headTitle('Tillikum');
 
-$this->headLink()->appendStylesheet("{$this->baseUrl()}/public/styles/tillikum.css?@@tillikumCssHash@@", 'all');
-$this->headScript()->appendScript('var BASE = \'' . $this->baseUrl() . '\';');
-$this->headScript()->appendScript('var LOCALE = \'' . Locale::getDefault() . '\';');
-$this->headScript()->appendFile('//cdnjs.cloudflare.com/ajax/libs/json3/3.2.4/json3.min.js');
-$this->headScript()->appendFile('//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.0/jquery.min.js');
-$this->headScript()->appendFile('//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js');
-$this->headScript()->appendFile('//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js');
-$this->headScript()->appendFile('//cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.6/angular.min.js');
-$this->headScript()->appendFile("{$this->baseUrl()}/public/scripts/tillikum.js?@@tillikumJsHash@@");
+$this->headLink()
+    ->appendStylesheet('//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.css', 'all')
+    ->appendStylesheet($this->baseUrl('public/build/tillikum.css?d82f01cf219b37af37519e9ee77bc7df'), 'all');
 
-echo $this->doctype();
+$this->headScript()
+    ->appendScript(sprintf('var Tillikum = %s;', json_encode(array('BASE' => $this->baseUrl(), 'LOCALE' => Locale::getDefault()))))
+    ->appendFile('//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js')
+    ->appendFile('//cdnjs.cloudflare.com/ajax/libs/json3/3.2.4/json3.min.js')
+    ->appendFile('//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.0/jquery.min.js')
+    ->appendFile('//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js')
+    ->appendFile('//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js')
+    ->appendFile('//cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.6/angular.min.js')
+    ->appendFile('//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js')
+    ->appendFile('//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui-ieshiv.min.js')
+    ->appendFile($this->baseUrl('public/build/tillikum.js?18f1c2ceb369b4564ea5c59ac85923bd'));
 ?>
+<?php echo $this->doctype() ?>
+
 <html ng-app="tillikum" lang="en" dir="ltr">
   <head>
-    <?php
-    echo $this->headMeta();
-    echo $this->headTitle();
-    echo $this->headLink();
-    echo $this->headScript();
-    ?>
+    <?php echo $this->headMeta(); ?>
+    <?php echo $this->headTitle(); ?>
+    <?php echo $this->headLink(); ?>
+    <?php echo $this->headScript(); ?>
   </head>
   <body>
     <header class="clearfix">
