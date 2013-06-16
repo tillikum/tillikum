@@ -1,4 +1,4 @@
-build
-composer.lock
+data/proxies/*
 site
 vendor
+www/document_root/public/build
