@@ -61,7 +61,6 @@ class Mealplan_DeleteController extends Tillikum_Controller_Mealplan
         }
 
         $billingEvents = new ArrayCollection();
-
         if ($mealplanBooking->billing) {
             $mealplanBilling = $mealplanBooking->billing;
             foreach ($mealplanBilling->rates as $existingRate) {
@@ -83,6 +82,8 @@ class Mealplan_DeleteController extends Tillikum_Controller_Mealplan
                 $this->getEntityManager()->remove($existingRate);
             }
         }
+
+        $this->_helper->ensureProcessableEvents($this->getDi(), $billingEvents);
 
         $form = $this->getDi()
             ->newInstance('Tillikum_Form')

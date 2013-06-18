@@ -61,7 +61,6 @@ class Booking_DeleteController extends Tillikum_Controller_Booking
         }
 
         $billingEvents = new ArrayCollection();
-
         if ($facilityBooking->billing) {
             $facilityBilling = $facilityBooking->billing;
             foreach ($facilityBilling->rates as $existingRate) {
@@ -83,6 +82,8 @@ class Booking_DeleteController extends Tillikum_Controller_Booking
                 $this->getEntityManager()->remove($existingRate);
             }
         }
+
+        $this->_helper->ensureProcessableEvents($this->getDi(), $billingEvents);
 
         $form = $this->getDi()
             ->newInstance('Tillikum_Form')

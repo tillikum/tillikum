@@ -336,6 +336,8 @@ class Booking_CreateController extends Tillikum_Controller_Booking
             }
         }
 
+        $this->_helper->ensureProcessableEvents($this->getDi(), $billingEvents);
+
         $form = $this->getDi()
             ->newInstance('Tillikum_Form')
             ->setAction($this->_helper->url->url())

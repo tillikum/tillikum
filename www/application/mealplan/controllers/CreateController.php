@@ -320,6 +320,8 @@ class Mealplan_CreateController extends Tillikum_Controller_Mealplan
             }
         }
 
+        $this->_helper->ensureProcessableEvents($this->getDi(), $billingEvents);
+
         $form = new \Tillikum_Form();
         $form->setAction($this->_helper->url->url())
             ->addElements(
