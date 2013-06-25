@@ -378,6 +378,6 @@ class Booking_CreateController extends Tillikum_Controller_Booking
 
         unset($this->sessionContainer[$this->containerKey]);
 
-        $this->_helper->redirector('index', 'create', 'mealplan', array('pid' => $facilityBooking->person->id));
+        $this->_helper->redirector('view', 'person', 'person', array('id' => $facilityBooking->person->id));
     }
 }
