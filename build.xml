@@ -23,7 +23,7 @@
   </target>
 
   <target name="build-css" depends="prepare">
-    <append destFile="${project.basedir}/www/document_root/public/build/tillikum.css">
+    <append destfile="${project.basedir}/www/document_root/public/build/tillikum.css">
       <filelist
         dir="${project.basedir}/www/document_root/public/styles"
         files="normalize.css html5-boilerplate.css grids.css
