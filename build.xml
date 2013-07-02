@@ -9,7 +9,7 @@
   </target>
 
   <target depends="clean-proxies" name="generate-proxies">
-    <exec dir="${project.basedir}/bin" executable="${project.basedir}/vendor/bin/doctrine" passthru="true">
+    <exec dir="${project.basedir}" executable="${project.basedir}/vendor/bin/doctrine" passthru="true">
       <arg line="orm:generate-proxies" />
     </exec>
   </target>
