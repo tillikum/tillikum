@@ -3,7 +3,7 @@
 use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 use Symfony\Component\Console\Helper\HelperSet;
 
-chdir(dirname(__DIR__));
+chdir(__DIR__);
 
 require 'library/autoload.php';
 

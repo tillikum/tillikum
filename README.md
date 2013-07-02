@@ -60,14 +60,12 @@ installation process.**
 Build
 -----
 
-Next, you will build the project. This process is mostly copying files to a
-target location, with some token replacement and asset optimization.
+Next, you will build the project. This process is mostly about minifying
+CSS/JS assets and building proxies or classmaps as necessary.
 
 1. `$ cd ${TILLIKUM}`
-2. `$ sh ./vendor/phing/phing/bin/phing` *or* `$ phing` (use the latter if Phing
+2. `$ ./vendor/bin/phing` *or* `$ phing` (use the latter if Phing
    is already on your `PATH`).
-
-You should now have the project build artifacts in `${TILLIKUM}/build`.
 
 Database setup
 ---------------------
@@ -75,7 +73,7 @@ Database setup
 **If this is your first time installing Tillikum**, you need to set up the
 database schema:
 
-1. `$ cd ${TILLIKUM}/build`
+1. `$ cd ${TILLIKUM}`
 1. `$ ./vendor/bin/doctrine orm:schema-tool:create`
 
 **If you are upgrading Tillikum**, you may need to update the database schema:
@@ -95,13 +93,13 @@ Application server setup
 
 1. Make sure you have `mod_rewrite` enabled.
 2. Set up a rule to rewrite all requests to the entry point of Tillikum, which
-   is `${TILLIKUM}/build/www/document_root/index.php`.
+   is `${TILLIKUM}/www/document_root/index.php`.
 
 Here is a sample snippet:
 
 <pre>
-Alias /tillikum /path/to/tillikum/build/www/document_root
-&lt;Directory /path/to/tillikum/build/www/document_root&gt;
+Alias /tillikum /path/to/tillikum/www/document_root
+&lt;Directory /path/to/tillikum/www/document_root&gt;
     AllowOverride All
     RewriteEngine on
     RewriteBase /tillikum
@@ -120,7 +118,7 @@ Just a snippet of the nginx part (this should probably be nested in a
 `server` block):
 
 <pre>
-root /path/to/tillikum/build/www/document_root;
+root /path/to/tillikum/www/document_root;
 
 location /tillikum/ {
     rewrite ^/tillikum(.+) $1 break;
