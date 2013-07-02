@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/beberlei/DoctrineExtensions.git",
-                "reference": "v0.1"
+                "reference": "bed46454f8fe10ee3eb3ef9aa17c6704bac06406"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/beberlei/DoctrineExtensions/zipball/v0.1",
-                "reference": "v0.1",
+                "url": "https://api.github.com/repos/beberlei/DoctrineExtensions/zipball/bed46454f8fe10ee3eb3ef9aa17c6704bac06406",
+                "reference": "bed46454f8fe10ee3eb3ef9aa17c6704bac06406",
                 "shasum": ""
             },
             "require": {
@@ -28,7 +28,8 @@
                     "DoctrineExtensions": "lib/"
                 }
             },
-            "time": "2012-05-16 07:04:34"
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2013-06-30 08:29:55"
         },
         {
             "name": "doctrine/common",
@@ -237,12 +238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guilhermeblanco/zendframework1-doctrine2.git",
-                "reference": "b58e41e94d6c0b2455969e4e8e5dd71575de51bc"
+                "reference": "04da3bc5f09e7c83c9900620c8d267d52e823c17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guilhermeblanco/zendframework1-doctrine2/zipball/b58e41e94d6c0b2455969e4e8e5dd71575de51bc",
-                "reference": "b58e41e94d6c0b2455969e4e8e5dd71575de51bc",
+                "url": "https://api.github.com/repos/guilhermeblanco/zendframework1-doctrine2/zipball/04da3bc5f09e7c83c9900620c8d267d52e823c17",
+                "reference": "04da3bc5f09e7c83c9900620c8d267d52e823c17",
                 "shasum": ""
             },
             "require": {
@@ -259,7 +260,7 @@
                 "source": "https://github.com/guilhermeblanco/zendframework1-doctrine2/tree/master",
                 "issues": "https://github.com/guilhermeblanco/zendframework1-doctrine2/issues"
             },
-            "time": "2013-03-11 17:42:07"
+            "time": "2013-06-16 16:23:11"
         },
         {
             "name": "gwis/php-valueobjects",
