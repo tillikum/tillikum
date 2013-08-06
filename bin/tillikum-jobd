@@ -7,7 +7,7 @@ use Tillikum\Entity\Job\Message\Message;
 use Tillikum\Listener\Audit as AuditListener;
 use Zend\Console;
 
-require dirname(__DIR__) . '/library/autoload.php';
+require dirname(__DIR__) . '/autoload.php';
 
 $application = new \Zend_Application(
     '',

@@ -1,6 +1,6 @@
 <?php
 
-require dirname(dirname(__DIR__)) . '/library/autoload.php';
+require dirname(dirname(__DIR__)) . '/autoload.php';
 
 $application = new \Zend_Application(
     '',
