@@ -16,20 +16,6 @@
             "Tillikum_": "library/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/gwis/php-valueobjects"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/guilhermeblanco/zendframework1-doctrine2"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/tillikum/zf2-cas-authentication-adapter"
-        }
-    ],
     "require": {
         "beberlei/DoctrineExtensions": "dev-master",
         "doctrine/orm": "~2.3.0",
@@ -46,6 +32,7 @@
         "guilhermeblanco/zendframework1-doctrine2": "dev-master",
         "gwis/php-valueobjects": "dev-master",
         "php": ">=5.3.3",
+        "tillikum/tillikum-core-module": "dev-master",
         "tillikum/zf2-cas-authentication-adapter": "dev-master",
         "zendframework/zendframework1": "~1.12.0",
         "zendframework/zendframework": "~2.2.0"

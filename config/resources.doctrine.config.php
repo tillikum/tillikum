@@ -50,19 +50,19 @@ return array(
                 'proxy' => array(
                     'autoGenerateClasses' => false,
                     'namespace' => 'TillikumProxy',
-                    'dir' => APPLICATION_PATH . '/data/proxies',
+                    'dir' => __DIR__ . '/../data/proxies',
                 ),
                 'metadataDrivers' => array(
                     'annotationRegistry' => array(
                         'annotationFiles' => array(
-                            APPLICATION_PATH . '/vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php',
+                            __DIR__ . '/../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php',
                         ),
                     ),
                     'drivers' => array(
                         100 => array(
                             'mappingNamespace' => 'Tillikum\Entity',
                             'mappingDirs' => array(
-                                APPLICATION_PATH . '/library/Tillikum/Entity',
+                                __DIR__ . '/../vendor/tillikum/tillikum-core-module/src/Tillikum/Entity',
                             ),
                         ),
                     ),
@@ -73,19 +73,19 @@ return array(
                 'proxy' => array(
                     'autoGenerateClasses' => false,
                     'namespace' => 'TillikumProxy',
-                    'dir' => APPLICATION_PATH . '/data/proxies',
+                    'dir' => __DIR__ . '/../data/proxies',
                 ),
                 'metadataDrivers' => array(
                     'annotationRegistry' => array(
                         'annotationFiles' => array(
-                            APPLICATION_PATH . '/vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php',
+                            __DIR__ . '/../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php',
                         ),
                     ),
                     'drivers' => array(
                         100 => array(
                             'mappingNamespace' => 'Tillikum\Entity',
                             'mappingDirs' => array(
-                                APPLICATION_PATH . '/library/Tillikum/Entity',
+                                __DIR__ . '/../vendor/tillikum/tillikum-core-module/src/Tillikum/Entity',
                             ),
                         ),
                     ),

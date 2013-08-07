@@ -2,11 +2,10 @@
 
 $__config__ = array(
     'bootstrap' => array(
-        'path' => APPLICATION_PATH . '/library/Tillikum/Bootstrap.php',
         'class' => 'Tillikum\Bootstrap',
     ),
     'pluginPaths' => array(
-        'Tillikum\Application\Resource\\' => APPLICATION_PATH . '/library/Tillikum/Application/Resource',
+        'Tillikum\Application\Resource\\' => __DIR__ . '/../vendor/tillikum/tillikum-core-module/src/Tillikum/Application/Resource',
     ),
     'resources' => array(
         'doctrine' => include __DIR__ . '/resources.doctrine.config.php',

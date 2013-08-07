@@ -2,7 +2,7 @@
 
 return array(
     'adapter' => 'gettext',
-    'data' => APPLICATION_PATH . '/languages',
+    'data' => __DIR__ . '/../languages',
     'disableNotices' => true,
     'options' => array(
         'scan' => 'filename',

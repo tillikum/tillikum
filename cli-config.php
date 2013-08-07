@@ -5,7 +5,7 @@ use Symfony\Component\Console\Helper\HelperSet;
 
 chdir(__DIR__);
 
-require 'library/autoload.php';
+require 'autoload.php';
 
 $application = new \Zend_Application(
     '',

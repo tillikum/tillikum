@@ -2,10 +2,10 @@
 
 return array(
     'actionHelperPaths' => array(
-        'Tillikum\Controller\Action\Helper\\' => APPLICATION_PATH . '/library/Tillikum/Controller/Action/Helper',
+        'Tillikum\Controller\Action\Helper\\' => __DIR__ . '/../vendor/tillikum/tillikum-core-module/src/Tillikum/Controller/Action/Helper',
     ),
     'moduleControllerDirectoryName' => 'controllers',
-    'moduleDirectory' => APPLICATION_PATH . '/www/application',
+    'moduleDirectory' => __DIR__ . '/../www/application',
     'plugins' => array(
         100 => 'Tillikum\Controller\Plugin\BuiltinAuthentication',
         101 => 'Tillikum\Controller\Plugin\LocaleFromRequest',

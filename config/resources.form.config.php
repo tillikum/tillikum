@@ -24,11 +24,11 @@ return array(
     'prefixPath' => array(
         100 => array(
             'prefix' => 'Tillikum\Form\\',
-            'path' => APPLICATION_PATH . '/library/Tillikum/Form',
+            'path' => __DIR__ . '/../vendor/tillikum/tillikum-core-module/src/Tillikum/Form',
         ),
         101 => array(
             'prefix' => 'Tillikum_Form',
-            'path' => APPLICATION_PATH . '/library/Tillikum/Form',
+            'path' => __DIR__ . '/../vendor/tillikum/tillikum-core-module/src/Tillikum/Form',
         ),
     ),
 );
