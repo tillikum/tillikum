@@ -1,0 +1,54 @@
+#!/usr/bin/env php
+<?php
+
+use Tillikum\Listener\Audit as AuditListener;
+use Zend\Console;
+
+require dirname(__DIR__) . '/autoload.php';
+
+$application = new \Zend_Application(
+    '',
+    APPLICATION_PATH . '/config/application.config.php'
+);
+$application->bootstrap();
+
+$NAME = basename(__FILE__);
+
+$getopt = new Console\Getopt(array());
+
+$args = $getopt->getRemainingArgs();
+
+if (count($args) !== 1) {
+    printf("You need to specify a job ID as the last argument.\n");
+
+    exit(1);
+}
+
+$JOB_ID = $args[0];
+
+$serviceManager = $application->getBootstrap()
+    ->getResource('ServiceManager');
+
+$em = $serviceManager->get('doctrine.entitymanager.orm_default');
+
+$job = $em->find('Tillikum\Entity\Job\Job', $JOB_ID);
+
+$jobClass = $job->class_name;
+$jobId = $job->id;
+
+$jobTemplate = $serviceManager->get($jobClass);
+
+$parameters = array();
+foreach ($job->parameters as $parameter) {
+    $parameters[$parameter->key] = $parameter->value;
+}
+$jobTemplate->setParameters($parameters);
+$jobTemplate->setJobEntity($job);
+
+$em->getEventManager()->addEventSubscriber(
+    new AuditListener(
+        isset($parameters['identity']) ? $parameters['identity'] : '_system'
+    )
+);
+
+$jobTemplate->run();

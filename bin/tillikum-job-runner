@@ -1,0 +1,83 @@
+#!/usr/bin/env php
+<?php
+
+use Tillikum\Entity\Job\Job;
+use Tillikum\Listener\Audit as AuditListener;
+
+require dirname(__DIR__) . '/autoload.php';
+
+$application = new \Zend_Application(
+    '',
+    APPLICATION_PATH . '/config/application.config.php'
+);
+$application->bootstrap();
+
+$NAME = basename(__FILE__);
+
+$serviceManager = $application->getBootstrap()
+    ->getResource('ServiceManager');
+
+$em = $serviceManager->get('doctrine.entitymanager.orm_default');
+
+$auditListener = new AuditListener('_system');
+$em->getEventManager()->addEventSubscriber($auditListener);
+
+$submittedQuery = $em->createQuery(
+    '
+    SELECT j.id
+    FROM Tillikum\Entity\Job\Job j
+    WHERE j.run_state = :runState
+    '
+)
+    ->setParameter('runState', Job::RUN_STATE_SUBMITTED);
+
+printf("started\n");
+
+while (true) {
+    $rows = $submittedQuery->getResult();
+
+    foreach ($rows as $row) {
+        printf("spawning job %s\n", $row['id']);
+
+        spawnJob($row['id']);
+    }
+
+    do {
+        $childPid = pcntl_wait($status, WNOHANG);
+    } while ($childPid > 0);
+
+    sleep(5);
+}
+
+function spawnJob($jobId)
+{
+    global $auditListener;
+    global $em;
+    global $serviceManager;
+
+    $job = $em->getRepository('Tillikum\Entity\Job\Job')
+        ->dequeueJob($jobId);
+
+    if ($job === null) {
+        fprintf(STDERR, "job %s could not be dequeued\n", $jobId);
+    }
+
+    $pid = pcntl_fork();
+    switch ($pid) {
+        case -1:
+            break;
+        case 0:
+            posix_setpgid(0, 0);
+
+            pcntl_exec(__DIR__ . '/tillikum-job-executor', array($job->id));
+
+            fprintf(STDERR, "pcntl_exec failed for %s\n", $jobId);
+            exit(1);
+
+            break;
+        default:
+            posix_setpgid($pid, $pid);
+
+            break;
+    }
+}
