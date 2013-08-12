@@ -1,5 +1,13 @@
 #!/usr/bin/env php
 <?php
+/**
+ * tillikum-job-runner
+ *
+ * Runs forever, executing Tillikum jobs (using tillikum-job-executor) as they
+ * are submitted. Designed to be managed by software such as
+ * http://supervisord.org/, but can be run standalone for development and
+ * testing.
+ */
 
 use Tillikum\Entity\Job\Job;
 use Tillikum\Listener\Audit as AuditListener;

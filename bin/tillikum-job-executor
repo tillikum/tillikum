@@ -1,5 +1,11 @@
 #!/usr/bin/env php
 <?php
+/**
+ * tillikum-job-executor
+ *
+ * Executes the job ID given as its only argument. Usually run by
+ * tillikum-job-runner.
+ */
 
 use Tillikum\Listener\Audit as AuditListener;
 use Zend\Console;
