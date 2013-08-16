@@ -299,17 +299,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.3.2",
+            "version": "v2.3.3",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.3.2"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -348,7 +348,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-11 19:36:36"
+            "time": "2013-07-21 12:12:18"
         },
         {
             "name": "tillikum/tillikum-core-module",
@@ -356,12 +356,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tillikum/tillikum-core-module.git",
-                "reference": "ce2ffa2f9e6f1b49a3129728c2f599888ded7db3"
+                "reference": "392872a6007604ce363189cfa5b9bf298bfb3abb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tillikum/tillikum-core-module/zipball/ce2ffa2f9e6f1b49a3129728c2f599888ded7db3",
-                "reference": "ce2ffa2f9e6f1b49a3129728c2f599888ded7db3",
+                "url": "https://api.github.com/repos/tillikum/tillikum-core-module/zipball/392872a6007604ce363189cfa5b9bf298bfb3abb",
+                "reference": "392872a6007604ce363189cfa5b9bf298bfb3abb",
                 "shasum": ""
             },
             "require": {
@@ -403,7 +403,7 @@
             ],
             "description": "The Tillikum Project core module",
             "homepage": "http://tillikum.org/",
-            "time": "2013-08-03 20:50:22"
+            "time": "2013-08-16 20:12:43"
         },
         {
             "name": "tillikum/zf2-cas-authentication-adapter",
