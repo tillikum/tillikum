@@ -27,13 +27,7 @@ Dependencies are managed by [Composer](http://getcomposer.org/).
 # Install dependencies via Composer.
 # If your composer binary is called something else, replace `composer' with
 # that name.
-#
-# NOTE: You do not need --dev if you already have Phing installed.
-#
-# Example: composer.phar with phing installed:
-# composer.phar install
-#
-$ composer install --dev
+$ composer install # May also be `php composer.phar install`
 </pre>
 
 Read the [Composer documentation](http://getcomposer.org/) for more information
@@ -73,8 +67,10 @@ Database setup
 **If this is your first time installing Tillikum**, you need to set up the
 database schema:
 
-1. `$ cd ${TILLIKUM}`
-1. `$ ./vendor/bin/doctrine orm:schema-tool:create`
+1. Ensure you have created the database you configured in `local.config.php`
+   under the `dbname` key. This step varies among database vendors.
+2. `$ cd ${TILLIKUM}`
+3. `$ ./vendor/bin/doctrine orm:schema-tool:create`
 
 **If you are upgrading Tillikum**, you may need to update the database schema:
 
