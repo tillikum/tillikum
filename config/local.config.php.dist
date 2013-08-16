@@ -19,8 +19,17 @@ return array(
                 'connections' => array(
                     'default' => array(
                         'parameters' => array(
-                            'user' => 'YOUR USERNAME HERE',
-                            'password' => 'YOUR PASSWORD HERE',
+                            'charset' => 'utf8',
+                            'collate' => 'utf8_unicode_ci',
+                            'driver' => 'pdo_mysql',
+                            'dbname' => 'tillikum',
+                            'host' => 'localhost',
+                            'port' => '3306',
+                            'user' => 'root',
+                            'password' => '',
+                            'driverOptions' => array(
+                                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET CHARACTER SET utf8',
+                            ),
                         ),
                     ),
                 ),
