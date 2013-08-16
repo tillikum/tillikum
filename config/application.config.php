@@ -3,6 +3,7 @@
 $__config__ = array(
     'bootstrap' => array(
         'class' => 'Tillikum\Bootstrap',
+        'path' => __DIR__ . '/../vendor/tillikum/tillikum-core-module/src/Tillikum/Bootstrap.php',
     ),
     'pluginPaths' => array(
         'Tillikum\Application\Resource\\' => __DIR__ . '/../vendor/tillikum/tillikum-core-module/src/Tillikum/Application/Resource',
