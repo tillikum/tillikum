@@ -3,6 +3,15 @@
 return array(
     'definition' => array(
         'class' => array(
+            'Zend\Db\Adapter\Adapter' => array(
+                'methods' => array(
+                    '__construct'  => array(
+                        'driver' => array(
+                            'type' => 'Zend\Db\Adapter\Driver\DriverInterface',
+                        ),
+                    ),
+                ),
+            ),
             'Zend\Session\Container' => array(
                 'methods' => array(
                     '__construct' => array(
