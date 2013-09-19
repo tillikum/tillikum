@@ -81,7 +81,7 @@ class Contract_SignatureController extends Tillikum_Controller_Contract
             ->getIdentity();
 
         $signature->is_signed = true;
-        $signature->signed_by = $this->identity;
+        $signature->signed_by = $identity;
 
         if ($signature->is_cosigned) {
             $signature->cosigned_at = new DateTime();
