@@ -106,8 +106,10 @@ class Booking_CreateController extends Tillikum_Controller_Booking
 
         $rates = array();
         if ($this->_request->isPost()) {
-            $rates = $this->_request->getPost();
-            $rates = $rates['facility_booking']['billing']['rates'];
+            $postData = $this->_request->getPost();
+            if (isset($postData['facility_booking']['billing']['rates'])) {
+                $rates = $postData['facility_booking']['billing']['rates'];
+            }
         } else {
             if ($sessionData) {
                 $rates = $sessionData['formData']['facility_booking']['billing']['rates'];

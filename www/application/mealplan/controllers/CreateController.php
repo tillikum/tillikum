@@ -101,8 +101,10 @@ class Mealplan_CreateController extends Tillikum_Controller_Mealplan
 
         $rates = array();
         if ($this->_request->isPost()) {
-            $rates = $this->_request->getPost();
-            $rates = $rates['mealplan_booking']['billing']['rates'];
+            $postData = $this->_request->getPost();
+            if (isset($postData['mealplan_booking']['billing']['rates'])) {
+                $rates = $postData['mealplan_booking']['billing']['rates'];
+            }
         } else {
             if ($sessionData) {
                 $rates = $sessionData['formData']['mealplan_booking']['billing']['rates'];
