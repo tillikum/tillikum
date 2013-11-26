@@ -693,12 +693,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tillikum/tillikum-core-module.git",
-                "reference": "c6b808186716195dc9e3ee36a590ce21ceb595c0"
+                "reference": "8a4d5d73ebbe630e824acf7242a1739bfc3c85d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tillikum/tillikum-core-module/zipball/c6b808186716195dc9e3ee36a590ce21ceb595c0",
-                "reference": "c6b808186716195dc9e3ee36a590ce21ceb595c0",
+                "url": "https://api.github.com/repos/tillikum/tillikum-core-module/zipball/8a4d5d73ebbe630e824acf7242a1739bfc3c85d6",
+                "reference": "8a4d5d73ebbe630e824acf7242a1739bfc3c85d6",
                 "shasum": ""
             },
             "require": {
@@ -740,7 +740,7 @@
             ],
             "description": "The Tillikum Project core module",
             "homepage": "http://tillikum.org/",
-            "time": "2013-09-16 22:39:08"
+            "time": "2013-11-26 21:15:08"
         },
         {
             "name": "tillikum/zf2-cas-authentication-adapter",
