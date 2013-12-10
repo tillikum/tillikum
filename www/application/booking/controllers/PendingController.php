@@ -25,9 +25,9 @@ class Booking_PendingController extends Tillikum_Controller_Booking
 
     public function viewAction()
     {
-        $pendingBookingListName = $this->_request->getParam('name');
+        $pendingBookingName = $this->_request->getParam('name');
 
-        if ($pendingBookingListName === null) {
+        if ($pendingBookingName === null) {
             throw new \Zend_Controller_Exception(
                 $this->getTranslator()->translate(
                     'Sorry, you did not specify which pending booking list to load.'
@@ -36,16 +36,17 @@ class Booking_PendingController extends Tillikum_Controller_Booking
             );
         }
 
-        $pendingBookingList = $this->getServiceManager()->get(
-            $pendingBookingListName
-        );
+        $sm = $this->getServiceManager();
+        $di = $sm->get('Di');
 
-        $this->view->pendingBookingName = $pendingBookingList->getName();
-        $this->view->pendingBookingDescription = $pendingBookingList->getDescription();
-        $this->view->pendingBookingRows = $this->getHelper(
-            $pendingBookingList->getActionHelperName()
-        )
-            ->direct();
-        $this->view->pendingBookingHelperName = $pendingBookingList->getViewHelperName();
+        $pendingBooking = $sm->get($pendingBookingName);
+
+        $this->view->pendingBookingName = $pendingBooking->getName();
+        $this->view->pendingBookingDescription = $pendingBooking->getDescription();
+
+        $helper = $this->getHelper($pendingBooking->getActionHelperName());
+        $this->view->pendingBookingRows = $helper->direct();
+
+        $this->view->pendingBookingHelperName = $pendingBooking->getViewHelperName();
     }
 }
