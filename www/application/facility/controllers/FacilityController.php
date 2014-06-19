@@ -11,7 +11,9 @@ class Facility_FacilityController extends Tillikum_Controller_Facility
 {
     public function autocompleteAction()
     {
-        $date = new DateTime($this->_request->getQuery('date') ?: date('Y-m-d'));
+        $dateQuery = $this->_request->getQuery('date');
+        $date = $dateQuery ? new DateTime($dateQuery) : null;
+
         $limit = (int) ($this->_request->getQuery('limit') ?: 15);
 
         $input = trim($this->_request->getQuery('q'));
@@ -24,13 +26,17 @@ class Facility_FacilityController extends Tillikum_Controller_Facility
             ->join('f.facility_group', 'fg')
             ->join('fg.configs', 'fgc')
             ->andWhere('f.facility_group = fg')
-            ->andWhere('fc.start <= :date')
-            ->andWhere('fgc.start <= :date')
-            ->andWhere('fc.end >= :date')
-            ->andWhere('fgc.end >= :date')
             ->orderBy('fgname, fname')
-            ->setMaxResults($limit)
-            ->setParameter(':date', $date);
+            ->setMaxResults($limit);
+
+        if ($date) {
+            $qb = $qb
+                ->andWhere('fc.start <= :date')
+                ->andWhere('fgc.start <= :date')
+                ->andWhere('fc.end >= :date')
+                ->andWhere('fgc.end >= :date')
+                ->setParameter(':date', $date);
+        }
 
         $qb->andWhere(
             $qb->expr()->orX(
