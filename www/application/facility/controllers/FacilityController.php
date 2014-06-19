@@ -26,6 +26,7 @@ class Facility_FacilityController extends Tillikum_Controller_Facility
             ->join('f.facility_group', 'fg')
             ->join('fg.configs', 'fgc')
             ->andWhere('f.facility_group = fg')
+            ->groupBy('fgname, fname')
             ->orderBy('fgname, fname')
             ->setMaxResults($limit);
 

@@ -23,6 +23,7 @@ class Facility_FacilitygroupController extends Tillikum_Controller_Facility
         ->select('fg.id, fgc.name')
         ->from('Tillikum\Entity\FacilityGroup\FacilityGroup', 'fg')
         ->join('fg.configs', 'fgc')
+        ->groupBy('fgc.name')
         ->orderBy('fgc.name')
         ->setMaxResults($limit);
 
