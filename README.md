@@ -1,3 +1,9 @@
+Note
+====
+
+This project is inactive due to lack of maintainers. The project will remain
+hosted on GitHub to support ongoing maintenance of legacy installations.
+
 Installation
 ============
 
